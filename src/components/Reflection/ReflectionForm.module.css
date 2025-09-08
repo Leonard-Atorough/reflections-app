@@ -1,0 +1,41 @@
+.formBody {
+  box-sizing: border-box;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.formHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 0 1rem;
+  min-height: 80px;
+  gap: 1rem;
+}
+
+.title {
+  height: 36px;
+  width: 70%;
+  font-size: 1.5rem;
+  background: none;
+  color: #262626;
+  margin: 1rem 0;
+  border: 0;
+  border-bottom: 1px solid #262626;
+}
+
+.content {
+  box-sizing: border-box;
+  padding: 1rem;
+  width: 100%;
+  height: 100%;
+  background: none;
+  color: #262626;
+  border-radius: 1rem;
+  border: 1px solid #262626;
+  resize: none;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  background-clip: padding-box;
+}

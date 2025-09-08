@@ -21,6 +21,10 @@ export function ReflectionDetail({ reflection }: props) {
           </span>
         ))}
       </p>
+      <div>
+        <button>EDIT</button>
+        <button>DELETE</button>
+      </div>
     </>
   );
 }

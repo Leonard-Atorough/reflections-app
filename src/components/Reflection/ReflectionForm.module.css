@@ -8,7 +8,7 @@
 .formHeader {
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: start;
   padding: 0 1rem;
   min-height: 80px;
   gap: 1rem;
@@ -16,8 +16,9 @@
 
 .title {
   height: 36px;
-  width: 70%;
+  width: 80%;
   font-size: 1.5rem;
+  font-weight: bold;
   background: none;
   color: #262626;
   margin: 1rem 0;

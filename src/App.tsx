@@ -28,7 +28,7 @@ function App() {
           selectedId={selectedId}
           onSelect={setSelectedId}
         />
-        <Main reflection={selectedReflection} />
+        <Main reflection={selectedReflection} setReflections={setReflections} />
       </div>
       <Footer />
     </>

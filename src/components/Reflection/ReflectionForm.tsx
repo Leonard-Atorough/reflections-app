@@ -54,6 +54,8 @@ export function ReflectionForm({ reflection, setReflections }: props) {
       <div className={styles.formHeader}>
         <input
           name="title"
+          aria-label="Title"
+          type="text"
           value={title}
           className={styles.title}
           onChange={(e) => setTitle(e.target.value)}
@@ -62,6 +64,7 @@ export function ReflectionForm({ reflection, setReflections }: props) {
       </div>
       <textarea
         name="content"
+        aria-label="Content"
         value={content}
         className={styles.content}
         onChange={(e) => setContent(e.target.value)}

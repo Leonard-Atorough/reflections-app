@@ -1,0 +1,21 @@
+.reflectionItem {
+  padding: 1rem;
+  margin: 0.5rem 0;
+  border-radius: 0.5rem;
+  transition: background 0.5s;
+}
+
+.reflectionItem:hover,
+.reflectionItem:focus {
+  background: #e7d2cc;
+  transition: background 0.5s;
+}
+
+.reflectionItem.selected {
+  background: #e7d2cc;
+}
+
+.reflectionTitle {
+  padding: 0;
+  margin: 0;
+}

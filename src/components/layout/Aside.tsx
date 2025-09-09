@@ -38,7 +38,14 @@ export function Aside({
         </ul>
       </div>
       <div className={styles.addButton}>
-        <button onClick={() => onSelect(null)}>Add Reflection</button>
+        <button
+          onClick={() => {
+            onSelect(null);
+            setIsEditing(true);
+          }}
+        >
+          Add Reflection
+        </button>
       </div>
     </aside>
   );

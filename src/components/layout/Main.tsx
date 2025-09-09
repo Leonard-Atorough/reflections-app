@@ -18,19 +18,11 @@ export function Main({
 }: props) {
   return (
     <main>
-      {reflection ? (
-        isEditing ? (
-          <ReflectionForm
-            reflection={reflection}
-            setReflections={setReflections}
-          />
-        ) : (
-          <ReflectionDetail
-            reflection={reflection}
-            isEditing={isEditing}
-            setIsEditing={setIsEditing}
-          />
-        )
+      {isEditing ? (
+        <ReflectionForm
+          reflection={reflection}
+          setReflections={setReflections}
+        />
       ) : (
         <ReflectionDetail
           reflection={reflection}

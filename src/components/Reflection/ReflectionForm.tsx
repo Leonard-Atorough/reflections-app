@@ -12,31 +12,22 @@ type props = {
 export function ReflectionForm({ reflection, setReflections }: props) {
   const [title, setTitle] = useState<string>(reflection?.title || "");
   const [content, setContent] = useState<string>(reflection?.content || "");
-  const [localReflection] = useState<Reflection>(
-    () =>
-      reflection ?? {
-        id: uuidv4(),
-        title: "",
-        content: "",
-        dateCreated: Date.now().toString(),
-        dateUpdated: Date.now().toString(),
-      }
-  );
 
   useEffect(() => {
     const saveHandler = setTimeout(() => {
       if (title.trim()) {
         setReflections((prev) => {
-          const exists = prev.some((r) => r.id === localReflection?.id);
-          const newOrUpdatedReflection: Reflection = reflection ?? {
-            ...localReflection,
+          const exists = reflection && prev.some((r) => r.id === reflection.id);
+          const newOrUpdatedReflection: Reflection = {
+            id: reflection?.id ?? uuidv4(),
             title,
             content,
+            dateCreated: reflection?.dateCreated ?? Date.now().toString(),
             dateUpdated: Date.now().toString(),
           };
           if (exists) {
             return prev.map((r) =>
-              r.id === localReflection.id ? newOrUpdatedReflection : r
+              r.id === reflection.id ? newOrUpdatedReflection : r
             );
           } else {
             return [...prev, newOrUpdatedReflection];

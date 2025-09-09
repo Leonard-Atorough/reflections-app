@@ -3,18 +3,9 @@ import React, { useState } from "react";
 import { render, screen } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 
-import type { Reflection } from "../../types/Reflection";
 import { ReflectionItem } from "./ReflectionItem";
 import styles from "./ReflectionItem.module.css";
-
-const testReflection: Reflection = {
-  id: "test1",
-  title: "First Test Reflection",
-  dateCreated: "2025-09-01T09:15:00.000Z",
-  dateUpdated: "2025-09-01T09:15:00.000Z",
-  content:
-    "This is test content meant to be used to simulate the content of a reflection item",
-};
+import { testReflection } from "../../__mocks__/mockReflections";
 
 function ReflectionItemWrapper() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -40,8 +31,8 @@ describe("ReflectionItem", () => {
         isSelected={false}
       />
     );
-    expect(screen.getByText("First Test Reflection")).toBeInTheDocument();
-    expect(screen.getByText("2025-09-01T09:15:00.000Z")).toBeInTheDocument();
+    expect(screen.getByText(testReflection.title)).toBeInTheDocument();
+    expect(screen.getByText(testReflection.dateUpdated)).toBeInTheDocument();
   });
 
   it("calls onSelect with reflectionId when clicked once", async () => {
@@ -56,7 +47,7 @@ describe("ReflectionItem", () => {
     const item = screen.getByTestId("reflection-button");
     await userEvent.click(item);
 
-    expect(setSelectedId).toHaveBeenCalledWith("test1");
+    expect(setSelectedId).toHaveBeenCalledWith(testReflection.id);
     expect(setSelectedId).toHaveBeenCalledOnce();
   });
 
@@ -73,7 +64,7 @@ describe("ReflectionItem", () => {
     item.focus();
     await userEvent.keyboard("{enter}");
 
-    expect(setSelectedId).toHaveBeenCalledWith("test1");
+    expect(setSelectedId).toHaveBeenCalledWith(testReflection.id);
     expect(setSelectedId).toHaveBeenCalledOnce();
   });
 

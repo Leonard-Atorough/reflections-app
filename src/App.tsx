@@ -12,6 +12,7 @@ import { mockReflections } from "./data/mockReflections";
 function App() {
   const [reflections, setReflections] = useState<Reflection[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const selectedReflection =
     reflections.find((r) => r.id === selectedId) || null;
@@ -26,9 +27,16 @@ function App() {
         <Aside
           reflections={reflections}
           selectedId={selectedId}
+          isEditing={isEditing}
+          setIsEditing={setIsEditing}
           onSelect={setSelectedId}
         />
-        <Main reflection={selectedReflection} setReflections={setReflections} />
+        <Main
+          reflection={selectedReflection}
+          setReflections={setReflections}
+          isEditing={isEditing}
+          setIsEditing={setIsEditing}
+        />
       </div>
       <Footer />
     </>

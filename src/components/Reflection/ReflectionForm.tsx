@@ -22,8 +22,8 @@ export function ReflectionForm({ reflection, setReflections }: props) {
             id: reflection?.id ?? uuidv4(),
             title,
             content,
-            dateCreated: reflection?.dateCreated ?? Date.now().toString(),
-            dateUpdated: Date.now().toString(),
+            dateCreated: reflection?.dateCreated ?? Date.now().toLocaleString(),
+            dateUpdated: Date.now().toLocaleString(),
           };
           if (exists) {
             return prev.map((r) =>
@@ -51,7 +51,7 @@ export function ReflectionForm({ reflection, setReflections }: props) {
           className={styles.title}
           onChange={(e) => setTitle(e.target.value)}
         />
-        <p>{Date.now().toString()}</p>
+        <p>{reflection?.dateUpdated}</p>
       </div>
       <textarea
         name="content"

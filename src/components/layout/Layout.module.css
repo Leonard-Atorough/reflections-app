@@ -17,11 +17,15 @@ aside {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  background-color: whitesmoke;
   gap: 2rem;
   min-height: 75vh;
   height: 100%;
   width: 30%;
   padding: 1rem 0.5rem;
+  border: 1px solid #262626;
+  border-radius: 1rem;
+  margin: 0.5rem;
 
   div {
     width: 100%;
@@ -37,6 +41,10 @@ aside {
   .addButton {
     padding-top: 1rem;
     border-top: 1px solid #262626;
+    > button {
+      background-color: #51b174;
+      color: #0b1810;
+    }
   }
 }
 
@@ -47,6 +55,9 @@ main {
   flex-direction: column;
   place-items: stretch center;
   box-sizing: border-box;
-  border-left: 1px solid #262626;
   padding: 1rem 0.5rem;
+  background-color: whitesmoke;
+  border: 1px solid #262626;
+  border-radius: 1rem;
+  margin: 0.5rem;
 }

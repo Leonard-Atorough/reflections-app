@@ -15,17 +15,15 @@ export function ReflectionDetail({ reflection, setIsEditing }: props) {
         onFocus={() => {
           setIsEditing(true);
         }}
+        onClick={() => {
+          setIsEditing(true);
+        }}
         className={styles.reflectionHeader}
         tabIndex={0}
+        data-testId="Details header"
       >
-        <h2
-          onClick={() => {
-            setIsEditing(true);
-          }}
-        >
-          {reflection?.title}
-        </h2>
-        <p>Last updated: {reflection?.dateUpdated}</p>
+        <h2>{reflection?.title}</h2>
+        <p>{reflection ? reflection.dateUpdated : ""}</p>
       </div>
       <p
         onClick={() => {
@@ -34,16 +32,9 @@ export function ReflectionDetail({ reflection, setIsEditing }: props) {
         className={styles.reflectionBody}
         tabIndex={0}
       >
-        {reflection?.content.split("<br/>").map((line, idx) => (
-          <span key={idx}>
-            {line}
-            <br />
-            <br />
-          </span>
-        ))}
+        {reflection?.content ?? ""}
       </p>
       <div>
-        <button>EDIT</button>
         <button>DELETE</button>
       </div>
     </>

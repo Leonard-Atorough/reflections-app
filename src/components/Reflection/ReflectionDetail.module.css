@@ -1,22 +1,31 @@
 .reflectionHeader {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
   padding: 0 1rem;
   min-height: 80px;
-  border-bottom: 1px solid #262626;
   padding-bottom: 0.5rem;
 
   > h2 {
-    padding: 0;
-    margin-bottom: 0;
+    height: 36px;
+    width: 80%;
+    font-size: 1.75rem;
+    font-weight: 600;
+    background: none;
+    color: var(--text);
+    margin: 1rem 0;
+    border: 0;
+    border-bottom: 1px solid var(--text);
+    text-align: left;
   }
 }
 
 .reflectionBody {
+  box-sizing: border-box;
   padding: 1rem;
   text-align: justify;
   white-space: pre-wrap;
   word-break: break-word;
+  width: 100%;
   height: 100%;
 }

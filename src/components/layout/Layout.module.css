@@ -1,13 +1,10 @@
 header {
-  border-bottom: 1px solid #262626;
-  background: #868b8e;
-  color: #eeede7;
   border-radius: 0.9rem 0.9rem 0 0;
   padding: 2rem 0;
 }
 
 footer {
-  border-top: 1px solid #262626;
+  border-top: 1px solid var(--text);
   padding: 1rem 0;
 }
 
@@ -17,13 +14,13 @@ aside {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  background-color: whitesmoke;
+  background-color: var(--white);
   gap: 2rem;
   min-height: 75vh;
   height: 100%;
   width: 30%;
   padding: 1rem 0.5rem;
-  border: 1px solid #262626;
+  border: 1px solid var(--text);
   border-radius: 1rem;
   margin: 0.5rem;
 
@@ -34,17 +31,13 @@ aside {
     h2 {
       padding: 0 0 1rem 0;
       margin: 0;
-      border-bottom: 1px solid #262626;
+      border-bottom: 1px solid var(--text);
     }
   }
 
   .addButton {
     padding-top: 1rem;
-    border-top: 1px solid #262626;
-    > button {
-      background-color: #51b174;
-      color: #0b1810;
-    }
+    border-top: 1px solid var(--text);
   }
 }
 
@@ -56,8 +49,8 @@ main {
   place-items: stretch center;
   box-sizing: border-box;
   padding: 1rem 0.5rem;
-  background-color: whitesmoke;
-  border: 1px solid #262626;
+  background-color: var(--white);
+  border: 1px solid var(--text);
   border-radius: 1rem;
   margin: 0.5rem;
 }

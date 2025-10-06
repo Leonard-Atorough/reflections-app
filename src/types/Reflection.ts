@@ -1,7 +1,7 @@
 export type Reflection = {
   id: string;
   title: string;
-  dateCreated: string;
-  dateUpdated: string;
+  dateCreated: number;
+  dateUpdated: number;
   content: string;
 };

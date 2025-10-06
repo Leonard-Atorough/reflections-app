@@ -1,8 +1,10 @@
 import { v4 as uuidv4 } from "uuid";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { Dispatch, SetStateAction } from "react";
 import type { Reflection } from "../../types/Reflection";
 import styles from "./ReflectionForm.module.css";
+
+import { useFormattedDate } from "../../hooks/dateFormatter";
 
 type props = {
   reflection: Reflection | null;
@@ -13,21 +15,25 @@ export function ReflectionForm({ reflection, setReflections }: props) {
   const [title, setTitle] = useState<string>(reflection?.title || "");
   const [content, setContent] = useState<string>(reflection?.content || "");
 
+  const idRef = useRef<string>(reflection?.id ?? uuidv4());
+
+  const formattedUpdateDate = useFormattedDate(reflection?.dateUpdated);
+
   useEffect(() => {
     const saveHandler = setTimeout(() => {
       if (title.trim()) {
         setReflections((prev) => {
-          const exists = reflection && prev.some((r) => r.id === reflection.id);
+          const exists = prev.some((r) => r.id === idRef.current);
           const newOrUpdatedReflection: Reflection = {
-            id: reflection?.id ?? uuidv4(),
+            id: idRef.current,
             title,
             content,
-            dateCreated: reflection?.dateCreated ?? Date.now().toLocaleString(),
-            dateUpdated: Date.now().toLocaleString(),
+            dateCreated: reflection?.dateCreated ?? Date.now(),
+            dateUpdated: Date.now(),
           };
           if (exists) {
             return prev.map((r) =>
-              r.id === reflection.id ? newOrUpdatedReflection : r
+              r.id === idRef.current ? newOrUpdatedReflection : r
             );
           } else {
             return [...prev, newOrUpdatedReflection];
@@ -38,7 +44,7 @@ export function ReflectionForm({ reflection, setReflections }: props) {
     return () => {
       clearTimeout(saveHandler);
     };
-  }, [title, content]);
+  }, [title, content, setReflections, reflection?.dateCreated]);
 
   return (
     <form className={styles.formBody}>
@@ -51,7 +57,7 @@ export function ReflectionForm({ reflection, setReflections }: props) {
           className={styles.title}
           onChange={(e) => setTitle(e.target.value)}
         />
-        <p>{reflection?.dateUpdated}</p>
+        <p>{formattedUpdateDate}</p>
       </div>
       <textarea
         name="content"

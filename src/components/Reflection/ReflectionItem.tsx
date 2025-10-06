@@ -1,6 +1,7 @@
 import type { Dispatch, SetStateAction } from "react";
 import type { Reflection } from "../../types/Reflection";
 import styles from "./ReflectionItem.module.css";
+import { useFormattedDate } from "../../hooks/dateFormatter";
 
 type Props = {
   reflection: Reflection;
@@ -17,6 +18,8 @@ export function ReflectionItem({
   isEditing,
   setIsEditing,
 }: Props) {
+  const formattedUpdateDate = useFormattedDate(reflection?.dateUpdated);
+
   const handleToggle = () => {
     onSelect(isSelected ? null : reflection.id);
     if (isEditing) setIsEditing(false);
@@ -38,7 +41,7 @@ export function ReflectionItem({
       aria-pressed={isSelected}
     >
       <h3 className={styles.reflectionTitle}>{reflection.title}</h3>
-      <div>{reflection.dateUpdated}</div>
+      <div>{formattedUpdateDate}</div>
     </li>
   );
 }

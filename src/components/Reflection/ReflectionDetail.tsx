@@ -1,6 +1,7 @@
 import type { Dispatch, SetStateAction } from "react";
 import type { Reflection } from "../../types/Reflection";
 import styles from "./ReflectionDetail.module.css";
+import { useFormattedDate } from "../../hooks/dateFormatter";
 
 type props = {
   reflection: Reflection | null;
@@ -9,6 +10,8 @@ type props = {
 };
 
 export function ReflectionDetail({ reflection, setIsEditing }: props) {
+  const formattedUpdateDate = useFormattedDate(reflection?.dateUpdated);
+
   return (
     <>
       <div
@@ -20,10 +23,10 @@ export function ReflectionDetail({ reflection, setIsEditing }: props) {
         }}
         className={styles.reflectionHeader}
         tabIndex={0}
-        data-testId="Details header"
+        data-testid="Details header"
       >
         <h2>{reflection?.title}</h2>
-        <p>{reflection ? reflection.dateUpdated : ""}</p>
+        <p>{reflection ? formattedUpdateDate : ""}</p>
       </div>
       <p
         onClick={() => {

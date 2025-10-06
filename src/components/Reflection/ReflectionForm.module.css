@@ -8,22 +8,27 @@
 .formHeader {
   display: flex;
   align-items: center;
-  justify-content: start;
+  justify-content: space-between;
   padding: 0 1rem;
   min-height: 80px;
-  gap: 1rem;
+  padding-bottom: 0.5rem;
 }
 
 .title {
   height: 36px;
   width: 80%;
-  font-size: 1.5rem;
-  font-weight: bold;
+  font-size: 1.75rem;
+  font-weight: 600;
   background: none;
-  color: #262626;
+  color: var(--text);
   margin: 1rem 0;
   border: 0;
-  border-bottom: 1px solid #262626;
+  border-bottom: 1px solid var(--text);
+
+  &:focus {
+    outline: none;
+    caret-color: var(--accent);
+  }
 }
 
 .content {
@@ -32,12 +37,17 @@
   width: 100%;
   height: 100%;
   background: none;
-  color: #262626;
+  color: var(--text);
   border-radius: 1rem;
-  border: 1px solid #262626;
+  border: 1px solid var(--text);
   resize: none;
   overflow-y: auto;
   scrollbar-width: thin;
   background-clip: padding-box;
   font-size: 16px;
+
+  &:focus {
+    outline: none;
+    caret-color: var(--accent);
+  }
 }

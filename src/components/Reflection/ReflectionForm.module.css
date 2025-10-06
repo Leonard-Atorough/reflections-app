@@ -12,11 +12,13 @@
   padding: 0 1rem;
   min-height: 80px;
   padding-bottom: 0.5rem;
+  gap: 1rem;
 }
 
 .title {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   height: 36px;
-  width: 80%;
+  width: 100%;
   font-size: 1.75rem;
   font-weight: 600;
   background: none;
@@ -32,6 +34,7 @@
 }
 
 .content {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   box-sizing: border-box;
   padding: 1rem;
   width: 100%;

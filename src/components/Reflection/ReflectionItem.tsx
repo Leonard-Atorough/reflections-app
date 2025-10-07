@@ -1,7 +1,7 @@
 import type { Dispatch, SetStateAction } from "react";
 import type { Reflection } from "../../types/Reflection";
 import styles from "./ReflectionItem.module.css";
-import { useFormattedDate } from "../../hooks/dateFormatter";
+import { useFormattedDate } from "../../hooks/useFormattedDate";
 
 type Props = {
   reflection: Reflection;

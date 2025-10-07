@@ -1,82 +1,82 @@
 import React, { useState } from "react";
 
-import { render, screen } from "@testing-library/react";
+import { cleanup, render, screen } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 
 import { ReflectionItem } from "./ReflectionItem";
 import styles from "./ReflectionItem.module.css";
 import { testReflection } from "../../__mocks__/mockReflections";
-
-function ReflectionItemWrapper() {
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  const isSelected = selectedId === testReflection.id;
-
-  return (
-    <>
-      <ReflectionItem
-        reflection={testReflection}
-        onSelect={(id) => setSelectedId(id)}
-        isSelected={isSelected}
-      />
-    </>
-  );
-}
+import { formatDate } from "../../utils/formatDate";
 
 describe("ReflectionItem", () => {
-  it("renders the reflecion item correctly", () => {
-    render(
-      <ReflectionItem
-        reflection={testReflection}
-        onSelect={() => {}}
-        isSelected={false}
-      />
+  function ReflectionItemWrapper({
+    isEditing = false,
+  }: {
+    isEditing?: boolean;
+  }) {
+    const [selectedId, setSelectedId] = useState<string | null>(null);
+
+    const handleSelect = (id: string | null) => {
+      setSelectedId(id); // update internal state
+      mockSetSelectedId(id); // keep the spy for assertions
+    };
+
+    return (
+      <>
+        <ReflectionItem
+          reflection={testReflection}
+          onSelect={handleSelect}
+          isSelected={selectedId === testReflection.id}
+          isEditing={isEditing}
+          setIsEditing={mockSetIsEditing}
+        />
+      </>
     );
-    expect(screen.getByText(testReflection.title)).toBeInTheDocument();
-    expect(screen.getByText(testReflection.dateUpdated)).toBeInTheDocument();
+  }
+
+  let mockSetIsEditing: ReturnType<typeof vi.fn>;
+  let mockSetSelectedId: ReturnType<typeof vi.fn>;
+
+  beforeEach(() => {
+    mockSetIsEditing = vi.fn();
+    mockSetSelectedId = vi.fn();
   });
 
-  it("calls onSelect with reflectionId when clicked once", async () => {
-    const setSelectedId = vi.fn();
-    render(
-      <ReflectionItem
-        reflection={testReflection}
-        onSelect={setSelectedId}
-        isSelected={false}
-      />
-    );
+  afterEach(() => {
+    vi.clearAllMocks();
+    cleanup();
+  });
+
+  it("renders the reflecion item correctly", () => {
+    render(<ReflectionItemWrapper />);
+    expect(screen.getByText(testReflection.title)).toBeInTheDocument();
+    const formattedDate = formatDate(testReflection.dateUpdated) ?? "";
+    expect(screen.getByText(formattedDate)).toBeInTheDocument();
+  });
+
+  it("calls setSelectedId with reflectionId when clicked once", async () => {
+    render(<ReflectionItemWrapper />);
     const item = screen.getByTestId("reflection-button");
     await userEvent.click(item);
 
-    expect(setSelectedId).toHaveBeenCalledWith(testReflection.id);
-    expect(setSelectedId).toHaveBeenCalledOnce();
+    expect(mockSetSelectedId).toHaveBeenCalledWith(testReflection.id);
+    expect(mockSetSelectedId).toHaveBeenCalledOnce();
   });
 
   it("calls onSelect with reflectionId when enter is pressed", async () => {
-    const setSelectedId = vi.fn();
-    render(
-      <ReflectionItem
-        reflection={testReflection}
-        onSelect={setSelectedId}
-        isSelected={false}
-      />
-    );
+    render(<ReflectionItemWrapper />);
     const item = screen.getByTestId("reflection-button");
     item.focus();
     await userEvent.keyboard("{enter}");
 
-    expect(setSelectedId).toHaveBeenCalledWith(testReflection.id);
-    expect(setSelectedId).toHaveBeenCalledOnce();
+    expect(mockSetSelectedId).toHaveBeenCalledWith(testReflection.id);
+    expect(mockSetSelectedId).toHaveBeenCalledOnce();
   });
 
-  it("adds the selected style to the list element when selected", () => {
-    render(
-      <ReflectionItem
-        reflection={testReflection}
-        onSelect={() => {}}
-        isSelected={true}
-      />
-    );
-
+  it("adds the selected style to the list element when selected", async () => {
+    render(<ReflectionItemWrapper />);
+    const item = screen.getByTestId("reflection-button");
+    await userEvent.click(item);
     expect(screen.getByTestId("reflection-button")).toHaveClass(
       styles.selected
     );
@@ -86,9 +86,11 @@ describe("ReflectionItem", () => {
     render(<ReflectionItemWrapper />);
     const item = screen.getByTestId("reflection-button");
     await userEvent.click(item);
-    expect(item).toHaveClass(styles.selected);
+    expect(mockSetSelectedId).toHaveBeenCalledOnce();
+    expect(mockSetSelectedId).toHaveBeenCalledWith(testReflection.id);
 
     await userEvent.click(item);
-    expect(item).not.toHaveClass(styles.selected);
+    expect(mockSetSelectedId).toHaveBeenCalledTimes(2);
+    expect(mockSetSelectedId).toHaveBeenCalledWith(null);
   });
 });

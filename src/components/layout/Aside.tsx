@@ -19,7 +19,7 @@ export function Aside({
   setIsEditing,
 }: props) {
   return (
-    <aside>
+    <aside onClick={() => setIsEditing(false)}>
       <div>
         <h2>Reflections</h2>
         <ul>

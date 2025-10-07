@@ -27,7 +27,7 @@ export function Aside({
     <aside onClick={() => setIsEditing(false)}>
       <div>
         <h2>Reflections</h2>
-        <ul>
+        <ul role="listbox" aria-label="Reflections List">
           {reflections.map((reflection) => {
             return (
               <ReflectionItem

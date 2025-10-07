@@ -36,9 +36,9 @@ export function ReflectionItem({
           handleToggle();
         }
       }}
-      role="button"
+      role="option"
       data-testid="reflection-button"
-      aria-pressed={isSelected}
+      aria-selected={isSelected}
     >
       <h3 className={styles.reflectionTitle}>{reflection.title}</h3>
       <div>{formattedUpdateDate}</div>

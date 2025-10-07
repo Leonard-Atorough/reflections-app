@@ -31,7 +31,9 @@ export function ReflectionDetail({
         tabIndex={0}
         data-testid="details-title"
       >
-        <h2>{reflection?.title}</h2>
+        <h2 aria-label={reflection?.title ?? "Empty Reflections Title"}>
+          {reflection?.title}
+        </h2>
         <p>{reflection ? formattedUpdateDate : ""}</p>
       </div>
       <p

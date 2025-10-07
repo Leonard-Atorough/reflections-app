@@ -20,7 +20,7 @@ A modular, accessible React application for journaling technical insights and pe
 
 #### Keyboard Accessibility
 
-- Reflection items are fully navigable via keyboard (tab, Enter) with aria-pressed and role="button" support.
+- Reflection items are fully navigable via keyboard (tab, Enter, esc) with aria-pressed and role="button" support.
 
 #### State-Driven UI Logic
 

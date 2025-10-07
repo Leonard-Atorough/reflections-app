@@ -3,6 +3,7 @@ header {
   padding: 2rem 0;
   background-color: var(--primary);
   border-bottom: 3px solid var(--text);
+  color: #0b1810;
 }
 
 footer {
@@ -10,6 +11,9 @@ footer {
   padding: 1rem 0;
   background-color: var(--accent);
   border-radius: 0 0 0.6rem 0.6rem;
+  color: #0b1810;
+  font-weight: 500;
+  font-size: 1.5rem;
 }
 
 aside {

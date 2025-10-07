@@ -61,21 +61,25 @@ h1 {
 }
 
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  box-shadow: 6px 6px var(--text);
+  border: 3px solid var(--text);
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
   background-color: var(--primary);
-  color: var(--text);
+  color: #0b1810;
   cursor: pointer;
-  transition: background-color 0.25s;
+  transition: all 0.3s ease-out;
 }
 button:hover {
   background-color: var(--secondary);
+  box-shadow: 3px 3px var(--text);
 }
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+  background-color: var(--secondary);
+  box-shadow: 3px 3px var(--text);
 }

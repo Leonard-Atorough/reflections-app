@@ -93,4 +93,13 @@ describe("ReflectionItem", () => {
     expect(mockSetSelectedId).toHaveBeenCalledTimes(2);
     expect(mockSetSelectedId).toHaveBeenCalledWith(null);
   });
+
+  it("sets the isEditing state to false if it is true when item is clicked", async () => {
+    render(<ReflectionItemWrapper isEditing={true} />);
+
+    const item = screen.getByTestId("reflection-button");
+    await userEvent.click(item);
+
+    expect(mockSetIsEditing).toHaveBeenCalledExactlyOnceWith(false);
+  });
 });

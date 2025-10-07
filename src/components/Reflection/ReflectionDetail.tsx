@@ -23,7 +23,7 @@ export function ReflectionDetail({ reflection, setIsEditing }: props) {
         }}
         className={styles.reflectionHeader}
         tabIndex={0}
-        data-testid="Details header"
+        data-testid="details-title"
       >
         <h2>{reflection?.title}</h2>
         <p>{reflection ? formattedUpdateDate : ""}</p>
@@ -34,6 +34,7 @@ export function ReflectionDetail({ reflection, setIsEditing }: props) {
         }}
         className={styles.reflectionBody}
         tabIndex={0}
+        data-testid="details-body"
       >
         {reflection?.content ?? ""}
       </p>

@@ -5,10 +5,10 @@
   margin: auto;
   padding: 0;
   text-align: center;
-  border: 2px solid #262626;
-  border-radius: 1rem;
+  border: 3px solid var(--text);
+  border-radius: 0.75rem;
   box-sizing: border-box;
-  box-shadow: 10px 10px 1px #262626;
+  box-shadow: 10px 10px 1px var(--text);
 }
 
 .appBody {

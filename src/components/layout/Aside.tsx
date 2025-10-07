@@ -5,7 +5,7 @@ import styles from "./Layout.module.css";
 
 type props = {
   reflections: Reflection[];
-  onSelect: (id: string | null) => void;
+  setSelectedId: (id: string | null) => void;
   selectedId: string | null;
   isEditing: boolean;
   setIsEditing: Dispatch<SetStateAction<boolean>>;
@@ -14,10 +14,15 @@ type props = {
 export function Aside({
   reflections,
   selectedId,
-  onSelect,
+  setSelectedId,
   isEditing,
   setIsEditing,
 }: props) {
+  const handleAddButtonCLick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsEditing(true);
+    setSelectedId(null);
+  };
   return (
     <aside onClick={() => setIsEditing(false)}>
       <div>
@@ -28,7 +33,7 @@ export function Aside({
               <ReflectionItem
                 key={reflection.id}
                 reflection={reflection}
-                onSelect={onSelect}
+                setSelectedId={setSelectedId}
                 isSelected={reflection.id === selectedId}
                 isEditing={isEditing}
                 setIsEditing={setIsEditing}
@@ -38,14 +43,7 @@ export function Aside({
         </ul>
       </div>
       <div className={styles.addButton}>
-        <button
-          onClick={() => {
-            onSelect(null);
-            setIsEditing(true);
-          }}
-        >
-          Add Reflection
-        </button>
+        <button onClick={handleAddButtonCLick}>Add Reflection</button>
       </div>
     </aside>
   );

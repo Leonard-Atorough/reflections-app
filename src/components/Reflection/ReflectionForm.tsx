@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Dispatch, SetStateAction } from "react";
 import type { Reflection } from "../../types/Reflection";
 import styles from "./ReflectionForm.module.css";
@@ -16,7 +16,6 @@ export function ReflectionForm({ reflection, setReflections }: props) {
   const [content, setContent] = useState<string>(reflection?.content || "");
 
   const idRef = useRef<string>(reflection?.id ?? uuidv4());
-
   const formattedUpdateDate = useFormattedDate(reflection?.dateUpdated);
 
   useEffect(() => {
@@ -48,7 +47,7 @@ export function ReflectionForm({ reflection, setReflections }: props) {
 
   return (
     <form className={styles.formBody}>
-      <div className={styles.formHeader}>
+      <div className={styles.formHeader} tabIndex={0}>
         <input
           name="title"
           aria-label="Title"
@@ -65,6 +64,7 @@ export function ReflectionForm({ reflection, setReflections }: props) {
         value={content}
         className={styles.content}
         onChange={(e) => setContent(e.target.value)}
+        tabIndex={0}
       />
     </form>
   );

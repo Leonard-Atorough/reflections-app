@@ -5,7 +5,7 @@ import { useFormattedDate } from "../../hooks/useFormattedDate";
 
 type Props = {
   reflection: Reflection;
-  onSelect: (id: string | null) => void;
+  setSelectedId: (id: string | null) => void;
   isSelected: boolean;
   isEditing: boolean;
   setIsEditing: Dispatch<SetStateAction<boolean>>;
@@ -14,14 +14,14 @@ type Props = {
 export function ReflectionItem({
   reflection,
   isSelected,
-  onSelect,
+  setSelectedId,
   isEditing,
   setIsEditing,
 }: Props) {
   const formattedUpdateDate = useFormattedDate(reflection?.dateUpdated);
 
   const handleToggle = () => {
-    onSelect(isSelected ? null : reflection.id);
+    setSelectedId(isSelected ? null : reflection.id);
     if (isEditing) setIsEditing(false);
   };
   return (

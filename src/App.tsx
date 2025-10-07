@@ -29,7 +29,7 @@ function App() {
           selectedId={selectedId}
           isEditing={isEditing}
           setIsEditing={setIsEditing}
-          onSelect={setSelectedId}
+          setSelectedId={setSelectedId}
         />
         <Main
           reflection={selectedReflection}

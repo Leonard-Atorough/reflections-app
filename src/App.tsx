@@ -17,6 +17,22 @@ function App() {
   const selectedReflection =
     reflections.find((r) => r.id === selectedId) || null;
 
+  const handleDelete = () => {
+    if (!selectedId) return;
+
+    if(!window.confirm("Delete this reflection? This action cannot be undone!")) {
+      return;
+    }
+
+    setReflections(prev => {
+      const filtered = prev.filter(r => r.id !== selectedId);
+
+      const previousReflection = filtered.at(-1) ?? null;
+      setSelectedId(previousReflection ? previousReflection.id : null);
+      return filtered;
+    })
+  };
+
   useEffect(() => {
     setReflections(mockReflections);
   }, []);
@@ -36,6 +52,7 @@ function App() {
           setReflections={setReflections}
           isEditing={isEditing}
           setIsEditing={setIsEditing}
+          handleDelete={handleDelete}
         />
       </div>
       <Footer />

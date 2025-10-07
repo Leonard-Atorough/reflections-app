@@ -9,9 +9,14 @@ import { useFormattedDate } from "../../hooks/useFormattedDate";
 type props = {
   reflection: Reflection | null;
   setReflections: Dispatch<SetStateAction<Reflection[]>>;
+  setIsEditing: Dispatch<SetStateAction<boolean>>;
 };
 
-export function ReflectionForm({ reflection, setReflections }: props) {
+export function ReflectionForm({
+  reflection,
+  setReflections,
+  setIsEditing,
+}: props) {
   const [title, setTitle] = useState<string>(reflection?.title || "");
   const [content, setContent] = useState<string>(reflection?.content || "");
 
@@ -46,8 +51,13 @@ export function ReflectionForm({ reflection, setReflections }: props) {
   }, [title, content, setReflections, reflection?.dateCreated]);
 
   return (
-    <form className={styles.formBody}>
-      <div className={styles.formHeader} tabIndex={0}>
+    <form
+      className={styles.formBody}
+      onKeyDown={(e) => {
+        if (e.key === "Escape") setIsEditing(false);
+      }}
+    >
+      <div className={styles.formHeader}>
         <input
           name="title"
           aria-label="Title"
@@ -64,7 +74,6 @@ export function ReflectionForm({ reflection, setReflections }: props) {
         value={content}
         className={styles.content}
         onChange={(e) => setContent(e.target.value)}
-        tabIndex={0}
       />
     </form>
   );

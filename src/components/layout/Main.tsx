@@ -8,6 +8,7 @@ type props = {
   setReflections: Dispatch<SetStateAction<Reflection[]>>;
   isEditing: boolean;
   setIsEditing: Dispatch<SetStateAction<boolean>>;
+  handleDelete: () => void;
 };
 
 export function Main({
@@ -15,19 +16,22 @@ export function Main({
   setReflections,
   isEditing,
   setIsEditing,
+  handleDelete,
 }: props) {
   return (
-    <main>
+    <main tabIndex={-1}>
       {isEditing ? (
         <ReflectionForm
           reflection={reflection}
           setReflections={setReflections}
+          setIsEditing={setIsEditing}
         />
       ) : (
         <ReflectionDetail
           reflection={reflection}
           isEditing={isEditing}
           setIsEditing={setIsEditing}
+          handleDelete={handleDelete}
         />
       )}
     </main>

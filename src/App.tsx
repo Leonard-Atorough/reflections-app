@@ -12,7 +12,7 @@ import { usePersistReflections } from "./hooks/usePersistedReflections";
 
 function App() {
   const [reflections, setReflections] = useState<Reflection[]>([]);
-  const [lastGoodSave, setLastGoodSave] = useState<Reflection[]>(reflections);
+  const [lastGoodSave, setLastGoodSave] = useState<Reflection[]>([]);
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -40,16 +40,21 @@ function App() {
       return;
 
     setReflections((prev) => {
-      const filtered = prev.filter((r) => r.id !== selectedId);
-      const previousReflection = filtered.at(-1) ?? null;
-      setSelectedId(previousReflection ? previousReflection.id : null);
-      return filtered;
+      const filtered = prev.filter((r) => r.id !== selectedId) ?? null;
+      return filtered ?? [];
+    });
+
+    setSelectedId((prev) => {
+      const newList = reflections.filter((r) => r.id !== prev);
+      const last = newList.at(-1) ?? null;
+      return last ? last.id : null;
     });
   };
 
   useEffect(() => {
-    const reflections = localStorage.getItem("reflections") ?? null;
-    const data = reflections ? JSON.parse(reflections) : mockReflections;
+    const raw = localStorage.getItem("reflections");
+    const saved: Reflection[] = raw ? JSON.parse(raw) : [];
+    const data = saved.length > 0 ? saved : mockReflections;
     setReflections(data);
   }, []);
 

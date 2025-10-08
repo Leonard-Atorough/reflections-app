@@ -24,7 +24,7 @@
 .reflectionBody {
   box-sizing: border-box;
   padding: 1rem;
-  text-align: justify;
+  text-align: left;
   white-space: pre-wrap;
   word-break: break-word;
   overflow-y: auto;

@@ -1,4 +1,4 @@
-import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
+import { useEffect, useState } from "react";
 import type { Reflection } from "../types/Reflection";
 
 export function usePersistReflections(reflections: Reflection[]) {
@@ -23,5 +23,5 @@ export function usePersistReflections(reflections: Reflection[]) {
     persist();
   }, [reflections]);
 
-  return status;
+  return { status };
 }

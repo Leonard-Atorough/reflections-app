@@ -2,7 +2,6 @@ import type { Dispatch, SetStateAction } from "react";
 import type { Reflection } from "../../types/Reflection";
 import styles from "./ReflectionDetail.module.css";
 import { useFormattedDate } from "../../hooks/useFormattedDate";
-import { keyboard } from "@testing-library/user-event/dist/cjs/keyboard/index.js";
 
 type props = {
   reflection: Reflection | null;

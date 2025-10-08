@@ -60,6 +60,12 @@ h1 {
   line-height: 1.1;
 }
 
+a,
+a:visited,
+a:hover {
+  color: inherit;
+}
+
 button {
   border-radius: 0.5rem;
   box-shadow: 6px 6px var(--text);

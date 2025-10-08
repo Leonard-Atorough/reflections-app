@@ -9,6 +9,7 @@ export function Header() {
         <span className={styles.bar}></span>
       </div>
       <h1>Reflections App</h1>
+      
     </header>
   );
 }

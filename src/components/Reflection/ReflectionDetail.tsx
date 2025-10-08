@@ -15,7 +15,9 @@ export function ReflectionDetail({
   setIsEditing,
   handleDelete,
 }: props) {
-  const formattedUpdateDate = useFormattedDate(reflection?.dateUpdated);
+  const formattedUpdateDate = useFormattedDate(
+    reflection?.dateUpdated ?? Date.now()
+  );
 
   return (
     <>

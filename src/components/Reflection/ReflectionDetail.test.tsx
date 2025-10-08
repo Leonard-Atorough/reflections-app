@@ -1,4 +1,4 @@
-import React, { useState, type SetStateAction } from "react";
+import { useState, type SetStateAction } from "react";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import { ReflectionDetail } from "./ReflectionDetail";
@@ -6,6 +6,7 @@ import { testReflection } from "../../__mocks__/mockReflections";
 
 describe("ReflectionDetail", () => {
   let mockSetIsEditing: ReturnType<typeof vi.fn>;
+  let mockHandleDelete: ReturnType<typeof vi.fn>;
 
   function ReflectionDetailWrapper() {
     const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -13,12 +14,14 @@ describe("ReflectionDetail", () => {
       setIsEditing(toggle);
       mockSetIsEditing(toggle);
     };
+    mockHandleDelete = vi.fn();
 
     return (
       <ReflectionDetail
         reflection={testReflection}
         isEditing={isEditing}
         setIsEditing={handleSelect}
+        handleDelete={mockHandleDelete}
       />
     );
   }

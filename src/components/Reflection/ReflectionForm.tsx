@@ -21,7 +21,7 @@ export function ReflectionForm({
   const [content, setContent] = useState<string>(reflection?.content || "");
 
   const idRef = useRef<string>(reflection?.id ?? uuidv4());
-  const formattedUpdateDate = useFormattedDate(reflection?.dateUpdated);
+  const formattedUpdateDate = useFormattedDate(reflection?.dateUpdated ?? Date.now());
 
   useEffect(() => {
     const saveHandler = setTimeout(() => {

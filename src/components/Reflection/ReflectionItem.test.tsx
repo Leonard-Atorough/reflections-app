@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import { cleanup, render, screen } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
@@ -25,7 +25,7 @@ describe("ReflectionItem", () => {
       <>
         <ReflectionItem
           reflection={testReflection}
-          onSelect={handleSelect}
+          setSelectedId={handleSelect}
           isSelected={selectedId === testReflection.id}
           isEditing={isEditing}
           setIsEditing={mockSetIsEditing}

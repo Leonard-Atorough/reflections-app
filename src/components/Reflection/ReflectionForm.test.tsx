@@ -10,9 +10,11 @@ import { testReflection } from "../../__mocks__/mockReflections";
 import userEvent from "@testing-library/user-event";
 
 let mockSetReflections: ReturnType<typeof vi.fn>;
+let setIsEditing: ReturnType<typeof vi.fn>;
 
 describe("ReflectionForm", () => {
   beforeEach(() => {
+    setIsEditing = vi.fn();
     mockSetReflections = vi.fn();
     vi.useFakeTimers();
   });
@@ -27,6 +29,7 @@ describe("ReflectionForm", () => {
       <ReflectionForm
         reflection={testReflection}
         setReflections={mockSetReflections}
+        setIsEditing={setIsEditing}
       />
     );
 
@@ -36,7 +39,11 @@ describe("ReflectionForm", () => {
 
   it("renders Empty form when Reflection is null", () => {
     render(
-      <ReflectionForm reflection={null} setReflections={mockSetReflections} />
+      <ReflectionForm
+        reflection={null}
+        setReflections={mockSetReflections}
+        setIsEditing={setIsEditing}
+      />
     );
 
     const titleInput = screen.getByRole("textbox", { name: /title/i });
@@ -48,7 +55,11 @@ describe("ReflectionForm", () => {
 
   it("calls setReflections and adds a new reflection when title is updated", () => {
     render(
-      <ReflectionForm reflection={null} setReflections={mockSetReflections} />
+      <ReflectionForm
+        reflection={null}
+        setReflections={mockSetReflections}
+        setIsEditing={setIsEditing}
+      />
     );
 
     const titleInput = screen.getByRole("textbox", { name: /title/i });
@@ -80,6 +91,7 @@ describe("ReflectionForm", () => {
       <ReflectionForm
         reflection={testReflection}
         setReflections={mockSetReflections}
+        setIsEditing={setIsEditing}
       />
     );
 

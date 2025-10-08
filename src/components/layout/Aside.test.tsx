@@ -24,7 +24,7 @@ describe("Sidebar component", () => {
       <Aside
         reflections={testReflections}
         selectedId={selectedId}
-        onSelect={onSelect}
+        setSelectedId={onSelect}
         isEditing={isEditing}
         setIsEditing={setIsEditing}
       />

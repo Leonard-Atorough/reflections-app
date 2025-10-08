@@ -4,16 +4,39 @@ header {
   background-color: var(--primary);
   border-bottom: 3px solid var(--text);
   color: #0b1810;
+
+  display: flex;
+  justify-content: center;
+}
+
+.hamburgerMenu {
+  width: 4rem;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border: 3px solid #0b1810;
+  border-radius: 1rem;
+  padding: 0.5rem;
+
+  > .bar {
+    height: 0.5rem;
+    border-radius: 1rem;
+    width: 100%;
+    background-color: #0b1810;
+  }
 }
 
 footer {
   border-top: 3px solid var(--text);
-  padding: 1rem 0;
   background-color: var(--accent);
   border-radius: 0 0 0.6rem 0.6rem;
   color: #0b1810;
   font-weight: 500;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 2rem;
 }
 
 aside {

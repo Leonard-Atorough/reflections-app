@@ -39,7 +39,7 @@ export function Header({
         className={`btn ${styles.addButton}`}
         onClick={handleAddButtonCLick}
       >
-        <img src="./src/assets/icons8-add-ios-17-glyph/icons8-add-30.png" />
+        <img src="/assets/icons8-add-ios-17-glyph/icons8-add-30.png" />
       </button>
     </header>
   );

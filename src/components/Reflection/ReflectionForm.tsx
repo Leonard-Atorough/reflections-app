@@ -21,7 +21,9 @@ export function ReflectionForm({
   const [content, setContent] = useState<string>(reflection?.content || "");
 
   const idRef = useRef<string>(reflection?.id ?? uuidv4());
-  const formattedUpdateDate = useFormattedDate(reflection?.dateUpdated ?? Date.now());
+  const formattedUpdateDate = useFormattedDate(
+    reflection?.dateUpdated ?? Date.now()
+  );
 
   useEffect(() => {
     const saveHandler = setTimeout(() => {
@@ -62,6 +64,7 @@ export function ReflectionForm({
           name="title"
           aria-label="Title"
           type="text"
+          placeholder="Add a Title"
           value={title}
           className={styles.title}
           onChange={(e) => setTitle(e.target.value)}
@@ -71,6 +74,7 @@ export function ReflectionForm({
       <textarea
         name="content"
         aria-label="Content"
+        placeholder="Add some reflections..."
         value={content}
         className={styles.content}
         onChange={(e) => setContent(e.target.value)}

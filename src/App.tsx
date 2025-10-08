@@ -16,6 +16,7 @@ function App() {
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [sidebarVisible, setSidebarVisible] = useState<boolean>(false);
 
   const selectedReflection =
     reflections.find((r) => r.id === selectedId) || null;
@@ -60,7 +61,12 @@ function App() {
 
   return (
     <>
-      <Header />
+      <Header
+        setIsEditing={setIsEditing}
+        setSelectedId={setSelectedId}
+        setSidebarVisible={setSidebarVisible}
+        sidebarVisible={sidebarVisible}
+      />
       <div className="appBody">
         <Aside
           reflections={reflections}
@@ -68,6 +74,8 @@ function App() {
           isEditing={isEditing}
           setIsEditing={setIsEditing}
           setSelectedId={setSelectedId}
+          sidebarVisible={sidebarVisible}
+          setSidebarVisible={setSidebarVisible}
         />
         <Main
           reflection={selectedReflection}

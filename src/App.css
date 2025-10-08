@@ -9,12 +9,14 @@
   border-radius: 0.75rem;
   box-sizing: border-box;
   box-shadow: 10px 10px 1px var(--text);
+  display: flex;
+  flex-direction: column;
 }
 
 .appBody {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  min-height: 70vh;
   box-sizing: border-box;
+  position: relative;
 }

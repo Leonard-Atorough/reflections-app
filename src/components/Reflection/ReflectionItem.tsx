@@ -9,6 +9,7 @@ type Props = {
   isSelected: boolean;
   isEditing: boolean;
   setIsEditing: Dispatch<SetStateAction<boolean>>;
+  setSidebarVisible: Dispatch<SetStateAction<boolean>>;
 };
 
 export function ReflectionItem({
@@ -17,12 +18,14 @@ export function ReflectionItem({
   setSelectedId,
   isEditing,
   setIsEditing,
+  setSidebarVisible,
 }: Props) {
   const formattedUpdateDate = useFormattedDate(reflection?.dateUpdated);
 
   const handleToggle = () => {
     setSelectedId(isSelected ? null : reflection.id);
     if (isEditing) setIsEditing(false);
+    if(!isEditing && !isSelected) setSidebarVisible(false);
   };
   return (
     <li

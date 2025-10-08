@@ -9,6 +9,8 @@ type props = {
   selectedId: string | null;
   isEditing: boolean;
   setIsEditing: Dispatch<SetStateAction<boolean>>;
+  setSidebarVisible: Dispatch<SetStateAction<boolean>>;
+  sidebarVisible: boolean;
 };
 
 export function Aside({
@@ -17,14 +19,21 @@ export function Aside({
   setSelectedId,
   isEditing,
   setIsEditing,
+  sidebarVisible,
+  setSidebarVisible,
 }: props) {
   const handleAddButtonCLick = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsEditing(true);
     setSelectedId(null);
+    setSidebarVisible(false);
   };
+
   return (
-    <aside onClick={() => setIsEditing(false)}>
+    <aside
+      className={`${styles.sidebar} ${sidebarVisible ? styles.active : ""}`}
+      onClick={() => setIsEditing(false)}
+    >
       <div>
         <h2>Reflections</h2>
         <ul role="listbox" aria-label="Reflections List">
@@ -37,6 +46,7 @@ export function Aside({
                 isSelected={reflection.id === selectedId}
                 isEditing={isEditing}
                 setIsEditing={setIsEditing}
+                setSidebarVisible={setSidebarVisible}
               />
             );
           })}
@@ -44,7 +54,7 @@ export function Aside({
       </div>
       <div className={styles.addButton}>
         <button className="btn" onClick={handleAddButtonCLick}>
-          Add Reflection
+          ADD REFLECTION
         </button>
       </div>
     </aside>

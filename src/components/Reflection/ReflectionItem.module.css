@@ -3,15 +3,16 @@
   margin: 0.5rem 0;
   border-radius: 0.5rem;
   transition: background 0.3s ease;
+  color: #0b1810;
 }
 
 .reflectionItem:hover,
 .reflectionItem:focus {
-  background: var(--secondary);
+  background: var(--primary);
 }
 
 .reflectionItem.selected {
-  background: var(--secondary);
+  background: var(--primary);
   border: 2px solid var(--text);
 }
 

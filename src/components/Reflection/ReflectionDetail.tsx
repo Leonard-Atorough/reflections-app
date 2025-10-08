@@ -19,7 +19,7 @@ function DeleteButton({ hasReflection, handleDelete }: buttonProps) {
   if (hasReflection) {
     return (
       <div>
-        <button onClick={handleDelete}>DELETE</button>
+        <button className="btn" onClick={handleDelete}>DELETE</button>
       </div>
     );
   }

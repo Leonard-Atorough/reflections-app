@@ -43,7 +43,9 @@ export function Aside({
         </ul>
       </div>
       <div className={styles.addButton}>
-        <button onClick={handleAddButtonCLick}>Add Reflection</button>
+        <button className="btn" onClick={handleAddButtonCLick}>
+          Add Reflection
+        </button>
       </div>
     </aside>
   );

@@ -1,4 +1,5 @@
 @import url(./styles/_variables.css);
+@import url(./styles/_button.css);
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -64,28 +65,4 @@ a,
 a:visited,
 a:hover {
   color: inherit;
-}
-
-button {
-  border-radius: 0.5rem;
-  box-shadow: 6px 6px var(--text);
-  border: 3px solid var(--text);
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: var(--primary);
-  color: #0b1810;
-  cursor: pointer;
-  transition: all 0.3s ease-out;
-}
-button:hover {
-  background-color: var(--secondary);
-  box-shadow: 3px 3px var(--text);
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-  background-color: var(--secondary);
-  box-shadow: 3px 3px var(--text);
 }

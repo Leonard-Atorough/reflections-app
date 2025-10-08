@@ -10,6 +10,21 @@ type props = {
   handleDelete: () => void;
 };
 
+type buttonProps = {
+  hasReflection: boolean;
+  handleDelete: () => void;
+};
+
+function DeleteButton({ hasReflection, handleDelete }: buttonProps) {
+  if (hasReflection) {
+    return (
+      <div>
+        <button onClick={handleDelete}>DELETE</button>
+      </div>
+    );
+  }
+}
+
 export function ReflectionDetail({
   reflection,
   setIsEditing,
@@ -50,9 +65,10 @@ export function ReflectionDetail({
       >
         {reflection?.content ?? ""}
       </p>
-      <div>
-        <button onClick={handleDelete}>DELETE</button>
-      </div>
+      <DeleteButton
+        hasReflection={reflection ? true : false}
+        handleDelete={handleDelete}
+      />
     </>
   );
 }

@@ -13,6 +13,8 @@ const testReflections: Reflection[] = [
     content: "This is a test reflection, let it not be a deflection.",
   },
 ];
+let setSidebarVisible: ReturnType<typeof vi.fn>;
+
 const selectedId = "test1";
 const onSelect = vi.fn();
 const isEditing = false;
@@ -20,6 +22,8 @@ const setIsEditing = vi.fn();
 
 describe("Sidebar component", () => {
   it("Renders a sidebar component with a header, button and a list with passed in reflection props", () => {
+    setSidebarVisible = vi.fn();
+
     render(
       <Aside
         reflections={testReflections}
@@ -27,6 +31,8 @@ describe("Sidebar component", () => {
         setSelectedId={onSelect}
         isEditing={isEditing}
         setIsEditing={setIsEditing}
+        setSidebarVisible={setSidebarVisible}
+        sidebarVisible={true}
       />
     );
 

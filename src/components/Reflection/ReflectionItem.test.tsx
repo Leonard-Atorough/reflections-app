@@ -29,6 +29,7 @@ describe("ReflectionItem", () => {
           isSelected={selectedId === testReflection.id}
           isEditing={isEditing}
           setIsEditing={mockSetIsEditing}
+          setSidebarVisible={setSidebarVisible}
         />
       </>
     );
@@ -36,10 +37,12 @@ describe("ReflectionItem", () => {
 
   let mockSetIsEditing: ReturnType<typeof vi.fn>;
   let mockSetSelectedId: ReturnType<typeof vi.fn>;
+  let setSidebarVisible: ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
     mockSetIsEditing = vi.fn();
     mockSetSelectedId = vi.fn();
+    setSidebarVisible = vi.fn();
   });
 
   afterEach(() => {

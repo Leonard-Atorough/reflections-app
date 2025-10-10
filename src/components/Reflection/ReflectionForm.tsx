@@ -58,7 +58,6 @@ export function ReflectionForm({
       onKeyDown={(e) => {
         if (e.key === "Escape") setIsEditing(false);
       }}
-      onBlur={() => setIsEditing(false)}
     >
       <div className={styles.formHeader}>
         <input

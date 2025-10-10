@@ -8,7 +8,7 @@
   --accent: #77bcc2;
 }
 
-/* @media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
   :root {
     --text: #e7f4ec;
     --background: #050a07;
@@ -17,4 +17,4 @@
     --secondary: #2a5b5a;
     --accent: #3e8389;
   }
-} */
+}

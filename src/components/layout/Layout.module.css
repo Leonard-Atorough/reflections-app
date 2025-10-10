@@ -1,41 +1,53 @@
 .headerSection {
   border-radius: 0.6rem 0.6rem 0 0;
-  padding: 2rem 4rem;
-  background-color: var(--primary);
+  padding: 1rem 2rem;
   border-bottom: 3px solid var(--text);
   color: #0b1810;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 
-  > .hamburgerMenu {
+  > div {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .hamburgerMenu {
     display: none;
   }
 
   > .addButton {
-    background-color: var(--background);
+    display: none;
+    padding: 0.25rem 0.5rem;
   }
 
   @media only screen and (max-width: 600px) {
+    border-radius: 0;
     padding: 1rem 0.5rem;
-    > .title {
+    .title {
       font-size: 2rem;
     }
   }
 
   @media only screen and (max-width: 800px) {
-    > .hamburgerMenu {
+    justify-content: space-between;
+    .hamburgerMenu {
+      display: flex;
+    }
+
+    > .addButton {
       display: flex;
     }
   }
 }
 
 .hamburgerMenu {
-  width: 4rem;
+  width: 3rem;
   height: auto;
-  gap: 0.35rem;
+  gap: 0.2rem;
   flex-direction: column;
-  padding: 0.5rem;
+  padding: 0.25rem;
   background-color: var(--background);
 
   > .bar {
@@ -48,8 +60,6 @@
 
 footer {
   border-top: 3px solid var(--text);
-  background-color: var(--accent);
-  border-radius: 0 0 0.6rem 0.6rem;
   color: #0b1810;
   font-weight: 600;
   font-size: 1rem;
@@ -67,7 +77,6 @@ footer {
   justify-content: space-between;
   background-color: var(--accent);
   gap: 2rem;
-  min-height: 75vh;
   height: 100%;
   padding: 1rem 0.5rem;
   border: 3px solid var(--text);
@@ -118,7 +127,8 @@ footer {
 }
 
 main {
-  height: 75vh;
+  /* height: 75vh; */
+  height: 100%;
   flex: 3;
   display: flex;
   flex-direction: column;

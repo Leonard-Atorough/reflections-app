@@ -26,15 +26,17 @@ export function Header({
       onClick={() => setIsEditing(false)}
       className={styles.headerSection}
     >
-      <button
-        onClick={() => setSidebarVisible(!sidebarVisible)}
-        className={`btn ${styles.hamburgerMenu}`}
-      >
-        <span className={styles.bar}></span>
-        <span className={styles.bar}></span>
-        <span className={styles.bar}></span>
-      </button>
-      <h1 className={styles.title}>Reflections</h1>
+      <div>
+        <button
+          onClick={() => setSidebarVisible(!sidebarVisible)}
+          className={`btn ${styles.hamburgerMenu}`}
+        >
+          <span className={styles.bar}></span>
+          <span className={styles.bar}></span>
+          <span className={styles.bar}></span>
+        </button>
+        <h1 className={styles.title}>Reflections</h1>
+      </div>
       <button
         className={`btn ${styles.addButton}`}
         onClick={handleAddButtonCLick}

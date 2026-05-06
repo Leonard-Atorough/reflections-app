@@ -1,31 +1,21 @@
 #root {
-  /* max-width: 1280px; */
   width: 100%;
   height: 100%;
   margin: 0 auto;
   padding: 0;
-  text-align: center;
-  /* border: 3px solid var(--text); */
-  /* border-radius: 0.75rem; */
   display: flex;
   flex-direction: column;
-
-  @media screen and (max-width: 600px) {
-    margin: 0;
-    border-radius: 0;
-    border: 0;
-  }
 }
 
 .appBody {
-  max-width: 1280px;
   width: 100%;
-  flex: auto;
+  flex: 1;
+  min-height: 0;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  align-items: stretch;
   box-sizing: border-box;
   position: relative;
-  padding: 0.5rem 0;
+  padding: var(--space-2);
+  gap: var(--space-2);
   margin: 0 auto;
 }

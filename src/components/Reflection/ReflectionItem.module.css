@@ -1,21 +1,36 @@
 .reflectionItem {
-  padding: 1rem;
-  margin: 0.5rem 0;
-  border-radius: 0.5rem;
-  transition: background 0.3s ease;
+  padding: var(--space-3) var(--space-2);
+  border-radius: var(--radius-md);
+  border: var(--border-width) solid transparent;
+  cursor: pointer;
+  transition:
+    background var(--ease-fast),
+    border-color var(--ease-fast),
+    box-shadow var(--ease-fast);
 }
 
-.reflectionItem:hover,
-.reflectionItem:focus {
-  background: var(--primary);
+.reflectionItem:hover {
+  background: var(--color-surface-hover);
 }
 
 .reflectionItem.selected {
-  background: var(--primary);
-  border: 2px solid var(--text);
+  background: var(--color-selected);
+  border-color: var(--color-border);
+  box-shadow: var(--shadow-sm);
 }
 
 .reflectionTitle {
-  padding: 0;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
   margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.reflectionMeta {
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+  margin-top: var(--space-1);
 }

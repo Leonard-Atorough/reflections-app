@@ -1,20 +1,103 @@
 :root {
-  /* colors */
-  --text: #0b1810;
-  --background: #f5faf7;
-  --white: white;
-  --primary: #51b174;
-  --secondary: #a5d6d4;
-  --accent: #77bcc2;
+  /* ── Typography ─────────────────────────────────────────── */
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "SF Mono", "Fira Code", monospace;
+
+  --text-xs: 0.75rem; /*  12px */
+  --text-sm: 0.875rem; /*  14px */
+  --text-base: 1rem; /*  16px */
+  --text-lg: 1.125rem; /*  18px */
+  --text-xl: 1.25rem; /*  20px */
+  --text-2xl: 1.5rem; /*  24px */
+  --text-3xl: 1.875rem; /*  30px */
+  --text-4xl: 2.25rem; /*  36px */
+
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+
+  /* ── Spacing (4px base) ─────────────────────────────────── */
+  --space-1: 0.25rem; /*  4px */
+  --space-2: 0.5rem; /*  8px */
+  --space-3: 0.75rem; /* 12px */
+  --space-4: 1rem; /* 16px */
+  --space-5: 1.25rem; /* 20px */
+  --space-6: 1.5rem; /* 24px */
+  --space-8: 2rem; /* 32px */
+  --space-10: 2.5rem; /* 40px */
+  --space-12: 3rem; /* 48px */
+
+  /* ── Border ─────────────────────────────────────────────── */
+  --border-width: 2px;
+  --border-width-thick: 3px;
+  --border: var(--border-width) solid var(--color-border);
+  --border-subtle: 1px solid var(--color-border-subtle);
+
+  --radius-sm: 0.375rem; /*  6px */
+  --radius-md: 0.625rem; /* 10px */
+  --radius-lg: 0.875rem; /* 14px */
+  --radius-xl: 1.125rem; /* 18px */
+
+  /* ── Shadows (neo-brutalist hard offset) ────────────────── */
+  --shadow-sm: 2px 2px 0 var(--color-border);
+  --shadow-md: 3px 3px 0 var(--color-border);
+  --shadow-lg: 4px 4px 0 var(--color-border);
+
+  /* ── Transitions ────────────────────────────────────────── */
+  --ease-fast: 0.1s ease-out;
+  --ease-base: 0.2s ease-out;
+  --ease-slow: 0.3s ease-out;
+
+  /* ── Colors — Light ─────────────────────────────────────── */
+  --color-bg: #fafaf6; /* Apple Notes warm paper */
+  --color-bg-sidebar: #f0efe9; /* sidebar panel warm gray */
+  --color-surface: #ffffff; /* main content pane */
+  --color-surface-hover: #fffbe8; /* warm yellow tint on hover */
+
+  --color-text: #1c1c1e; /* Apple near-black */
+  --color-text-muted: #6e6e73; /* secondary label */
+  --color-text-faint: #aeaeb2; /* tertiary label */
+
+  --color-border: #1c1c1e; /* neo-brut: ink-weight border */
+  --color-border-subtle: #d1d0ca; /* internal dividers */
+
+  --color-accent: #ffd60a; /* Apple Notes yellow */
+  --color-accent-dark: #e6bf00; /* pressed / active accent */
+  --color-accent-text: #1c1c1e; /* text on accent backgrounds */
+
+  --color-selected: #fff0b3; /* pale yellow selected item bg */
+
+  --color-danger: #ff3b30; /* Apple red */
+  --color-success: #34c759; /* Apple green */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --text: #e7f4ec;
-    --background: #050a07;
-    --white: #050a07;
-    --primary: #4dac6f;
-    --secondary: #2a5b5a;
-    --accent: #3e8389;
+    --color-bg: #1c1c1e;
+    --color-bg-sidebar: #2c2c2e;
+    --color-surface: #3a3a3c;
+    --color-surface-hover: #3d3a1a;
+
+    --color-text: #f5f5f0;
+    --color-text-muted: #aeaeb2;
+    --color-text-faint: #6e6e73;
+
+    --color-border: #f5f5f0;
+    --color-border-subtle: #48484a;
+
+    --color-accent: #ffd60a;
+    --color-accent-dark: #e6bf00;
+    --color-accent-text: #1c1c1e;
+
+    --color-selected: #3d3a1a;
+
+    --color-danger: #ff453a;
+    --color-success: #32d74b;
   }
 }

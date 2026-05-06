@@ -7,29 +7,17 @@ import { UIContext } from "../../contexts";
 type props = {
   reflection: Reflection | null;
   setReflections: Dispatch<SetStateAction<Reflection[]>>;
-  isEditing: boolean;
-  setIsEditing: Dispatch<SetStateAction<boolean>>;
   handleDelete: () => void;
 };
 
-export function Main({
-  reflection,
-  setReflections,
-  handleDelete,
-}: props) {
+export function Main({ reflection, setReflections, handleDelete }: props) {
   const { isEditing } = useContext(UIContext);
   return (
     <main tabIndex={-1}>
       {isEditing ? (
-        <ReflectionForm
-          reflection={reflection}
-          setReflections={setReflections}
-        />
+        <ReflectionForm reflection={reflection} setReflections={setReflections} />
       ) : (
-        <ReflectionDetail
-          reflection={reflection}
-          handleDelete={handleDelete}
-        />
+        <ReflectionDetail reflection={reflection} handleDelete={handleDelete} />
       )}
     </main>
   );

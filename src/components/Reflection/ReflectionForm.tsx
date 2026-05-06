@@ -1,19 +1,19 @@
 import { v4 as uuidv4 } from "uuid";
 import { useContext, useEffect, useRef, useState } from "react";
-import type { Dispatch, SetStateAction } from "react";
 import type { Reflection } from "../../types/Reflection";
 import styles from "./ReflectionForm.module.css";
 
 import { useFormattedDate } from "../../hooks/useFormattedDate";
-import { UIContext } from "../../contexts";
+import { ReflectionsContext, UIContext } from "../../contexts";
 
 type props = {
   reflection: Reflection | null;
-  setReflections: Dispatch<SetStateAction<Reflection[]>>;
 };
 
-export function ReflectionForm({ reflection, setReflections }: props) {
+export function ReflectionForm({ reflection }: props) {
   const { setIsEditing } = useContext(UIContext);
+  const {setReflections } = useContext(ReflectionsContext);
+
   const [title, setTitle] = useState<string>(reflection?.title || "");
   const [content, setContent] = useState<string>(reflection?.content || "");
 

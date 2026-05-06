@@ -10,6 +10,7 @@ import type { Reflection } from "./types/Reflection";
 import { mockReflections } from "./data/mockReflections";
 import { usePersistReflections } from "./hooks/usePersistedReflections";
 import { UIContext } from "./contexts/UIContext";
+import { ReflectionsContext } from "./contexts";
 
 function App() {
   const [reflections, setReflections] = useState<Reflection[]>([]);
@@ -18,8 +19,6 @@ function App() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [sidebarVisible, setSidebarVisible] = useState<boolean>(false);
-
-  const selectedReflection = reflections.find((r) => r.id === selectedId) || null;
 
   const { status } = usePersistReflections(reflections);
 
@@ -32,23 +31,6 @@ function App() {
     }
   }, [status, reflections, lastGoodSave]);
 
-  const handleDelete = () => {
-    if (!selectedId) return;
-
-    if (!window.confirm("Delete this reflection? This action cannot be undone!")) return;
-
-    setReflections((prev) => {
-      const filtered = prev.filter((r) => r.id !== selectedId) ?? null;
-      return filtered ?? [];
-    });
-
-    setSelectedId((prev) => {
-      const newList = reflections.filter((r) => r.id !== prev);
-      const last = newList.at(-1) ?? null;
-      return last ? last.id : null;
-    });
-  };
-
   useEffect(() => {
     const raw = localStorage.getItem("reflections");
     const saved: Reflection[] = raw ? JSON.parse(raw) : [];
@@ -58,25 +40,16 @@ function App() {
 
   return (
     <UIContext value={{ isEditing, setIsEditing, sidebarVisible, setSidebarVisible }}>
-      <>
-        <Header setSelectedId={setSelectedId} />
-        <div className="appBody">
-          <Aside
-            reflections={reflections}
-            selectedId={selectedId}
-            isEditing={isEditing}
-            setSelectedId={setSelectedId}
-          />
-          <Main
-            reflection={selectedReflection}
-            setReflections={setReflections}
-            isEditing={isEditing}
-            setIsEditing={setIsEditing}
-            handleDelete={handleDelete}
-          />
-        </div>
-        <Footer />
-      </>
+      <ReflectionsContext value={{ reflections, setReflections, selectedId, setSelectedId }}>
+        <>
+          <Header setSelectedId={setSelectedId} />
+          <div className="appBody">
+            <Aside />
+            <Main />
+          </div>
+          <Footer />
+        </>
+      </ReflectionsContext>
     </UIContext>
   );
 }

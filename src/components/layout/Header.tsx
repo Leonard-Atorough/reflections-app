@@ -1,19 +1,13 @@
-import type { Dispatch, SetStateAction } from "react";
+import { useContext } from "react";
 import styles from "./Layout.module.css";
+import { UIContext } from "../../contexts";
 
 type props = {
   setSelectedId: (id: string | null) => void;
-  setIsEditing: Dispatch<SetStateAction<boolean>>;
-  setSidebarVisible: Dispatch<SetStateAction<boolean>>;
-  sidebarVisible: boolean;
 };
 
-export function Header({
-  setSelectedId,
-  setIsEditing,
-  setSidebarVisible,
-  sidebarVisible,
-}: props) {
+export function Header({ setSelectedId }: props) {
+  const { setIsEditing, sidebarVisible, setSidebarVisible } = useContext(UIContext);
   const handleAddButtonCLick = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsEditing(true);
@@ -22,10 +16,7 @@ export function Header({
   };
 
   return (
-    <header
-      onClick={() => setIsEditing(false)}
-      className={styles.headerSection}
-    >
+    <header onClick={() => setIsEditing(false)} className={styles.headerSection}>
       <div>
         <button
           onClick={() => setSidebarVisible(!sidebarVisible)}
@@ -37,10 +28,7 @@ export function Header({
         </button>
         <h1 className={styles.title}>Reflections</h1>
       </div>
-      <button
-        className={`btn ${styles.addButton}`}
-        onClick={handleAddButtonCLick}
-      >
+      <button className={`btn ${styles.addButton}`} onClick={handleAddButtonCLick}>
         <img src="/assets/icons8-add-ios-17-glyph/icons8-add-30.png" />
       </button>
     </header>

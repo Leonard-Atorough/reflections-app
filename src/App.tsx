@@ -9,6 +9,7 @@ import { Main } from "./components/layout/Main";
 import type { Reflection } from "./types/Reflection";
 import { mockReflections } from "./data/mockReflections";
 import { usePersistReflections } from "./hooks/usePersistedReflections";
+import { UIContext } from "./contexts/UIContext";
 
 function App() {
   const [reflections, setReflections] = useState<Reflection[]>([]);
@@ -18,8 +19,7 @@ function App() {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [sidebarVisible, setSidebarVisible] = useState<boolean>(false);
 
-  const selectedReflection =
-    reflections.find((r) => r.id === selectedId) || null;
+  const selectedReflection = reflections.find((r) => r.id === selectedId) || null;
 
   const { status } = usePersistReflections(reflections);
 
@@ -35,10 +35,7 @@ function App() {
   const handleDelete = () => {
     if (!selectedId) return;
 
-    if (
-      !window.confirm("Delete this reflection? This action cannot be undone!")
-    )
-      return;
+    if (!window.confirm("Delete this reflection? This action cannot be undone!")) return;
 
     setReflections((prev) => {
       const filtered = prev.filter((r) => r.id !== selectedId) ?? null;
@@ -60,33 +57,27 @@ function App() {
   }, []);
 
   return (
-    <>
-      <Header
-        setIsEditing={setIsEditing}
-        setSelectedId={setSelectedId}
-        setSidebarVisible={setSidebarVisible}
-        sidebarVisible={sidebarVisible}
-      />
-      <div className="appBody">
-        <Aside
-          reflections={reflections}
-          selectedId={selectedId}
-          isEditing={isEditing}
-          setIsEditing={setIsEditing}
-          setSelectedId={setSelectedId}
-          sidebarVisible={sidebarVisible}
-          setSidebarVisible={setSidebarVisible}
-        />
-        <Main
-          reflection={selectedReflection}
-          setReflections={setReflections}
-          isEditing={isEditing}
-          setIsEditing={setIsEditing}
-          handleDelete={handleDelete}
-        />
-      </div>
-      <Footer />
-    </>
+    <UIContext value={{ isEditing, setIsEditing, sidebarVisible, setSidebarVisible }}>
+      <>
+        <Header setSelectedId={setSelectedId} />
+        <div className="appBody">
+          <Aside
+            reflections={reflections}
+            selectedId={selectedId}
+            isEditing={isEditing}
+            setSelectedId={setSelectedId}
+          />
+          <Main
+            reflection={selectedReflection}
+            setReflections={setReflections}
+            isEditing={isEditing}
+            setIsEditing={setIsEditing}
+            handleDelete={handleDelete}
+          />
+        </div>
+        <Footer />
+      </>
+    </UIContext>
   );
 }
 

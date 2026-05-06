@@ -1,16 +1,14 @@
-import type { Dispatch, SetStateAction } from "react";
+import { useContext} from "react";
 import type { Reflection } from "../../types/Reflection";
 import { ReflectionItem } from "../Reflection/ReflectionItem";
 import styles from "./Layout.module.css";
+import { UIContext } from "../../contexts";
 
 type props = {
   reflections: Reflection[];
   setSelectedId: (id: string | null) => void;
   selectedId: string | null;
   isEditing: boolean;
-  setIsEditing: Dispatch<SetStateAction<boolean>>;
-  setSidebarVisible: Dispatch<SetStateAction<boolean>>;
-  sidebarVisible: boolean;
 };
 
 export function Aside({
@@ -18,10 +16,8 @@ export function Aside({
   selectedId,
   setSelectedId,
   isEditing,
-  setIsEditing,
-  sidebarVisible,
-  setSidebarVisible,
 }: props) {
+  const { setIsEditing, sidebarVisible, setSidebarVisible } = useContext(UIContext);
   const handleAddButtonCLick = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsEditing(true);

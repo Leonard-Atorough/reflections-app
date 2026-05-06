@@ -1,7 +1,8 @@
-import type { Dispatch, SetStateAction } from "react";
+import { useContext, type Dispatch, type SetStateAction } from "react";
 import type { Reflection } from "../../types/Reflection";
 import { ReflectionDetail } from "../Reflection/ReflectionDetail";
 import { ReflectionForm } from "../Reflection/ReflectionForm";
+import { UIContext } from "../../contexts";
 
 type props = {
   reflection: Reflection | null;
@@ -14,23 +15,19 @@ type props = {
 export function Main({
   reflection,
   setReflections,
-  isEditing,
-  setIsEditing,
   handleDelete,
 }: props) {
+  const { isEditing } = useContext(UIContext);
   return (
     <main tabIndex={-1}>
       {isEditing ? (
         <ReflectionForm
           reflection={reflection}
           setReflections={setReflections}
-          setIsEditing={setIsEditing}
         />
       ) : (
         <ReflectionDetail
           reflection={reflection}
-          isEditing={isEditing}
-          setIsEditing={setIsEditing}
           handleDelete={handleDelete}
         />
       )}

@@ -1,29 +1,24 @@
 import { v4 as uuidv4 } from "uuid";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import type { Dispatch, SetStateAction } from "react";
 import type { Reflection } from "../../types/Reflection";
 import styles from "./ReflectionForm.module.css";
 
 import { useFormattedDate } from "../../hooks/useFormattedDate";
+import { UIContext } from "../../contexts";
 
 type props = {
   reflection: Reflection | null;
   setReflections: Dispatch<SetStateAction<Reflection[]>>;
-  setIsEditing: Dispatch<SetStateAction<boolean>>;
 };
 
-export function ReflectionForm({
-  reflection,
-  setReflections,
-  setIsEditing,
-}: props) {
+export function ReflectionForm({ reflection, setReflections }: props) {
+  const { setIsEditing } = useContext(UIContext);
   const [title, setTitle] = useState<string>(reflection?.title || "");
   const [content, setContent] = useState<string>(reflection?.content || "");
 
   const idRef = useRef<string>(reflection?.id ?? uuidv4());
-  const formattedUpdateDate = useFormattedDate(
-    reflection?.dateUpdated ?? Date.now()
-  );
+  const formattedUpdateDate = useFormattedDate(reflection?.dateUpdated ?? Date.now());
 
   useEffect(() => {
     const saveHandler = setTimeout(() => {
@@ -38,9 +33,7 @@ export function ReflectionForm({
             dateUpdated: Date.now(),
           };
           if (exists) {
-            return prev.map((r) =>
-              r.id === idRef.current ? newOrUpdatedReflection : r
-            );
+            return prev.map((r) => (r.id === idRef.current ? newOrUpdatedReflection : r));
           } else {
             return [...prev, newOrUpdatedReflection];
           }

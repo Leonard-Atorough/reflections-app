@@ -1,13 +1,10 @@
 import { useContext } from "react";
 import styles from "./Layout.module.css";
-import { UIContext } from "../../contexts";
+import { ReflectionsContext, UIContext } from "../../contexts";
 
-type props = {
-  setSelectedId: (id: string | null) => void;
-};
-
-export function Header({ setSelectedId }: props) {
+export function Header() {
   const { setIsEditing, sidebarVisible, setSidebarVisible } = useContext(UIContext);
+  const { setSelectedId } = useContext(ReflectionsContext);
   const handleAddButtonCLick = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsEditing(true);

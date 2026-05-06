@@ -42,7 +42,7 @@ function App() {
     <UIContext value={{ isEditing, setIsEditing, sidebarVisible, setSidebarVisible }}>
       <ReflectionsContext value={{ reflections, setReflections, selectedId, setSelectedId }}>
         <>
-          <Header setSelectedId={setSelectedId} />
+          <Header/>
           <div className="appBody">
             <Aside />
             <Main />

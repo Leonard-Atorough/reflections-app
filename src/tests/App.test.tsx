@@ -5,6 +5,6 @@ describe("App ui", () => {
   it("renders header, aside, main and footer when render is called", () => {
     render(<App />);
 
-    expect(screen.getByText("Reflections")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Reflections", level: 1 })).toBeInTheDocument();
   });
 });

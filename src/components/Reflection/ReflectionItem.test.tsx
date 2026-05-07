@@ -7,42 +7,49 @@ import { ReflectionItem } from "./ReflectionItem";
 import styles from "./ReflectionItem.module.css";
 import { testReflection } from "../../__mocks__/mockReflections";
 import { formatDate } from "../../utils/formatDate";
+import { UIContext } from "../../contexts/UIContext";
+import { ReflectionsContext } from "../../contexts/ReflectionsContext";
 
 describe("ReflectionItem", () => {
-  function ReflectionItemWrapper({
-    isEditing = false,
-  }: {
-    isEditing?: boolean;
-  }) {
+  let mockSetIsEditing: ReturnType<typeof vi.fn>;
+  let mockSetSelectedId: ReturnType<typeof vi.fn>;
+  let mockSetSidebarVisible: ReturnType<typeof vi.fn>;
+
+  function ReflectionItemWrapper({ isEditing = false }: { isEditing?: boolean }) {
     const [selectedId, setSelectedId] = useState<string | null>(null);
 
     const handleSelect = (id: string | null) => {
-      setSelectedId(id); // update internal state
-      mockSetSelectedId(id); // keep the spy for assertions
+      setSelectedId(id);
+      mockSetSelectedId(id);
     };
 
     return (
-      <>
-        <ReflectionItem
-          reflection={testReflection}
-          setSelectedId={handleSelect}
-          isSelected={selectedId === testReflection.id}
-          isEditing={isEditing}
-          setIsEditing={mockSetIsEditing}
-          setSidebarVisible={setSidebarVisible}
-        />
-      </>
+      <UIContext
+        value={{
+          isEditing,
+          setIsEditing: mockSetIsEditing,
+          sidebarVisible: false,
+          setSidebarVisible: mockSetSidebarVisible,
+        }}
+      >
+        <ReflectionsContext
+          value={{
+            reflections: [],
+            setReflections: vi.fn(),
+            selectedId,
+            setSelectedId: handleSelect,
+          }}
+        >
+          <ReflectionItem reflection={testReflection} />
+        </ReflectionsContext>
+      </UIContext>
     );
   }
-
-  let mockSetIsEditing: ReturnType<typeof vi.fn>;
-  let mockSetSelectedId: ReturnType<typeof vi.fn>;
-  let setSidebarVisible: ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
     mockSetIsEditing = vi.fn();
     mockSetSelectedId = vi.fn();
-    setSidebarVisible = vi.fn();
+    mockSetSidebarVisible = vi.fn();
   });
 
   afterEach(() => {
@@ -80,9 +87,7 @@ describe("ReflectionItem", () => {
     render(<ReflectionItemWrapper />);
     const item = screen.getByTestId("reflection-button");
     await userEvent.click(item);
-    expect(screen.getByTestId("reflection-button")).toHaveClass(
-      styles.selected
-    );
+    expect(screen.getByTestId("reflection-button")).toHaveClass(styles.selected);
   });
 
   it("calls onSelect with null when clicked twice", async () => {

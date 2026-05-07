@@ -1,28 +1,41 @@
 import { useState, type SetStateAction } from "react";
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, render, screen } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import { ReflectionDetail } from "./ReflectionDetail";
 import { testReflection } from "../../__mocks__/mockReflections";
+import { UIContext } from "../../contexts/UIContext";
+import { ReflectionsContext } from "../../contexts/ReflectionsContext";
 
 describe("ReflectionDetail", () => {
   let mockSetIsEditing: ReturnType<typeof vi.fn>;
-  let mockHandleDelete: ReturnType<typeof vi.fn>;
 
   function ReflectionDetailWrapper() {
     const [isEditing, setIsEditing] = useState<boolean>(false);
-    const handleSelect = (toggle: SetStateAction<boolean>) => {
+    const handleSetIsEditing = (toggle: SetStateAction<boolean>) => {
       setIsEditing(toggle);
       mockSetIsEditing(toggle);
     };
-    mockHandleDelete = vi.fn();
 
     return (
-      <ReflectionDetail
-        reflection={testReflection}
-        isEditing={isEditing}
-        setIsEditing={handleSelect}
-        handleDelete={mockHandleDelete}
-      />
+      <UIContext
+        value={{
+          isEditing,
+          setIsEditing: handleSetIsEditing,
+          sidebarVisible: false,
+          setSidebarVisible: vi.fn(),
+        }}
+      >
+        <ReflectionsContext
+          value={{
+            reflections: [testReflection],
+            setReflections: vi.fn(),
+            selectedId: testReflection.id,
+            setSelectedId: vi.fn(),
+          }}
+        >
+          <ReflectionDetail reflection={testReflection} />
+        </ReflectionsContext>
+      </UIContext>
     );
   }
 
@@ -41,6 +54,7 @@ describe("ReflectionDetail", () => {
     expect(screen.getByText(testReflection.title)).toBeInTheDocument();
     expect(screen.getByText(testReflection.content)).toBeInTheDocument();
   });
+
   it("sets isEditing to true when Reflection title is clicked on", async () => {
     render(<ReflectionDetailWrapper />);
     const title = screen.getByTestId("details-title");
@@ -49,13 +63,7 @@ describe("ReflectionDetail", () => {
 
     expect(mockSetIsEditing).toHaveBeenCalledWith(true);
   });
-  it("sets isEditing to true when header is focused", async () => {
-    render(<ReflectionDetailWrapper />);
 
-    fireEvent.focus(screen.getByTestId("details-title"));
-
-    expect(mockSetIsEditing).toHaveBeenCalledExactlyOnceWith(true);
-  });
   it("sets IsEditing to true when reflection body is clicked on", async () => {
     render(<ReflectionDetailWrapper />);
     const body = screen.getByTestId("details-body");

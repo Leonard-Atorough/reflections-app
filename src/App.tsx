@@ -1,18 +1,21 @@
 import { useEffect, useRef, useState } from "react";
 
 import "./App.css";
-import { Header } from "./components/layout/Header";
-import { Footer } from "./components/layout/Footer";
-import { Aside } from "./components/layout/Aside";
-import { Main } from "./components/layout/Main";
+import { Header } from "./layout/Header";
+import { Footer } from "./layout/Footer";
+import { Aside } from "./layout/Aside";
+import { Main } from "./layout/Main";
 
 import type { Reflection } from "./types/Reflection";
 import { mockReflections } from "./data/mockReflections";
 import { usePersistReflections } from "./hooks/usePersistedReflections";
 import { UIContext } from "./contexts/UIContext";
 import { ReflectionsContext } from "./contexts";
+import { ThemeContext } from "./contexts/ThemeContext";
 
 function App() {
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+
   const [reflections, setReflections] = useState<Reflection[]>([]);
   const lastGoodSave = useRef<Reflection[]>([]);
 
@@ -39,18 +42,20 @@ function App() {
   }, []);
 
   return (
-    <UIContext value={{ isEditing, setIsEditing, sidebarVisible, setSidebarVisible }}>
-      <ReflectionsContext value={{ reflections, setReflections, selectedId, setSelectedId }}>
-        <>
-          <Header />
-          <div className="appBody">
-            <Aside />
-            <Main />
-          </div>
-          <Footer />
-        </>
-      </ReflectionsContext>
-    </UIContext>
+    <ThemeContext value={{ theme, setTheme }}>
+      <UIContext value={{ isEditing, setIsEditing, sidebarVisible, setSidebarVisible }}>
+        <ReflectionsContext value={{ reflections, setReflections, selectedId, setSelectedId }}>
+          <>
+            <Header />
+            <div className="appBody">
+              <Aside />
+              <Main />
+            </div>
+            <Footer />
+          </>
+        </ReflectionsContext>
+      </UIContext>
+    </ThemeContext>
   );
 }
 

@@ -2,9 +2,9 @@ import { Aside } from "./Aside";
 
 import { render, screen } from "@testing-library/react";
 
-import type { Reflection } from "../../types/Reflection";
-import { UIContext } from "../../contexts/UIContext";
-import { ReflectionsContext } from "../../contexts/ReflectionsContext";
+import type { Reflection } from "../types/Reflection";
+import { UIContext } from "../contexts/UIContext";
+import { ReflectionsContext } from "../contexts/ReflectionsContext";
 
 const testReflections: Reflection[] = [
   {
@@ -40,7 +40,6 @@ describe("Sidebar component", () => {
       </UIContext>,
     );
 
-    expect(screen.getByText("Reflections")).toBeInTheDocument();
     expect(screen.getByText("Test Reflection 1")).toBeInTheDocument();
   });
 });

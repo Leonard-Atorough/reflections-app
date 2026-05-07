@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import { ReflectionDetail } from "../Reflection/ReflectionDetail";
-import { ReflectionForm } from "../Reflection/ReflectionForm";
-import { ReflectionsContext, UIContext } from "../../contexts";
+import { ReflectionDetail } from "../components/Reflection/ReflectionDetail";
+import { ReflectionForm } from "../components/Reflection/ReflectionForm";
+import { ReflectionsContext, UIContext } from "../contexts";
 
 export function Main() {
   const { isEditing } = useContext(UIContext);

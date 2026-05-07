@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import styles from "./Layout.module.css";
-import { ReflectionsContext, UIContext } from "../../contexts";
+import { ReflectionsContext, UIContext } from "../contexts";
 
 export function Header() {
   const { setIsEditing, sidebarVisible, setSidebarVisible } = useContext(UIContext);

@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { ReflectionDetail } from "../components/Reflection/ReflectionDetail";
 import { ReflectionForm } from "../components/Reflection/ReflectionForm";
 import { ReflectionsContext, UIContext } from "../contexts";
+import style from "./Layout.module.css";
 
 export function Main() {
   const { isEditing } = useContext(UIContext);
@@ -9,7 +10,7 @@ export function Main() {
 
   const reflection = reflections.find((r) => r.id === selectedId) ?? null;
   return (
-    <main tabIndex={-1}>
+    <main className={style.main} tabIndex={-1}>
       {isEditing ? (
         <ReflectionForm reflection={reflection} />
       ) : (

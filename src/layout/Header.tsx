@@ -14,8 +14,8 @@ export function Header() {
   };
 
   return (
-    <header onClick={() => setIsEditing(false)} className={styles.headerSection}>
-      <div>
+    <header onClick={() => setIsEditing(false)} className={styles.header}>
+      <div className= {styles.headerTitle}>
         <Button
           variant="outline"
           onClick={() => setSidebarVisible(!sidebarVisible)}

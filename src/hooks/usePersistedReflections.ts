@@ -1,8 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Reflection } from "../types/Reflection";
+
+const DEBOUNCE_MS = 500;
 
 export function usePersistReflections(reflections: Reflection[]) {
   const [status, setStatus] = useState<"idle" | "saving" | "error">("idle");
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (reflections.length === 0) {
@@ -10,7 +13,9 @@ export function usePersistReflections(reflections: Reflection[]) {
       return;
     }
 
-    const persist = () => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+
+    timerRef.current = setTimeout(() => {
       setStatus("saving");
       try {
         localStorage.setItem("reflections", JSON.stringify(reflections));
@@ -19,8 +24,11 @@ export function usePersistReflections(reflections: Reflection[]) {
         console.error(error);
         setStatus("error");
       }
+    }, DEBOUNCE_MS);
+
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
     };
-    persist();
   }, [reflections]);
 
   return { status };

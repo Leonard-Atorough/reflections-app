@@ -54,26 +54,18 @@
 /* ── Hamburger ──────────────────────────────────────────── */
 .hamburgerMenu {
   flex-direction: column;
-  gap: var(--space-1);
-  padding: var(--space-2);
-  background-color: transparent;
-  border: var(--border-width) solid var(--color-border);
-  border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-sm);
-  width: 2.5rem;
+  gap: var(--space-2);
+  width: 3rem;
   height: auto;
-  transition:
-    box-shadow var(--ease-fast),
-    transform var(--ease-fast);
 
-  &:hover {
+  /* &:hover {
     box-shadow: none;
     transform: translate(2px, 2px);
-  }
+  } */
 
   > .bar {
     display: block;
-    height: 3px;
+    height: 4px;
     width: 100%;
     border-radius: 2px;
     background-color: var(--color-border);
@@ -103,21 +95,27 @@ footer {
   border-right: var(--border);
   overflow: hidden;
 
-  > div:first-child {
+  > .sidebarContent {
     flex: 1;
     min-height: 0;
-    overflow-y: auto;
-    padding: var(--space-4) var(--space-3);
-  }
-
-  > .addButton {
-    padding: var(--space-3);
-    border-top: var(--border-subtle);
     display: flex;
-    justify-content: stretch;
+    flex-direction: column;
+    overflow-y: auto;
+    padding: var(--space-3);
+    gap: var(--space-6);
 
-    > button {
-      width: 100%;
+    > .sidebarHeader {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: var(--text-md);
+      color: var(--color-text);
+      padding-bottom: var(--space-4);
+      border-bottom: var(--border-subtle);
+
+      > .sidebarTitle {
+        font-weight: var(--weight-normal);
+      }
     }
   }
 
@@ -127,11 +125,10 @@ footer {
     left: 0;
     bottom: 0;
     z-index: 100;
-    max-width: 280px;
+    max-width: 100vw;
     width: 0;
     overflow: hidden;
     opacity: 0;
-    border-radius: 0 var(--radius-xl) var(--radius-xl) 0;
     border-left: none;
     transition:
       width var(--ease-base),
@@ -145,7 +142,7 @@ footer {
 
   @media only screen and (max-width: 600px) {
     &.active {
-      width: 80vw;
+      width: 100vw;
     }
   }
 }

@@ -29,18 +29,6 @@
   }
 }
 
-.btn-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-2);
-  background-color: transparent;
-  border: var(--border-width) solid var(--color-border);
-  border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-sm);
-  cursor: pointer;
-}
-
 .btn-outline {
   background-color: transparent;
   color: var(--color-text);
@@ -78,4 +66,19 @@
     outline-offset: 2px;
     box-shadow: var(--shadow-sm);
   }
+}
+
+.btn-small {
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--text-sm);
+}
+
+.btn-medium {
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--text-md);
+}
+
+.btn-large {
+  padding: var(--space-3) var(--space-6);
+  font-size: var(--text-lg);
 }

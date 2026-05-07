@@ -1,14 +1,14 @@
 import { useContext } from "react";
-import type { Reflection } from "../../types/Reflection";
-import styles from "./ReflectionItem.module.css";
-import { useFormattedDate } from "../../hooks/useFormattedDate";
-import { ReflectionsContext, UIContext } from "../../contexts";
+import type { Reflection } from "../../../../types/Reflection";
+import styles from "./MenuItem.module.css";
+import { useFormattedDate } from "../../../../hooks/useFormattedDate";
+import { ReflectionsContext, UIContext } from "../../../../contexts";
 
 type Props = {
   reflection: Reflection;
 };
 
-export function ReflectionItem({ reflection }: Props) {
+export function MenuItem({ reflection }: Props) {
   const { selectedId, setSelectedId } = useContext(ReflectionsContext);
   const { isEditing, setIsEditing, setSidebarVisible } = useContext(UIContext);
 
@@ -35,7 +35,7 @@ export function ReflectionItem({ reflection }: Props) {
       aria-selected={isSelected}
     >
       <h3 className={styles.reflectionTitle}>{reflection.title}</h3>
-      <div>{formattedUpdateDate}</div>
+      <div className={styles.reflectionMeta}>{formattedUpdateDate}</div>
     </li>
   );
 }

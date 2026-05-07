@@ -1,37 +1,28 @@
-import type { Dispatch, SetStateAction } from "react";
+import { useContext } from "react";
 import type { Reflection } from "../../types/Reflection";
 import styles from "./ReflectionItem.module.css";
 import { useFormattedDate } from "../../hooks/useFormattedDate";
+import { ReflectionsContext, UIContext } from "../../contexts";
 
 type Props = {
   reflection: Reflection;
-  setSelectedId: (id: string | null) => void;
-  isSelected: boolean;
-  isEditing: boolean;
-  setIsEditing: Dispatch<SetStateAction<boolean>>;
-  setSidebarVisible: Dispatch<SetStateAction<boolean>>;
 };
 
-export function ReflectionItem({
-  reflection,
-  isSelected,
-  setSelectedId,
-  isEditing,
-  setIsEditing,
-  setSidebarVisible,
-}: Props) {
+export function ReflectionItem({ reflection }: Props) {
+  const { selectedId, setSelectedId } = useContext(ReflectionsContext);
+  const { isEditing, setIsEditing, setSidebarVisible } = useContext(UIContext);
+
+  const isSelected = selectedId === reflection.id;
   const formattedUpdateDate = useFormattedDate(reflection?.dateUpdated);
 
   const handleToggle = () => {
     setSelectedId(isSelected ? null : reflection.id);
     if (isEditing) setIsEditing(false);
-    if(!isEditing && !isSelected) setSidebarVisible(false);
+    if (!isEditing && !isSelected) setSidebarVisible(false);
   };
   return (
     <li
-      className={`${styles.reflectionItem} ${
-        isSelected ? styles.selected : ""
-      }`}
+      className={`${styles.reflectionItem} ${isSelected ? styles.selected : ""}`}
       tabIndex={0}
       onClick={handleToggle}
       onKeyDown={(e) => {

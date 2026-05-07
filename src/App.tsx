@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import "./App.css";
 import { Header } from "./components/layout/Header";
@@ -14,7 +14,7 @@ import { ReflectionsContext } from "./contexts";
 
 function App() {
   const [reflections, setReflections] = useState<Reflection[]>([]);
-  const [lastGoodSave, setLastGoodSave] = useState<Reflection[]>([]);
+  const lastGoodSave = useRef<Reflection[]>([]);
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -24,12 +24,12 @@ function App() {
 
   useEffect(() => {
     if (status === "idle") {
-      setLastGoodSave(reflections);
+      lastGoodSave.current = reflections;
     } else if (status === "error") {
-      setReflections(lastGoodSave);
+      setReflections(lastGoodSave.current);
       alert("Unable to save your reflections.");
     }
-  }, [status, reflections, lastGoodSave]);
+  }, [status, reflections]);
 
   useEffect(() => {
     const raw = localStorage.getItem("reflections");
@@ -42,7 +42,7 @@ function App() {
     <UIContext value={{ isEditing, setIsEditing, sidebarVisible, setSidebarVisible }}>
       <ReflectionsContext value={{ reflections, setReflections, selectedId, setSelectedId }}>
         <>
-          <Header/>
+          <Header />
           <div className="appBody">
             <Aside />
             <Main />

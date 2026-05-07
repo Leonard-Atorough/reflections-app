@@ -1,0 +1,81 @@
+/* Base .btn is defined globally in src/styles/_button.css */
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: var(--color-primary-text);
+  border: var(--border-width-thick) solid var(--color-border);
+}
+
+.btn-secondary {
+  background-color: var(--color-secondary);
+  color: var(--color-secondary-text);
+  border: var(--border-width-thick) solid var(--color-border);
+}
+
+.btn-disabled {
+  background-color: var(--color-disabled);
+  color: var(--color-disabled-text);
+  border: var(--border-width-thick) solid var(--color-border);
+  cursor: not-allowed;
+  box-shadow: none;
+  opacity: 0.6;
+
+  &:hover,
+  &:active,
+  &:focus-visible {
+    box-shadow: none;
+    transform: none;
+    outline: none;
+  }
+}
+
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2);
+  background-color: transparent;
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--color-text);
+  border: var(--border-width) solid var(--color-border);
+
+  &:active {
+    box-shadow: none;
+    transform: translate(3px, 3px);
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--color-border-dark);
+    outline-offset: 2px;
+    box-shadow: var(--shadow-sm);
+  }
+}
+
+.btn-danger {
+  background-color: var(--color-danger);
+  color: var(--color-danger-text);
+  border: var(--border-width-thick) solid var(--color-border);
+
+  &:hover {
+    box-shadow: var(--shadow-sm);
+    transform: translate(2px, 2px);
+  }
+
+  &:active {
+    box-shadow: none;
+    transform: translate(3px, 3px);
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--color-danger-dark);
+    outline-offset: 2px;
+    box-shadow: var(--shadow-sm);
+  }
+}

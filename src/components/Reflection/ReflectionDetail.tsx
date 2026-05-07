@@ -3,6 +3,7 @@ import styles from "./ReflectionDetail.module.css";
 import { useFormattedDate } from "../../hooks/useFormattedDate";
 import { ReflectionsContext, UIContext } from "../../contexts";
 import type { Reflection } from "../../types/Reflection";
+import { Button } from "../ui";
 
 type buttonProps = {
   hasReflection: boolean;
@@ -13,9 +14,9 @@ function DeleteButton({ hasReflection, handleDelete }: buttonProps) {
   if (hasReflection) {
     return (
       <div>
-        <button className="btn" onClick={handleDelete}>
-          DELETE
-        </button>
+        <Button variant="danger" onClick={handleDelete}>
+          Delete Reflection
+        </Button>
       </div>
     );
   }

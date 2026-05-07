@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { ReflectionItem } from "../components/Reflection/ReflectionItem";
 import styles from "./Layout.module.css";
 import { ReflectionsContext, UIContext } from "../contexts";
+import { Button } from "../components/ui";
 
 export function Aside() {
   const { setIsEditing, sidebarVisible, setSidebarVisible } = useContext(UIContext);
@@ -26,9 +27,10 @@ export function Aside() {
         </ul>
       </div>
       <div className={styles.addButton}>
-        <button className="btn" onClick={handleAddButtonCLick}>
-          ADD REFLECTION
-        </button>
+
+        <Button variant="primary" onClick={handleAddButtonCLick}>
+          Add Reflection
+        </Button>
       </div>
     </aside>
   );

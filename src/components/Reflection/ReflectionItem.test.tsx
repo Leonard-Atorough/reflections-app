@@ -37,7 +37,7 @@ describe("ReflectionItem", () => {
             reflections: [],
             setReflections: vi.fn(),
             selectedId,
-            setSelectedId: handleSelect,
+            setSelectedId: handleSelect as React.Dispatch<React.SetStateAction<string | null>>,
           }}
         >
           <ReflectionItem reflection={testReflection} />

@@ -1,6 +1,6 @@
 /* ── Header ─────────────────────────────────────────────── */
 .headerSection {
-  padding: var(--space-3) var(--space-6);
+  padding: var(--space-4) var(--space-6);
   background-color: var(--color-bg-sidebar);
   border-bottom: var(--border);
   display: flex;
@@ -21,8 +21,6 @@
 
   > .addButton {
     display: none;
-    padding: var(--space-2);
-    line-height: 0;
   }
 
   @media only screen and (max-width: 800px) {
@@ -103,8 +101,7 @@ footer {
   display: flex;
   flex-direction: column;
   background-color: var(--color-bg-sidebar);
-  border: var(--border);
-  border-radius: var(--radius-xl);
+  border-right: var(--border);
   overflow: hidden;
 
   > div:first-child {
@@ -164,4 +161,6 @@ main {
   border: var(--border);
   border-radius: var(--radius-xl);
   overflow: hidden;
+  margin: var(--space-2);
+  margin-left: 0;
 }

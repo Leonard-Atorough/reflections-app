@@ -74,7 +74,21 @@
   --color-selected: #fff0b3; /* pale yellow selected item bg */
 
   --color-danger: #ff3b30; /* Apple red */
+  --color-danger-dark: #cc2e24; /* pressed / focus danger */
+  --color-danger-text: #ffffff;
   --color-success: #34c759; /* Apple green */
+
+  /* ── Semantic button colours ────────────────────────────── */
+  --color-primary: var(--color-accent);
+  --color-primary-text: var(--color-accent-text);
+
+  --color-secondary: var(--color-surface);
+  --color-secondary-text: var(--color-text);
+
+  --color-disabled: var(--color-border-subtle);
+  --color-disabled-text: var(--color-text-faint);
+
+  --color-border-dark: #000000;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -98,6 +112,16 @@
     --color-selected: #3d3a1a;
 
     --color-danger: #ff453a;
+    --color-danger-dark: #ff6b63;
+    --color-danger-text: #ffffff;
     --color-success: #32d74b;
+
+    --color-secondary: var(--color-surface);
+    --color-secondary-text: var(--color-text);
+
+    --color-disabled: var(--color-border-subtle);
+    --color-disabled-text: var(--color-text-faint);
+
+    --color-border-dark: #ffffff;
   }
 }

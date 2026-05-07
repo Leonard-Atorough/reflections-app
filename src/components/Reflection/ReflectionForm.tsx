@@ -12,12 +12,19 @@ type props = {
 
 export function ReflectionForm({ reflection }: props) {
   const { setIsEditing } = useContext(UIContext);
-  const {setReflections } = useContext(ReflectionsContext);
+  const { setReflections } = useContext(ReflectionsContext);
 
   const [title, setTitle] = useState<string>(reflection?.title || "");
   const [content, setContent] = useState<string>(reflection?.content || "");
 
   const idRef = useRef<string>(reflection?.id ?? uuidv4());
+  
+  useEffect(() => {
+    idRef.current = reflection?.id ?? uuidv4();
+    setTitle(reflection?.title || "");
+    setContent(reflection?.content || "");
+  }, [reflection]);
+
   const formattedUpdateDate = useFormattedDate(reflection?.dateUpdated ?? Date.now());
 
   useEffect(() => {

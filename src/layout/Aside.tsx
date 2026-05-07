@@ -22,7 +22,7 @@ export function Aside() {
       <div className={styles.sidebarContent}>
         <div className={styles.sidebarHeader}>
           <h2 className={styles.sidebarTitle}>My Reflections</h2>
-          <Button variant="outline" size="small" aria-label="Add Reflection" onClick={handleAddButtonCLick}>
+          <Button variant="outline" aria-label="Add Reflection" onClick={handleAddButtonCLick}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"

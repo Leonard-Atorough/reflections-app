@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useReducer, useRef, useState } from "react";
 
 import "./App.css";
 import { Header } from "./layout/Header";
@@ -10,46 +10,47 @@ import type { Reflection } from "./types/Reflection";
 import { mockReflections } from "./data/mockReflections";
 import { usePersistReflections } from "./hooks/usePersistedReflections";
 import { useSearch } from "./hooks/useSearch";
+import { reflectionsReducer } from "./reducers/reflectionsReducer";
 import { EditingContext, ReflectionsContext, SidebarContext, ThemeContext } from "./contexts";
-
 function App() {
   const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [reflectionsState, dispatch] = useReducer(reflectionsReducer, {
+    reflections: [],
+    selectedId: null,
+  });
 
-  const [reflections, setReflections] = useState<Reflection[]>([]);
   const lastGoodSave = useRef<Reflection[]>([]);
 
-  const [selectedId, setSelectedId] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
 
-  const { results: filteredReflections, search } = useSearch(reflections);
+  const { results: filteredReflections, search } = useSearch(reflectionsState.reflections);
 
-  const { status } = usePersistReflections(reflections);
+  const { status } = usePersistReflections(reflectionsState.reflections);
 
   useEffect(() => {
     if (status === "idle") {
-      lastGoodSave.current = reflections;
+      lastGoodSave.current = reflectionsState.reflections;
     } else if (status === "error") {
-      setReflections(lastGoodSave.current);
+      dispatch({ type: "SET_REFLECTIONS", payload: lastGoodSave.current });
       alert("Unable to save your reflections.");
     }
-  }, [status, reflections]);
+  }, [status, reflectionsState.reflections]);
 
   useEffect(() => {
     const raw = localStorage.getItem("reflections");
     const saved: Reflection[] = raw ? JSON.parse(raw) : [];
     const data = saved.length > 0 ? saved : mockReflections;
-    setReflections(data);
+    dispatch({ type: "SET_REFLECTIONS", payload: data });
   }, []);
 
   const reflectionsValue = useMemo(
     () => ({
-      reflections,
-      setReflections,
-      selectedId,
-      setSelectedId,
+      reflections: reflectionsState.reflections,
+      selectedId: reflectionsState.selectedId,
+      dispatch,
     }),
-    [reflections, selectedId],
+    [reflectionsState.reflections, reflectionsState.selectedId]
   );
 
   return (

@@ -1,17 +1,15 @@
 import React from "react";
 import type { Reflection } from "../types/Reflection";
+import type { ReflectionsAction } from "../reducers/reflectionsReducer";
 
 export interface ReflectionsContextType {
-    reflections: Reflection[];
-    setReflections: React.Dispatch<React.SetStateAction<Reflection[]>>;
-    selectedId: string | null;
-    setSelectedId: React.Dispatch<React.SetStateAction<string | null>>;
-
+  reflections: Reflection[];
+  selectedId: string | null;
+  dispatch: React.Dispatch<ReflectionsAction>;
 }
 
 export const ReflectionsContext = React.createContext<ReflectionsContextType>({
-    reflections: [],
-    setReflections: () => { },
-    selectedId: null,
-    setSelectedId: () => { },
+  reflections: [],
+  selectedId: null,
+  dispatch: () => {},
 });

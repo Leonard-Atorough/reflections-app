@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { Reflection } from "../types/Reflection";
-import { DEBOUNCE_DELAYS } from "@/config/constants";
+import { DEBOUNCE_DELAYS, STORAGE_KEYS } from "@/config/constants";
 
 const DEBOUNCE_MS = DEBOUNCE_DELAYS.STORAGE_PERSIST;
 
@@ -33,7 +33,7 @@ export function usePersistentReflections(
     setIsSaving(true);
     timerRef.current = setTimeout(() => {
       try {
-        localStorage.setItem("reflections", JSON.stringify(reflectionsToSave));
+        localStorage.setItem(STORAGE_KEYS.REFLECTIONS, JSON.stringify(reflectionsToSave));
         setError(null);
       } catch (err) {
         console.error("Error saving reflections:", err);
@@ -53,7 +53,7 @@ export function usePersistentReflections(
   const loadReflections = useCallback((): Reflection[] => {
     setIsLoading(true);
     try {
-      const storedReflections = localStorage.getItem("reflections");
+      const storedReflections = localStorage.getItem(STORAGE_KEYS.REFLECTIONS);
       if (storedReflections) {
         const parsed = JSON.parse(storedReflections) as unknown;
         const reflections = Array.isArray(parsed) ? parsed : [];

@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import type { Reflection } from "../../../../types/Reflection";
 import styles from "./MenuItem.module.css";
 import { useFormattedDate } from "../../../../hooks/useFormattedDate";
@@ -9,7 +9,7 @@ type Props = {
   reflection: Reflection;
 };
 
-export function ReflectionItem({ reflection }: Props) {
+function ReflectionItemComponent({ reflection }: Props) {
   const { selectedId } = useContext(ReflectionsContext);
   const { setSelectedId } = useReflectionActions();
   const { isEditing, setIsEditing } = useContext(EditingContext);
@@ -42,3 +42,18 @@ export function ReflectionItem({ reflection }: Props) {
     </li>
   );
 }
+
+/**
+ * Custom comparison function for ReflectionItem
+ * Prevents re-renders when parent list updates if this item hasn't changed
+ */
+function arePropsEqual(prevProps: Props, nextProps: Props): boolean {
+  return (
+    prevProps.reflection.id === nextProps.reflection.id &&
+    prevProps.reflection.title === nextProps.reflection.title &&
+    prevProps.reflection.content === nextProps.reflection.content &&
+    prevProps.reflection.dateUpdated === nextProps.reflection.dateUpdated
+  );
+}
+
+export const ReflectionItem = React.memo(ReflectionItemComponent, arePropsEqual);

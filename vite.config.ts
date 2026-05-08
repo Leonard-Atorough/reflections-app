@@ -5,6 +5,15 @@ import { coverageConfigDefaults } from "vitest/config";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  resolve: {
+    alias: {
+      "@": "/src",
+      "@components": "/src/components",
+      "@contexts": "/src/contexts",
+      "@hooks": "/src/hooks",
+      "@types": "/src/types",
+    },
+  },
   test: {
     environment: "jsdom",
     globals: true,

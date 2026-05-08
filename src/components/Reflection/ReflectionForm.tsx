@@ -84,7 +84,7 @@ export function ReflectionForm({ reflection }: props) {
 
   const formattedUpdateDate = useFormattedDate(reflection?.dateUpdated ?? Date.now());
 
-  // Use the auto-save hook with a save callback
+  // Use the auto-save hook
   useFormAutoSave({
     title,
     content,

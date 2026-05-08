@@ -94,3 +94,6 @@ describe("useSearch", () => {
     );
   });
 });
+
+// Note: We won't be testing timeout cancellation because that's a very flakey test.
+// We'll trust timeout cancellation is working properly since we're using the built in setTimeout and clearTimeout functions.

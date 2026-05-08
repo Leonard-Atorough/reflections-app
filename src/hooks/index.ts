@@ -1,4 +1,4 @@
-export { usePersistReflections } from "./usePersistedReflections";
+export { usePersistentReflections } from "./usePersistentReflections";
 export { useSearch } from "./useSearch";
 export { useSelectedReflection } from "./useSelectedReflection";
 export { useFormattedDate } from "./useFormattedDate";

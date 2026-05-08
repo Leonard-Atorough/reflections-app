@@ -4,8 +4,10 @@ import { testReflection } from "../../__mocks__/mockReflections";
 import userEvent from "@testing-library/user-event";
 import type { ReactNode } from "react";
 import { EditingContext, ReflectionsContext } from "@/contexts";
+import * as useReflectionActionsModule from "../../hooks/useReflectionActions";
 
-let mockSetReflections: ReturnType<typeof vi.fn>;
+let mockAddReflection: ReturnType<typeof vi.fn>;
+let mockUpdateReflection: ReturnType<typeof vi.fn>;
 let mockSetIsEditing: ReturnType<typeof vi.fn>;
 
 function TestWrapper({ children }: { children: ReactNode }) {
@@ -19,9 +21,8 @@ function TestWrapper({ children }: { children: ReactNode }) {
       <ReflectionsContext
         value={{
           reflections: [],
-          setReflections: mockSetReflections,
           selectedId: null,
-          setSelectedId: vi.fn(),
+          dispatch: vi.fn(),
         }}
       >
         {children}
@@ -33,7 +34,15 @@ function TestWrapper({ children }: { children: ReactNode }) {
 describe("ReflectionForm", () => {
   beforeEach(() => {
     mockSetIsEditing = vi.fn();
-    mockSetReflections = vi.fn();
+    mockAddReflection = vi.fn();
+    mockUpdateReflection = vi.fn();
+    vi.spyOn(useReflectionActionsModule, "useReflectionActions").mockReturnValue({
+      addReflection: mockAddReflection,
+      updateReflection: mockUpdateReflection,
+      deleteReflection: vi.fn(),
+      setReflections: vi.fn(),
+      setSelectedId: vi.fn(),
+    });
     vi.useFakeTimers();
   });
 
@@ -59,15 +68,7 @@ describe("ReflectionForm", () => {
         <ReflectionForm reflection={null} />
       </TestWrapper>,
     );
-
-    const titleInput = screen.getByRole("textbox", { name: /title/i });
-    const contentArea = screen.getByRole("textbox", { name: /content/i });
-
-    expect(titleInput).toHaveValue("");
-    expect(contentArea).toHaveValue("");
-  });
-
-  it("calls setReflections and adds a new reflection when title is updated", () => {
+addReflection when a new reflection title is updated", () => {
     render(
       <TestWrapper>
         <ReflectionForm reflection={null} />
@@ -87,6 +88,11 @@ describe("ReflectionForm", () => {
     act(() => {
       vi.advanceTimersByTime(500);
     });
+
+    expect(mockAddReflection).toHaveBeenCalledTimes(1);
+    const addedReflection = mockAddReflection.mock.calls[0][0];
+    expect(addedReflection.title).toBe("User inputted Reflection");
+    expect(addedReflection
 
     expect(mockSetReflections).toHaveBeenCalledTimes(1);
     const updaterFn = mockSetReflections.mock.calls[0][0];

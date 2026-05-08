@@ -50,7 +50,7 @@ function App() {
       selectedId: reflectionsState.selectedId,
       dispatch,
     }),
-    [reflectionsState.reflections, reflectionsState.selectedId]
+    [reflectionsState.reflections, reflectionsState.selectedId],
   );
 
   return (

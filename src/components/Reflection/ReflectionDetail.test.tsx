@@ -25,9 +25,8 @@ describe("ReflectionDetail", () => {
         <ReflectionsContext
           value={{
             reflections: [testReflection],
-            setReflections: vi.fn(),
             selectedId: testReflection.id,
-            setSelectedId: vi.fn(),
+            dispatch: vi.fn(),
           }}
         >
           <ReflectionDetail reflection={testReflection} />

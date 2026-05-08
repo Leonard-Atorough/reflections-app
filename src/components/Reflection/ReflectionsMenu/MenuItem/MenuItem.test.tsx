@@ -3,7 +3,7 @@ import { useState } from "react";
 import { cleanup, render, screen } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 
-import { MenuItem } from "./MenuItem";
+import { ReflectionItem } from "./MenuItem";
 import styles from "./MenuItem.module.css";
 import { testReflection } from "../../../../__mocks__/mockReflections";
 import { formatDate } from "../../../../utils/formatDate";
@@ -15,12 +15,7 @@ describe("MenuItem", () => {
   let mockSetSidebarVisible: ReturnType<typeof vi.fn>;
 
   function MenuItemWrapper({ isEditing = false }: { isEditing?: boolean }) {
-    const [selectedId, setSelectedId] = useState<string | null>(null);
-
-    const handleSelect = (id: string | null) => {
-      setSelectedId(id);
-      mockSetSelectedId(id);
-    };
+    const [selectedId] = useState<string | null>(null);
 
     return (
       <EditingContext
@@ -38,12 +33,11 @@ describe("MenuItem", () => {
           <ReflectionsContext
             value={{
               reflections: [],
-              setReflections: vi.fn(),
               selectedId,
-              setSelectedId: handleSelect as React.Dispatch<React.SetStateAction<string | null>>,
+              dispatch: vi.fn(),
             }}
           >
-            <MenuItem reflection={testReflection} />
+            <ReflectionItem reflection={testReflection} />
           </ReflectionsContext>
         </SidebarContext>
       </EditingContext>

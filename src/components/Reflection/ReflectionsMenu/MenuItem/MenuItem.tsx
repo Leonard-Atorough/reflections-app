@@ -3,13 +3,15 @@ import type { Reflection } from "../../../../types/Reflection";
 import styles from "./MenuItem.module.css";
 import { useFormattedDate } from "../../../../hooks/useFormattedDate";
 import { ReflectionsContext, EditingContext, SidebarContext } from "../../../../contexts";
+import { useReflectionActions } from "@/hooks";
 
 type Props = {
   reflection: Reflection;
 };
 
-export function MenuItem({ reflection }: Props) {
-  const { selectedId, setSelectedId } = useContext(ReflectionsContext);
+export function ReflectionItem({ reflection }: Props) {
+  const { selectedId } = useContext(ReflectionsContext);
+  const { setSelectedId } = useReflectionActions();
   const { isEditing, setIsEditing } = useContext(EditingContext);
   const { setIsSidebarOpen } = useContext(SidebarContext);
 

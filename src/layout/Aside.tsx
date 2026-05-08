@@ -4,6 +4,7 @@ import styles from "./Layout.module.css";
 import { ReflectionsContext, EditingContext, SidebarContext } from "../contexts";
 import type { Reflection } from "../types/Reflection";
 import { Button } from "../components/ui";
+import { useReflectionActions } from "@/hooks";
 
 interface AsideProps {
   reflections?: Reflection[];
@@ -12,7 +13,8 @@ interface AsideProps {
 export function Aside({ reflections: filteredReflections }: AsideProps) {
   const { setIsEditing } = useContext(EditingContext);
   const { isSidebarOpen, setIsSidebarOpen } = useContext(SidebarContext);
-  const { setSelectedId, reflections: allReflections } = useContext(ReflectionsContext);
+  const { reflections: allReflections } = useContext(ReflectionsContext);
+  const { setSelectedId } = useReflectionActions();
 
   // Use filtered reflections if provided, otherwise use all reflections
   const reflections = filteredReflections ?? allReflections;

@@ -4,6 +4,7 @@ import { useFormattedDate } from "../../hooks/useFormattedDate";
 import { ReflectionsContext, EditingContext } from "../../contexts";
 import type { Reflection } from "../../types/Reflection";
 import { Button } from "../ui";
+import { useReflectionActions } from "@hooks";
 
 type buttonProps = {
   hasReflection: boolean;
@@ -24,7 +25,8 @@ function DeleteButton({ hasReflection, handleDelete }: buttonProps) {
 
 export function ReflectionDetail({ reflection }: { reflection: Reflection | null }) {
   const { setIsEditing } = useContext(EditingContext);
-  const { reflections, setReflections, selectedId, setSelectedId } = useContext(ReflectionsContext);
+  const { selectedId } = useContext(ReflectionsContext);
+  const { deleteReflection } = useReflectionActions();
 
   const formattedUpdateDate = useFormattedDate(reflection?.dateUpdated ?? Date.now());
 
@@ -33,18 +35,10 @@ export function ReflectionDetail({ reflection }: { reflection: Reflection | null
 
     if (!window.confirm("Delete this reflection? This action cannot be undone!")) return;
 
-    setReflections((prev) => {
-      const filtered = prev.filter((r) => r.id !== selectedId) ?? null;
-      return filtered ?? [];
-    });
+    deleteReflection(selectedId);
 
-    setSelectedId((prev) => {
-      const newList = reflections.filter((r) => r.id !== prev);
-      const last = newList.at(-1) ?? null;
-      return last ? last.id : null;
-    });
     setIsEditing(false);
-  }, [selectedId, setReflections, setSelectedId, setIsEditing, reflections]);
+  }, [selectedId, deleteReflection, setIsEditing]);
 
   return (
     <>

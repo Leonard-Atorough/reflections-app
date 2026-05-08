@@ -4,7 +4,8 @@ import type { Reflection } from "../../types/Reflection";
 import styles from "./ReflectionForm.module.css";
 
 import { useFormattedDate } from "../../hooks/useFormattedDate";
-import { ReflectionsContext, EditingContext } from "../../contexts";
+import { EditingContext, ReflectionsContext } from "@contexts";
+import { useReflectionActions } from "@/hooks";
 
 type props = {
   reflection: Reflection | null;
@@ -12,7 +13,8 @@ type props = {
 
 export function ReflectionForm({ reflection }: props) {
   const { setIsEditing } = useContext(EditingContext);
-  const { setReflections } = useContext(ReflectionsContext);
+  const { reflections } = useContext(ReflectionsContext);
+  const { addReflection, updateReflection } = useReflectionActions();
 
   const [title, setTitle] = useState<string>(reflection?.title || "");
   const [content, setContent] = useState<string>(reflection?.content || "");
@@ -30,27 +32,26 @@ export function ReflectionForm({ reflection }: props) {
   useEffect(() => {
     const saveHandler = setTimeout(() => {
       if (title.trim()) {
-        setReflections((prev) => {
-          const exists = prev.some((r) => r.id === idRef.current);
-          const newOrUpdatedReflection: Reflection = {
-            id: idRef.current,
-            title,
-            content,
-            dateCreated: reflection?.dateCreated ?? Date.now(),
-            dateUpdated: Date.now(),
-          };
-          if (exists) {
-            return prev.map((r) => (r.id === idRef.current ? newOrUpdatedReflection : r));
-          } else {
-            return [...prev, newOrUpdatedReflection];
-          }
-        });
+        // Check if this ID already exists in reflections (handles new reflections on keystroke)
+        const exists = reflections.some((r) => r.id === idRef.current);
+        const newOrUpdatedReflection: Reflection = {
+          id: idRef.current,
+          title,
+          content,
+          dateCreated: reflection?.dateCreated ?? Date.now(),
+          dateUpdated: Date.now(),
+        };
+        if (exists) {
+          updateReflection(newOrUpdatedReflection);
+        } else {
+          addReflection(newOrUpdatedReflection);
+        }
       }
     }, 500);
     return () => {
       clearTimeout(saveHandler);
     };
-  }, [title, content, setReflections, reflection?.dateCreated]);
+  }, [title, content, reflection?.dateCreated, reflections, updateReflection, addReflection]);
 
   return (
     <form

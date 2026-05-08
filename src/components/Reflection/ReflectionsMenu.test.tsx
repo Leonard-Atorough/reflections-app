@@ -16,9 +16,8 @@ describe("ReflectionsMenu", () => {
         <ReflectionsContext
           value={{
             reflections,
-            setReflections: vi.fn(),
             selectedId: null,
-            setSelectedId: vi.fn(),
+            dispatch: vi.fn(),
           }}
         >
           <ReflectionsMenu reflections={reflections} />

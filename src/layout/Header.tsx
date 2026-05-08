@@ -1,7 +1,8 @@
 import { useContext } from "react";
 import styles from "./Layout.module.css";
-import { ReflectionsContext, SidebarContext, EditingContext } from "../contexts";
+import { SidebarContext, EditingContext } from "../contexts";
 import { Button } from "../components/ui";
+import { useReflectionActions } from "@/hooks";
 
 interface HeaderProps {
   onSearch?: (term: string) => void;
@@ -10,7 +11,7 @@ interface HeaderProps {
 export function Header({ onSearch }: HeaderProps) {
   const { setIsEditing } = useContext(EditingContext);
   const { isSidebarOpen, setIsSidebarOpen } = useContext(SidebarContext);
-  const { setSelectedId } = useContext(ReflectionsContext);
+  const { setSelectedId } = useReflectionActions();
   const handleAddButtonCLick = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsEditing(true);

@@ -25,9 +25,8 @@ describe("Sidebar component", () => {
         <ReflectionsContext
           value={{
             reflections: testReflections,
-            setReflections: vi.fn(),
             selectedId: "test1",
-            setSelectedId: vi.fn(),
+            dispatch: vi.fn(),
           }}
         >
           <Aside />

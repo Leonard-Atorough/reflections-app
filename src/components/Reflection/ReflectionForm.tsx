@@ -1,57 +1,96 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import type { Reflection } from "../../types/Reflection";
 import styles from "./ReflectionForm.module.css";
 
 import { useFormattedDate } from "../../hooks/useFormattedDate";
+import { useFormAutoSave } from "../../hooks/useFormAutoSave";
 import { EditingContext, ReflectionsContext } from "@contexts";
-import { useReflectionActions } from "@/hooks";
-import { DEBOUNCE_DELAYS } from "@/config/constants";
 
 type props = {
   reflection: Reflection | null;
 };
 
+/**
+ * Title input sub-component
+ * Separated for clarity and future reusability
+ */
+function TitleInput({ value, onChange }: { value: string; onChange: (value: string) => void }) {
+  return (
+    <input
+      name="title"
+      aria-label="Title"
+      type="text"
+      placeholder="Add a Title"
+      value={value}
+      className={styles.title}
+      onChange={(e) => onChange(e.target.value)}
+    />
+  );
+}
+
+/**
+ * Content editor sub-component
+ * Easy to replace with WYSIWYG editor - just change this component
+ */
+function ContentEditor({ value, onChange }: { value: string; onChange: (value: string) => void }) {
+  return (
+    <textarea
+      name="content"
+      aria-label="Content"
+      placeholder="Add some reflections..."
+      value={value}
+      className={styles.content}
+      onChange={(e) => onChange(e.target.value)}
+    />
+  );
+}
+
+/**
+ * Form header with metadata display
+ */
+function FormHeader({
+  title,
+  onTitleChange,
+  formattedDate,
+}: {
+  title: string;
+  onTitleChange: (value: string) => void;
+  formattedDate: string;
+}) {
+  return (
+    <div className={styles.formHeader}>
+      <TitleInput value={title} onChange={onTitleChange} />
+      <p>{formattedDate}</p>
+    </div>
+  );
+}
+
+/**
+ * Main ReflectionForm component
+ * Orchestrates form state and auto-save logic
+ */
 export function ReflectionForm({ reflection }: props) {
   const { setIsEditing } = useContext(EditingContext);
   const { reflections } = useContext(ReflectionsContext);
-  const { addReflection, updateReflection } = useReflectionActions();
 
   const [title, setTitle] = useState<string>(reflection?.title || "");
   const [content, setContent] = useState<string>(reflection?.content || "");
 
-  const idRef = useRef<string>(reflection?.id ?? crypto.randomUUID());
-
+  // Update state when reflection changes (switching between reflections)
   useEffect(() => {
-    idRef.current = reflection?.id ?? crypto.randomUUID();
     setTitle(reflection?.title || "");
     setContent(reflection?.content || "");
   }, [reflection]);
 
   const formattedUpdateDate = useFormattedDate(reflection?.dateUpdated ?? Date.now());
 
-  useEffect(() => {
-    const saveHandler = setTimeout(() => {
-      if (title.trim()) {
-        // Check if this ID already exists in reflections (handles new reflections on keystroke)
-        const exists = reflections.some((r) => r.id === idRef.current);
-        const newOrUpdatedReflection: Reflection = {
-          id: idRef.current,
-          title,
-          content,
-          dateCreated: reflection?.dateCreated ?? Date.now(),
-          dateUpdated: Date.now(),
-        };
-        if (exists) {
-          updateReflection(newOrUpdatedReflection);
-        } else {
-          addReflection(newOrUpdatedReflection);
-        }
-      }
-    }, DEBOUNCE_DELAYS.FORM_AUTO_SAVE);
-    return () => {
-      clearTimeout(saveHandler);
-    };
-  }, [title, content, reflection?.dateCreated, reflections, updateReflection, addReflection]);
+  // Use the auto-save hook with a save callback
+  useFormAutoSave({
+    title,
+    content,
+    reflections,
+    reflection,
+  });
 
   return (
     <form
@@ -60,26 +99,12 @@ export function ReflectionForm({ reflection }: props) {
         if (e.key === "Escape") setIsEditing(false);
       }}
     >
-      <div className={styles.formHeader}>
-        <input
-          name="title"
-          aria-label="Title"
-          type="text"
-          placeholder="Add a Title"
-          value={title}
-          className={styles.title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <p>{formattedUpdateDate}</p>
-      </div>
-      <textarea
-        name="content"
-        aria-label="Content"
-        placeholder="Add some reflections..."
-        value={content}
-        className={styles.content}
-        onChange={(e) => setContent(e.target.value)}
+      <FormHeader
+        title={title}
+        onTitleChange={setTitle}
+        formattedDate={formattedUpdateDate as string}
       />
+      <ContentEditor value={content} onChange={setContent} />
     </form>
   );
 }

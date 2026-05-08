@@ -26,7 +26,9 @@
       "@hooks": ["./src/hooks"],
       "@hooks/*": ["./src/hooks/*"],
       "@types": ["./src/types"],
-      "@types/*": ["./src/types/*"]
+      "@types/*": ["./src/types/*"],
+      "@config": ["./config"],
+      "@config/*": ["./config/*"],
     },
 
     /* Linting */

@@ -3,25 +3,8 @@ import styles from "./ReflectionDetail.module.css";
 import { useFormattedDate } from "../../hooks/useFormattedDate";
 import { ReflectionsContext, EditingContext } from "../../contexts";
 import type { Reflection } from "../../types/Reflection";
-import { Button } from "../ui";
+import { Button, TrashIcon } from "../ui";
 import { useReflectionActions } from "@hooks";
-
-type buttonProps = {
-  hasReflection: boolean;
-  handleDelete: () => void;
-};
-
-function DeleteButton({ hasReflection, handleDelete }: buttonProps) {
-  if (hasReflection) {
-    return (
-      <div>
-        <Button variant="danger" onClick={handleDelete}>
-          Delete Reflection
-        </Button>
-      </div>
-    );
-  }
-}
 
 export function ReflectionDetail({ reflection }: { reflection: Reflection | null }) {
   const { setIsEditing } = useContext(EditingContext);
@@ -49,11 +32,22 @@ export function ReflectionDetail({ reflection }: { reflection: Reflection | null
         onClick={() => {
           setIsEditing(true);
         }}
-        className={styles.reflectionHeader}
+        className={styles.header}
         tabIndex={0}
         data-testid="details-title"
       >
-        <h2 aria-label={reflection?.title ?? "Empty Reflections Title"}>{reflection?.title}</h2>
+        <div className={styles.titleWrapper}>
+          <h2 className={styles.title} aria-label={reflection?.title ?? "Empty Reflections Title"}>
+            {reflection?.title}
+          </h2>
+          <div className={styles.actions}>
+            {reflection && (
+              <Button variant="danger" onClick={handleDelete}>
+                <TrashIcon size={20} />
+              </Button>
+            )}
+          </div>
+        </div>
         <p>{reflection ? formattedUpdateDate : ""}</p>
       </div>
       <p
@@ -63,13 +57,12 @@ export function ReflectionDetail({ reflection }: { reflection: Reflection | null
         onKeyDown={(e) => {
           if (e.key === "Enter") setIsEditing(true);
         }}
-        className={styles.reflectionBody}
+        className={styles.content}
         tabIndex={0}
         data-testid="details-body"
       >
         {reflection?.content ?? ""}
       </p>
-      <DeleteButton hasReflection={reflection ? true : false} handleDelete={handleDelete} />
     </>
   );
 }

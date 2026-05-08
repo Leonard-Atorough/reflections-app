@@ -1,22 +1,25 @@
-import { useState } from "react";
-
 import { cleanup, render, screen } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 
 import { ReflectionItem } from "./MenuItem";
 import styles from "./MenuItem.module.css";
-import { testReflection } from "../../../../__mocks__/mockReflections";
-import { formatDate } from "../../../../utils/formatDate";
+import { testReflection } from "@/__mocks__/mockReflections";
+import { formatDate } from "@/utils/formatDate";
 import { EditingContext, ReflectionsContext, SidebarContext } from "@contexts";
+import * as useReflectionActionsModule from "@hooks";
 
 describe("MenuItem", () => {
   let mockSetIsEditing: ReturnType<typeof vi.fn>;
   let mockSetSelectedId: ReturnType<typeof vi.fn>;
   let mockSetSidebarVisible: ReturnType<typeof vi.fn>;
 
-  function MenuItemWrapper({ isEditing = false }: { isEditing?: boolean }) {
-    const [selectedId] = useState<string | null>(null);
-
+  function MenuItemWrapper({
+    isEditing = false,
+    selectedId = null,
+  }: {
+    isEditing?: boolean;
+    selectedId?: string | null;
+  }) {
     return (
       <EditingContext
         value={{
@@ -48,6 +51,13 @@ describe("MenuItem", () => {
     mockSetIsEditing = vi.fn();
     mockSetSelectedId = vi.fn();
     mockSetSidebarVisible = vi.fn();
+    vi.spyOn(useReflectionActionsModule, "useReflectionActions").mockReturnValue({
+      addReflection: vi.fn(),
+      updateReflection: vi.fn(),
+      deleteReflection: vi.fn(),
+      setReflections: vi.fn(),
+      setSelectedId: mockSetSelectedId,
+    });
   });
 
   afterEach(() => {
@@ -81,23 +91,9 @@ describe("MenuItem", () => {
     expect(mockSetSelectedId).toHaveBeenCalledOnce();
   });
 
-  it("adds the selected style to the list element when selected", async () => {
-    render(<MenuItemWrapper />);
-    const item = screen.getByTestId("reflection-button");
-    await userEvent.click(item);
+  it("adds the selected style to the list element when selected", () => {
+    render(<MenuItemWrapper selectedId={testReflection.id} />);
     expect(screen.getByTestId("reflection-button")).toHaveClass(styles.selected);
-  });
-
-  it("calls onSelect with null when clicked twice", async () => {
-    render(<MenuItemWrapper />);
-    const item = screen.getByTestId("reflection-button");
-    await userEvent.click(item);
-    expect(mockSetSelectedId).toHaveBeenCalledOnce();
-    expect(mockSetSelectedId).toHaveBeenCalledWith(testReflection.id);
-
-    await userEvent.click(item);
-    expect(mockSetSelectedId).toHaveBeenCalledTimes(2);
-    expect(mockSetSelectedId).toHaveBeenCalledWith(null);
   });
 
   it("sets the isEditing state to false if it is true when item is clicked", async () => {

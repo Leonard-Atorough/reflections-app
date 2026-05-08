@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import type { Reflection } from "../types/Reflection";
+import { DEBOUNCE_DELAYS } from "@/config/constants";
 
-const DEBOUNCE_MS = 500;
+const DEBOUNCE_MS = DEBOUNCE_DELAYS.STORAGE_PERSIST;
 
 export function usePersistReflections(reflections: Reflection[]) {
   const [status, setStatus] = useState<"idle" | "saving" | "error">("idle");

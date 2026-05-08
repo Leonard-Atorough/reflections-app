@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
 import { useContext, useEffect, useRef, useState } from "react";
 import type { Reflection } from "../../types/Reflection";
 import styles from "./ReflectionForm.module.css";
@@ -6,6 +5,7 @@ import styles from "./ReflectionForm.module.css";
 import { useFormattedDate } from "../../hooks/useFormattedDate";
 import { EditingContext, ReflectionsContext } from "@contexts";
 import { useReflectionActions } from "@/hooks";
+import { DEBOUNCE_DELAYS } from "@/config/constants";
 
 type props = {
   reflection: Reflection | null;
@@ -19,10 +19,10 @@ export function ReflectionForm({ reflection }: props) {
   const [title, setTitle] = useState<string>(reflection?.title || "");
   const [content, setContent] = useState<string>(reflection?.content || "");
 
-  const idRef = useRef<string>(reflection?.id ?? uuidv4());
+  const idRef = useRef<string>(reflection?.id ?? crypto.randomUUID());
 
   useEffect(() => {
-    idRef.current = reflection?.id ?? uuidv4();
+    idRef.current = reflection?.id ?? crypto.randomUUID();
     setTitle(reflection?.title || "");
     setContent(reflection?.content || "");
   }, [reflection]);
@@ -47,7 +47,7 @@ export function ReflectionForm({ reflection }: props) {
           addReflection(newOrUpdatedReflection);
         }
       }
-    }, 500);
+    }, DEBOUNCE_DELAYS.FORM_AUTO_SAVE);
     return () => {
       clearTimeout(saveHandler);
     };

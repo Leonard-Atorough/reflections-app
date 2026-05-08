@@ -2,6 +2,7 @@ import { useContext } from "react";
 import styles from "./Layout.module.css";
 import { SidebarContext, EditingContext } from "../contexts";
 import { Button } from "../components/ui";
+import { SearchBar } from "../components/ui/SearchBar/SearchBar";
 import { useReflectionActions } from "@/hooks";
 
 interface HeaderProps {
@@ -35,29 +36,15 @@ export function Header({ onSearch }: HeaderProps) {
         <h1 className={styles.title}>Reflections</h1>
       </div>
       <div className={styles.headerCenter}>
-        <div className={styles.searchContainer}>
-          <input
-            type="text"
-            placeholder="Search reflections..."
-            className={styles.searchInput}
-            aria-label="Search Reflections"
-            onChange={(e) => onSearch?.(e.target.value)}
-          />
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            width="20"
-            height="20"
-            className={styles.searchIcon}
-          >
-            <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="4" fill="none" />
-            <line x1="16.5" y1="16.5" x2="35" y2="35" stroke="currentColor" strokeWidth="4" />
-          </svg>
-        </div>
+        <SearchBar onSearch={onSearch} />
       </div>
       <div className={styles.headerRight}>
-        <Button variant="primary" onClick={handleAddButtonCLick} className={styles.addButton}>
+        <Button
+          variant="primary"
+          onClick={handleAddButtonCLick}
+          className={styles.addButton}
+          ariaLabel="Add new reflection"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"

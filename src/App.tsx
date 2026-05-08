@@ -5,6 +5,7 @@ import { Header } from "./layout/Header";
 import { Footer } from "./layout/Footer";
 import { Aside } from "./layout/Aside";
 import { Main } from "./layout/Main";
+import { ErrorBoundary } from "./components/ErrorBoundary";
 
 import type { Reflection } from "./types/Reflection";
 import { mockReflections } from "./data/mockReflections";
@@ -54,24 +55,26 @@ function App() {
   );
 
   return (
-    <ThemeContext value={useMemo(() => ({ theme, setTheme }), [theme])}>
-      <EditingContext value={useMemo(() => ({ isEditing, setIsEditing }), [isEditing])}>
-        <SidebarContext
-          value={useMemo(() => ({ isSidebarOpen, setIsSidebarOpen }), [isSidebarOpen])}
-        >
-          <ReflectionsContext value={reflectionsValue}>
-            <>
-              <Header onSearch={search} />
-              <div className="appBody">
-                <Aside reflections={filteredReflections} />
-                <Main />
-              </div>
-              <Footer />
-            </>
-          </ReflectionsContext>
-        </SidebarContext>
-      </EditingContext>
-    </ThemeContext>
+    <ErrorBoundary>
+      <ThemeContext value={useMemo(() => ({ theme, setTheme }), [theme])}>
+        <EditingContext value={useMemo(() => ({ isEditing, setIsEditing }), [isEditing])}>
+          <SidebarContext
+            value={useMemo(() => ({ isSidebarOpen, setIsSidebarOpen }), [isSidebarOpen])}
+          >
+            <ReflectionsContext value={reflectionsValue}>
+              <>
+                <Header onSearch={search} />
+                <div className="appBody">
+                  <Aside reflections={filteredReflections} />
+                  <Main />
+                </div>
+                <Footer />
+              </>
+            </ReflectionsContext>
+          </SidebarContext>
+        </EditingContext>
+      </ThemeContext>
+    </ErrorBoundary>
   );
 }
 

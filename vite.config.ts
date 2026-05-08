@@ -12,6 +12,7 @@ export default defineConfig({
       "@contexts": "/src/contexts",
       "@hooks": "/src/hooks",
       "@types": "/src/types",
+      "@config": "/config",
     },
   },
   test: {

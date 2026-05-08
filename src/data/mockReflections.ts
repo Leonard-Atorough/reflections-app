@@ -1,9 +1,8 @@
 import type { Reflection } from "../types/Reflection";
-import { v4 as uuidv4 } from "uuid";
 
 export const mockReflections: Reflection[] = [
   {
-    id: uuidv4(),
+    id: crypto.randomUUID(),
     title: "[USER GUIDE] Welcome to Reflections",
     dateCreated: Date.now(),
     dateUpdated: Date.now(),

@@ -1,0 +1,54 @@
+.trashIcon {
+  display: inline-block;
+  color: currentColor;
+  transition: all 0.3s ease;
+}
+
+/* Lid Group - Idle State: slightly lifted */
+.lidGroup {
+  transform: translateY(-2px);
+  transition: transform 0.3s ease;
+}
+
+.body {
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.item {
+  opacity: 0.8;
+  transition:
+    opacity 0.3s ease,
+    stroke-width 0.3s ease;
+}
+
+/* Hover State */
+.trashIcon:hover .lidGroup {
+  transform: translateY(-6px);
+}
+
+.trashIcon:hover .body {
+  opacity: 1;
+}
+
+.trashIcon:hover .item {
+  opacity: 1;
+  stroke-width: 2.5;
+}
+
+/* Animation on parent button hover states */
+button:hover .trashIcon .lidGroup,
+button:focus-visible .trashIcon .lidGroup {
+  transform: translateY(-6px);
+}
+
+button:hover .trashIcon .body,
+button:focus-visible .trashIcon .body {
+  opacity: 1;
+}
+
+button:hover .trashIcon .item,
+button:focus-visible .trashIcon .item {
+  opacity: 1;
+  stroke-width: 2.5;
+}

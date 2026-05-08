@@ -2,7 +2,7 @@ import { useContext } from "react";
 import type { Reflection } from "../../../../types/Reflection";
 import styles from "./MenuItem.module.css";
 import { useFormattedDate } from "../../../../hooks/useFormattedDate";
-import { ReflectionsContext, UIContext } from "../../../../contexts";
+import { ReflectionsContext, EditingContext, SidebarContext } from "../../../../contexts";
 
 type Props = {
   reflection: Reflection;
@@ -10,7 +10,8 @@ type Props = {
 
 export function MenuItem({ reflection }: Props) {
   const { selectedId, setSelectedId } = useContext(ReflectionsContext);
-  const { isEditing, setIsEditing, setSidebarVisible } = useContext(UIContext);
+  const { isEditing, setIsEditing } = useContext(EditingContext);
+  const { setIsSidebarOpen } = useContext(SidebarContext);
 
   const isSelected = selectedId === reflection.id;
   const formattedUpdateDate = useFormattedDate(reflection?.dateUpdated);
@@ -18,7 +19,7 @@ export function MenuItem({ reflection }: Props) {
   const handleToggle = () => {
     setSelectedId(isSelected ? null : reflection.id);
     if (isEditing) setIsEditing(false);
-    if (!isEditing && !isSelected) setSidebarVisible(false);
+    if (!isEditing && !isSelected) setIsSidebarOpen(false);
   };
   return (
     <li

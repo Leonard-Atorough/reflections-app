@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { ReflectionsMenu } from "../components/Reflection/ReflectionsMenu/ReflectionsMenu";
 import styles from "./Layout.module.css";
-import { ReflectionsContext, UIContext } from "../contexts";
+import { ReflectionsContext, EditingContext, SidebarContext } from "../contexts";
 import type { Reflection } from "../types/Reflection";
 import { Button } from "../components/ui";
 
@@ -10,7 +10,8 @@ interface AsideProps {
 }
 
 export function Aside({ reflections: filteredReflections }: AsideProps) {
-  const { setIsEditing, sidebarVisible, setSidebarVisible } = useContext(UIContext);
+  const { setIsEditing } = useContext(EditingContext);
+  const { isSidebarOpen, setIsSidebarOpen } = useContext(SidebarContext);
   const { setSelectedId, reflections: allReflections } = useContext(ReflectionsContext);
 
   // Use filtered reflections if provided, otherwise use all reflections
@@ -19,12 +20,12 @@ export function Aside({ reflections: filteredReflections }: AsideProps) {
     e.stopPropagation();
     setIsEditing(true);
     setSelectedId(null);
-    setSidebarVisible(false);
+    setIsSidebarOpen(false);
   };
 
   return (
     <aside
-      className={`${styles.sidebar} ${sidebarVisible ? styles.active : ""}`}
+      className={`${styles.sidebar} ${isSidebarOpen ? styles.active : ""}`}
       onClick={() => setIsEditing(false)}
     >
       <div className={styles.sidebarContent}>

@@ -3,8 +3,7 @@ import { cleanup, render, screen } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import { ReflectionDetail } from "./ReflectionDetail";
 import { testReflection } from "../../__mocks__/mockReflections";
-import { UIContext } from "../../contexts/UIContext";
-import { ReflectionsContext } from "../../contexts/ReflectionsContext";
+import { EditingContext, ReflectionsContext } from "@/contexts";
 
 describe("ReflectionDetail", () => {
   let mockSetIsEditing: ReturnType<typeof vi.fn>;
@@ -17,12 +16,10 @@ describe("ReflectionDetail", () => {
     };
 
     return (
-      <UIContext
+      <EditingContext
         value={{
           isEditing,
           setIsEditing: handleSetIsEditing,
-          sidebarVisible: false,
-          setSidebarVisible: vi.fn(),
         }}
       >
         <ReflectionsContext
@@ -35,7 +32,7 @@ describe("ReflectionDetail", () => {
         >
           <ReflectionDetail reflection={testReflection} />
         </ReflectionsContext>
-      </UIContext>
+      </EditingContext>
     );
   }
 

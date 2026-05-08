@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import "./App.css";
 import { Header } from "./layout/Header";
@@ -10,9 +10,7 @@ import type { Reflection } from "./types/Reflection";
 import { mockReflections } from "./data/mockReflections";
 import { usePersistReflections } from "./hooks/usePersistedReflections";
 import { useSearch } from "./hooks/useSearch";
-import { UIContext } from "./contexts/UIContext";
-import { ReflectionsContext } from "./contexts";
-import { ThemeContext } from "./contexts/ThemeContext";
+import { EditingContext, ReflectionsContext, SidebarContext, ThemeContext } from "./contexts";
 
 function App() {
   const [theme, setTheme] = useState<"light" | "dark">("light");
@@ -22,7 +20,7 @@ function App() {
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [sidebarVisible, setSidebarVisible] = useState<boolean>(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
 
   const { results: filteredReflections, search } = useSearch(reflections);
 
@@ -44,20 +42,34 @@ function App() {
     setReflections(data);
   }, []);
 
+  const reflectionsValue = useMemo(
+    () => ({
+      reflections,
+      setReflections,
+      selectedId,
+      setSelectedId,
+    }),
+    [reflections, selectedId],
+  );
+
   return (
-    <ThemeContext value={{ theme, setTheme }}>
-      <UIContext value={{ isEditing, setIsEditing, sidebarVisible, setSidebarVisible }}>
-        <ReflectionsContext value={{ reflections, setReflections, selectedId, setSelectedId }}>
-          <>
-            <Header onSearch={search} />
-            <div className="appBody">
-              <Aside reflections={filteredReflections} />
-              <Main />
-            </div>
-            <Footer />
-          </>
-        </ReflectionsContext>
-      </UIContext>
+    <ThemeContext value={useMemo(() => ({ theme, setTheme }), [theme])}>
+      <EditingContext value={useMemo(() => ({ isEditing, setIsEditing }), [isEditing])}>
+        <SidebarContext
+          value={useMemo(() => ({ isSidebarOpen, setIsSidebarOpen }), [isSidebarOpen])}
+        >
+          <ReflectionsContext value={reflectionsValue}>
+            <>
+              <Header onSearch={search} />
+              <div className="appBody">
+                <Aside reflections={filteredReflections} />
+                <Main />
+              </div>
+              <Footer />
+            </>
+          </ReflectionsContext>
+        </SidebarContext>
+      </EditingContext>
     </ThemeContext>
   );
 }

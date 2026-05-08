@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import styles from "./Layout.module.css";
-import { ReflectionsContext, UIContext } from "../contexts";
+import { ReflectionsContext, SidebarContext, EditingContext } from "../contexts";
 import { Button } from "../components/ui";
 
 interface HeaderProps {
@@ -8,13 +8,14 @@ interface HeaderProps {
 }
 
 export function Header({ onSearch }: HeaderProps) {
-  const { setIsEditing, sidebarVisible, setSidebarVisible } = useContext(UIContext);
+  const { setIsEditing } = useContext(EditingContext);
+  const { isSidebarOpen, setIsSidebarOpen } = useContext(SidebarContext);
   const { setSelectedId } = useContext(ReflectionsContext);
   const handleAddButtonCLick = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsEditing(true);
     setSelectedId(null);
-    setSidebarVisible(false);
+    setIsSidebarOpen(false);
   };
 
   return (
@@ -23,7 +24,7 @@ export function Header({ onSearch }: HeaderProps) {
         <Button
           variant="outline"
           size="small"
-          onClick={() => setSidebarVisible(!sidebarVisible)}
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
           className={`btn ${styles.hamburgerMenu}`}
         >
           <span className={styles.bar}></span>

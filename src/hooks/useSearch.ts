@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useDeferredValue } from "react";
 import type { Reflection } from "../types/Reflection";
 
 type SearchField = "title" | "content";
@@ -11,8 +11,9 @@ interface UseSearchOptions {
 export function useSearch(reflections: Reflection[]) {
   const [results, setResults] = useState<Reflection[]>(reflections);
   const debounceTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const deferredReflections = useDeferredValue(reflections);
 
-  const search = (term: string, options?: UseSearchOptions) => {
+  const search = useCallback((term: string, options?: UseSearchOptions) => {
     const { searchFields = ["title"], debounceMs = 500 } = options || {};
 
     // Clear existing timeout
@@ -23,12 +24,12 @@ export function useSearch(reflections: Reflection[]) {
     // Set debounced search
     debounceTimeoutRef.current = setTimeout(() => {
       if (!term.trim()) {
-        setResults(reflections);
+        setResults(deferredReflections);
         return;
       }
 
       const lowercaseTerm = term.toLowerCase();
-      const filtered = reflections.filter((reflection) => {
+      const filtered = deferredReflections.filter((reflection) => {
         return searchFields.some((field) => {
           const content = field === "title" ? reflection.title : reflection.content;
           return content.toLowerCase().includes(lowercaseTerm);
@@ -37,7 +38,7 @@ export function useSearch(reflections: Reflection[]) {
 
       setResults(filtered);
     }, debounceMs);
-  };
+  }, [deferredReflections]);
 
   // Cleanup timeout on unmount
   useEffect(() => {

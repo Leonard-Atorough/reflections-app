@@ -1,10 +1,7 @@
 import { Aside } from "./Aside";
-
 import { render, screen } from "@testing-library/react";
-
 import type { Reflection } from "../types/Reflection";
-import { UIContext } from "../contexts/UIContext";
-import { ReflectionsContext } from "../contexts/ReflectionsContext";
+import { ReflectionsContext, EditingContext } from "../contexts";
 
 const testReflections: Reflection[] = [
   {
@@ -19,12 +16,10 @@ const testReflections: Reflection[] = [
 describe("Sidebar component", () => {
   it("Renders a sidebar component with a header, button and a list with passed in reflection props", () => {
     render(
-      <UIContext
+      <EditingContext
         value={{
           isEditing: false,
           setIsEditing: vi.fn(),
-          sidebarVisible: true,
-          setSidebarVisible: vi.fn(),
         }}
       >
         <ReflectionsContext
@@ -37,7 +32,7 @@ describe("Sidebar component", () => {
         >
           <Aside />
         </ReflectionsContext>
-      </UIContext>,
+      </EditingContext>,
     );
 
     expect(screen.getByText("Test Reflection 1")).toBeInTheDocument();

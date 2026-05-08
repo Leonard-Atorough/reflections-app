@@ -1,7 +1,8 @@
 import { cleanup, render, screen } from "@testing-library/react";
-import { ReflectionsMenu } from "./ReflectionsMenu";
-import { testReflection } from "../../../__mocks__/mockReflections";
-import { EditingContext, ReflectionsContext } from "../../../contexts";
+import { ReflectionsMenu } from "./ReflectionsMenu/ReflectionsMenu";
+import { testReflection } from "../../__mocks__/mockReflections";
+import { EditingContext } from "../../contexts/EditingContext";
+import { ReflectionsContext } from "../../contexts/ReflectionsContext";
 
 describe("ReflectionsMenu", () => {
   function ReflectionsMenuWrapper({ reflections = [testReflection] }) {

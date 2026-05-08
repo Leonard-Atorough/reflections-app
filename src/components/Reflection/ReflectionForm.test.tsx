@@ -2,21 +2,18 @@ import { act, cleanup, fireEvent, render, screen } from "@testing-library/react"
 import { ReflectionForm } from "./ReflectionForm";
 import { testReflection } from "../../__mocks__/mockReflections";
 import userEvent from "@testing-library/user-event";
-import { UIContext } from "../../contexts/UIContext";
-import { ReflectionsContext } from "../../contexts/ReflectionsContext";
 import type { ReactNode } from "react";
+import { EditingContext, ReflectionsContext } from "@/contexts";
 
 let mockSetReflections: ReturnType<typeof vi.fn>;
 let mockSetIsEditing: ReturnType<typeof vi.fn>;
 
 function TestWrapper({ children }: { children: ReactNode }) {
   return (
-    <UIContext
+    <EditingContext
       value={{
         isEditing: false,
         setIsEditing: mockSetIsEditing,
-        sidebarVisible: false,
-        setSidebarVisible: vi.fn(),
       }}
     >
       <ReflectionsContext
@@ -29,7 +26,7 @@ function TestWrapper({ children }: { children: ReactNode }) {
       >
         {children}
       </ReflectionsContext>
-    </UIContext>
+    </EditingContext>
   );
 }
 

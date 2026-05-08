@@ -7,8 +7,7 @@ import { MenuItem } from "./MenuItem";
 import styles from "./MenuItem.module.css";
 import { testReflection } from "../../../../__mocks__/mockReflections";
 import { formatDate } from "../../../../utils/formatDate";
-import { UIContext } from "../../../../contexts/UIContext";
-import { ReflectionsContext } from "../../../../contexts/ReflectionsContext";
+import { EditingContext, ReflectionsContext, SidebarContext } from "@contexts";
 
 describe("MenuItem", () => {
   let mockSetIsEditing: ReturnType<typeof vi.fn>;
@@ -24,25 +23,30 @@ describe("MenuItem", () => {
     };
 
     return (
-      <UIContext
+      <EditingContext
         value={{
           isEditing,
           setIsEditing: mockSetIsEditing,
-          sidebarVisible: false,
-          setSidebarVisible: mockSetSidebarVisible,
         }}
       >
-        <ReflectionsContext
+        <SidebarContext
           value={{
-            reflections: [],
-            setReflections: vi.fn(),
-            selectedId,
-            setSelectedId: handleSelect as React.Dispatch<React.SetStateAction<string | null>>,
+            isSidebarOpen: false,
+            setIsSidebarOpen: mockSetSidebarVisible,
           }}
         >
-          <MenuItem reflection={testReflection} />
-        </ReflectionsContext>
-      </UIContext>
+          <ReflectionsContext
+            value={{
+              reflections: [],
+              setReflections: vi.fn(),
+              selectedId,
+              setSelectedId: handleSelect as React.Dispatch<React.SetStateAction<string | null>>,
+            }}
+          >
+            <MenuItem reflection={testReflection} />
+          </ReflectionsContext>
+        </SidebarContext>
+      </EditingContext>
     );
   }
 

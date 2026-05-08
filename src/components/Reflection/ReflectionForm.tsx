@@ -4,21 +4,21 @@ import type { Reflection } from "../../types/Reflection";
 import styles from "./ReflectionForm.module.css";
 
 import { useFormattedDate } from "../../hooks/useFormattedDate";
-import { ReflectionsContext, UIContext } from "../../contexts";
+import { ReflectionsContext, EditingContext } from "../../contexts";
 
 type props = {
   reflection: Reflection | null;
 };
 
 export function ReflectionForm({ reflection }: props) {
-  const { setIsEditing } = useContext(UIContext);
+  const { setIsEditing } = useContext(EditingContext);
   const { setReflections } = useContext(ReflectionsContext);
 
   const [title, setTitle] = useState<string>(reflection?.title || "");
   const [content, setContent] = useState<string>(reflection?.content || "");
 
   const idRef = useRef<string>(reflection?.id ?? uuidv4());
-  
+
   useEffect(() => {
     idRef.current = reflection?.id ?? uuidv4();
     setTitle(reflection?.title || "");

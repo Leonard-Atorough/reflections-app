@@ -1,7 +1,7 @@
 import { useCallback, useContext } from "react";
 import styles from "./ReflectionDetail.module.css";
 import { useFormattedDate } from "../../hooks/useFormattedDate";
-import { ReflectionsContext, UIContext } from "../../contexts";
+import { ReflectionsContext, EditingContext } from "../../contexts";
 import type { Reflection } from "../../types/Reflection";
 import { Button } from "../ui";
 
@@ -23,7 +23,7 @@ function DeleteButton({ hasReflection, handleDelete }: buttonProps) {
 }
 
 export function ReflectionDetail({ reflection }: { reflection: Reflection | null }) {
-  const { setIsEditing } = useContext(UIContext);
+  const { setIsEditing } = useContext(EditingContext);
   const { reflections, setReflections, selectedId, setSelectedId } = useContext(ReflectionsContext);
 
   const formattedUpdateDate = useFormattedDate(reflection?.dateUpdated ?? Date.now());

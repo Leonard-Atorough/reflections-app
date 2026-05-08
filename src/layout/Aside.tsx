@@ -2,11 +2,19 @@ import { useContext } from "react";
 import { ReflectionsMenu } from "../components/Reflection/ReflectionsMenu/ReflectionsMenu";
 import styles from "./Layout.module.css";
 import { ReflectionsContext, UIContext } from "../contexts";
+import type { Reflection } from "../types/Reflection";
 import { Button } from "../components/ui";
 
-export function Aside() {
+interface AsideProps {
+  reflections?: Reflection[];
+}
+
+export function Aside({ reflections: filteredReflections }: AsideProps) {
   const { setIsEditing, sidebarVisible, setSidebarVisible } = useContext(UIContext);
-  const { reflections, setSelectedId } = useContext(ReflectionsContext);
+  const { setSelectedId, reflections: allReflections } = useContext(ReflectionsContext);
+
+  // Use filtered reflections if provided, otherwise use all reflections
+  const reflections = filteredReflections ?? allReflections;
   const handleAddButtonCLick = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsEditing(true);

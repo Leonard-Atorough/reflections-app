@@ -9,6 +9,7 @@ import { Main } from "./layout/Main";
 import type { Reflection } from "./types/Reflection";
 import { mockReflections } from "./data/mockReflections";
 import { usePersistReflections } from "./hooks/usePersistedReflections";
+import { useSearch } from "./hooks/useSearch";
 import { UIContext } from "./contexts/UIContext";
 import { ReflectionsContext } from "./contexts";
 import { ThemeContext } from "./contexts/ThemeContext";
@@ -22,6 +23,8 @@ function App() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [sidebarVisible, setSidebarVisible] = useState<boolean>(false);
+
+  const { results: filteredReflections, search } = useSearch(reflections);
 
   const { status } = usePersistReflections(reflections);
 
@@ -46,9 +49,9 @@ function App() {
       <UIContext value={{ isEditing, setIsEditing, sidebarVisible, setSidebarVisible }}>
         <ReflectionsContext value={{ reflections, setReflections, selectedId, setSelectedId }}>
           <>
-            <Header />
+            <Header onSearch={search} />
             <div className="appBody">
-              <Aside />
+              <Aside reflections={filteredReflections} />
               <Main />
             </div>
             <Footer />

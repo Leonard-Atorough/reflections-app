@@ -21,7 +21,13 @@ export default defineConfig({
     setupFiles: "./src/testSetup.ts",
     coverage: {
       provider: "v8",
-      exclude: ["src/main.tsx", ...coverageConfigDefaults.exclude],
+      exclude: [
+        "src/main.tsx",
+        "**/__mocks__/**",
+        "**/*.test.ts",
+        "**/*.test.tsx",
+        ...coverageConfigDefaults.exclude,
+      ],
     },
   },
 });

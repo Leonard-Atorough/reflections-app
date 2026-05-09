@@ -1447,3 +1447,53 @@ if (!window.confirm("Delete this reflection?")) return;
 **Recommendation:** Complete Phase 1-2 improvements first (2-3 weeks), then design Phase 3 WYSIWYG prep in detail before choosing editor library.
 
 **Expected Result:** By end of Phase 3, you'll have a codebase ready to swap in any modern WYSIWYG editor with minimal disruption.
+
+---
+
+## IMPLEMENTATION STATUS (as of May 9, 2026)
+
+### ✅ Completed Items
+
+| #   | Item                                      | Notes                                                                                                                                                                                                                                             |
+| --- | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | **Fix unused imports**                    | MenuItem.test.tsx and all test files are clean                                                                                                                                                                                                    |
+| 2   | **Create constants file**                 | `src/config/constants.ts` created with DEBOUNCE_DELAYS, UI_LIMITS, SEARCH_DEFAULTS, STORAGE_KEYS, RESPONSIVE_BREAKPOINTS                                                                                                                          |
+| 3   | **Extract SearchBar component**           | `src/components/ui/SearchBar/SearchBar.tsx` created                                                                                                                                                                                               |
+| 4   | **Add aria-label to Button**              | `ariaLabel` prop added to Button component and forwarded to native `aria-label`                                                                                                                                                                   |
+| 5   | **Create DRY test utilities**             | `src/test/contextWrappers.tsx` with `createContextWrapper()` used across all component tests                                                                                                                                                      |
+| 6   | **Add React.memo to MenuItem**            | `ReflectionItem` wrapped with `React.memo(ReflectionItemComponent, arePropsEqual)`                                                                                                                                                                |
+| 7   | **Replace uuid with crypto.randomUUID()** | `uuid` package removed; `crypto.randomUUID()` used in `useFormAutoSave.ts`                                                                                                                                                                        |
+| 8   | **Refactor ReflectionForm**               | Broken into sub-components: TitleInput, ContentEditor, FormHeader with clear separation                                                                                                                                                           |
+| 9   | **Add type validation for Reflection**    | `validateReflection()` and `isValidReflection()` exported from `src/types/Reflection.ts`                                                                                                                                                          |
+| 10  | **Comprehensive test suite**              | Tests added for: `formatDate.ts`, `reflectionsReducer.ts`, `useFormattedDate.ts`, `useSelectedReflection.ts`, `useReflectionActions.ts`, `useSearch.ts`, `usePersistentReflections.ts`, `useResponsive.ts`, `Header.tsx`, `Main.tsx`, `Aside.tsx` |
+| 11  | **arePropsEqual function**                | Moved from `MenuItem.tsx` to `src/types/Reflection.ts` and exported for reuse and testing                                                                                                                                                         |
+| 12  | **Exclude mock files from coverage**      | `**/__mocks__/**`, `**/*.test.ts`, and `**/*.test.tsx` excluded in `vite.config.ts`                                                                                                                                                               |
+| 13  | **Fix reflectionsReducer DELETE bug**     | `DELETE_REFLECTION` now correctly auto-selects last remaining reflection using the filtered array                                                                                                                                                 |
+
+---
+
+### 📋 Remaining Actions
+
+#### 🔴 High Impact
+
+| #   | Item                                           | Effort | Notes                                                                                                                                              |
+| --- | ---------------------------------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| A   | **Replace window.confirm() with modal dialog** | 2–3h   | `ReflectionDetail.tsx` still uses `window.confirm()` for delete — poor UX, not keyboard accessible, not screen-reader friendly                     |
+| B   | **Create content format layer**                | 4h     | `Reflection.content` is plain text only; WYSIWYG requires format versioning (`plaintext` / `html` / `editor-json`) and migration utilities         |
+| C   | **Prepare auto-save for editor**               | 2–3h   | Current debounce pattern in `useFormAutoSave` is tied to React state onChange and won't work with editor-managed state (TipTap's `onUpdate`, etc.) |
+
+#### 🟡 Medium Impact
+
+| #   | Item                               | Effort | Notes                                                                                                           |
+| --- | ---------------------------------- | ------ | --------------------------------------------------------------------------------------------------------------- |
+| D   | **Update search for rich content** | 2–3h   | `useSearch` filters `reflection.content` as plain text; with rich text this needs a plain-text extraction layer |
+| E   | **Add coverage thresholds**        | 30m    | `vite.config.ts` has no `thresholds` config — coverage can silently regress                                     |
+| F   | **Design content styling system**  | 1–2h   | No prose/typography CSS for rich text output (headings, lists, code blocks, quotes)                             |
+
+#### 🟢 Low Impact / Housekeeping
+
+| #   | Item                               | Effort | Notes                                                                                                |
+| --- | ---------------------------------- | ------ | ---------------------------------------------------------------------------------------------------- |
+| G   | **Use or delete Mode.ts**          | 15m    | `src/types/Mode.ts` (`"new" \| "edit" \| "view"`) is defined but never imported anywhere             |
+| H   | **Add bundle analysis**            | 30m    | No `vite-plugin-visualizer` or equivalent — bundle size is invisible before adding a WYSIWYG library |
+| I   | **Add CI/CD and pre-commit hooks** | 1–2h   | No coverage enforcement, no lint-staged, no GitHub Actions pipeline                                  |

@@ -5,7 +5,7 @@ import { Header } from "./layout/Header";
 import { Footer } from "./layout/Footer";
 import { Aside } from "./layout/Aside";
 import { Main } from "./layout/Main";
-import { ErrorBoundary } from "./components/ErrorBoundary";
+import { ErrorBoundary } from "./components/ui/ErrorBoundary/ErrorBoundary";
 
 import { mockReflections } from "./data/mockReflections";
 import { reflectionsReducer } from "./reducers/reflectionsReducer";

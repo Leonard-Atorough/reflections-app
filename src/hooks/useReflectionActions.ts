@@ -3,11 +3,13 @@ import type { Reflection } from "@/types/Reflection";
 import { useCallback, useContext } from "react";
 
 export function useReflectionActions() {
-  const { dispatch, selectedId, reflections } = useContext(ReflectionsContext);
+  const context = useContext(ReflectionsContext);
 
-  if (!dispatch) {
+  if (!context) {
     throw new Error("useReflectionActions must be used within a ReflectionsContext.Provider");
   }
+
+  const { dispatch, selectedId, reflections } = context;
 
   const addReflection = useCallback(
     (reflection: Reflection) => dispatch({ type: "ADD_REFLECTION", payload: reflection }),

@@ -8,8 +8,6 @@ export interface ReflectionsContextType {
   dispatch: React.Dispatch<ReflectionsAction>;
 }
 
-export const ReflectionsContext = React.createContext<ReflectionsContextType>({
-  reflections: [],
-  selectedId: null,
-  dispatch: () => {},
-});
+export const ReflectionsContext = React.createContext<ReflectionsContextType | undefined>(
+  undefined,
+);

@@ -8,10 +8,25 @@ export function formatDate(dateInput: Date | string | number) {
     "Friday",
     "Saturday",
   ];
+
+  const months: string[] = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
   const now = new Date();
   const target = dateInput ? new Date(dateInput) : now;
   if (Number.isNaN(target.getTime())) {
-    throw new Error("Invalid date supplied to 'formaDate()' function");
+    throw new Error("Invalid date supplied to 'formatDate()' function");
   }
 
   const getFullDaySpan = (d: Date) =>
@@ -25,8 +40,8 @@ export function formatDate(dateInput: Date | string | number) {
   }
 
   const day = String(target.getDate()).padStart(2, "0");
-  const month = String(target.getMonth() + 1).padStart(2, "0");
+  const month = months[target.getMonth()];
   const year = target.getFullYear();
 
-  return `${day}/${month}/${year} - ${target.getHours()}:${String(target.getMinutes()).padStart(2, "0")}`;
+  return `${month} ${day}, ${year} - ${target.getHours()}:${String(target.getMinutes()).padStart(2, "0")}`;
 }

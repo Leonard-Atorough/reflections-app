@@ -1,12 +1,14 @@
 import React from "react";
 import { EditingContext, ReflectionsContext, SidebarContext } from "@contexts";
 import type { Reflection } from "@/types/Reflection";
+import type { ReflectionsAction } from "@/reducers/reflectionsReducer";
 
 interface ContextWrapperOptions {
   reflections?: Reflection[];
   selectedId?: string | null;
   isEditing?: boolean;
   isSidebarOpen?: boolean;
+  dispatch?: React.Dispatch<ReflectionsAction>;
 }
 
 /**
@@ -24,7 +26,13 @@ interface ContextWrapperOptions {
  * const { result } = renderHook(() => useSelectedReflection(), { wrapper });
  */
 export function createContextWrapper(options: ContextWrapperOptions = {}) {
-  const { reflections = [], selectedId = null, isEditing = false, isSidebarOpen = false } = options;
+  const {
+    reflections = [],
+    selectedId = null,
+    isEditing = false,
+    isSidebarOpen = false,
+    dispatch = vi.fn(),
+  } = options;
 
   return function ContextWrapper({ children }: { children: React.ReactNode }) {
     return (
@@ -44,7 +52,7 @@ export function createContextWrapper(options: ContextWrapperOptions = {}) {
             value={{
               reflections,
               selectedId,
-              dispatch: vi.fn(),
+              dispatch,
             }}
           >
             {children}

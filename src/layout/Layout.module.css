@@ -70,33 +70,15 @@
   transform: translateY(-1px);
 }
 
-.hamburgerMenu {
-  display: none;
-}
-
-.addButton {
-  display: none;
-}
-
-@media only screen and (max-width: 800px) {
+/* Mobile and tablet: 900px and below (RESPONSIVE_BREAKPOINTS.TABLET) */
+@media only screen and (max-width: 900px) {
   .header {
     padding: var(--space-3) var(--space-4);
     gap: var(--space-3);
   }
-
-  .hamburgerMenu {
-    display: flex;
-  }
-
-  .addButton {
-    display: flex;
-  }
-
-  .headerCenter {
-    display: none;
-  }
 }
 
+/* Extra-small devices: 600px and below (RESPONSIVE_BREAKPOINTS.MOBILE) */
 @media only screen and (max-width: 600px) {
   .header {
     padding: var(--space-3);
@@ -121,11 +103,7 @@
   gap: var(--space-2);
   width: 3rem;
   height: auto;
-
-  /* &:hover {
-    box-shadow: none;
-    transform: translate(2px, 2px);
-  } */
+  display: flex;
 
   > .bar {
     display: block;
@@ -183,7 +161,8 @@ footer {
     }
   }
 
-  @media only screen and (max-width: 800px) {
+  /* Mobile and tablet: 900px and below (RESPONSIVE_BREAKPOINTS.TABLET) */
+  @media only screen and (max-width: 900px) {
     position: absolute;
     top: 0;
     left: 0;
@@ -204,6 +183,7 @@ footer {
     }
   }
 
+  /* Extra-small devices: 600px and below */
   @media only screen and (max-width: 600px) {
     &.active {
       width: 100vw;

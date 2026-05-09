@@ -7,6 +7,7 @@ export const DEBOUNCE_DELAYS = {
   FORM_AUTO_SAVE: 500,
   SEARCH: 1000,
   STORAGE_PERSIST: 500,
+  RESPONSIVE_RESIZE: 100,
 } as const;
 
 export const UI_LIMITS = {
@@ -23,3 +24,9 @@ export const SEARCH_DEFAULTS = {
 export const STORAGE_KEYS = {
   REFLECTIONS: "reflections",
 } as const;
+
+export const RESPONSIVE_BREAKPOINTS = {
+  MOBILE: 640,
+  TABLET: 900,
+  DESKTOP: 1200,
+};

@@ -1,5 +1,4 @@
 import { useCallback, useContext } from "react";
-import styles from "./ReflectionDetail.module.css";
 import { useFormattedDate } from "../../hooks/useFormattedDate";
 import { ReflectionsContext, EditingContext } from "../../contexts";
 import type { Reflection } from "../../types/Reflection";
@@ -12,6 +11,7 @@ export function ReflectionDetail({ reflection }: { reflection: Reflection | null
   const { deleteReflection } = useReflectionActions();
 
   const formattedUpdateDate = useFormattedDate(reflection?.dateUpdated ?? Date.now());
+  const isPlaceholder = !reflection || reflection.content.trim() === "";
 
   const handleDelete = useCallback(() => {
     if (!selectedId) return;
@@ -24,7 +24,7 @@ export function ReflectionDetail({ reflection }: { reflection: Reflection | null
   }, [selectedId, deleteReflection, setIsEditing]);
 
   return (
-    <>
+    <div className="body">
       <div
         onKeyDown={(e) => {
           if (e.key === "Enter") setIsEditing(true);
@@ -32,15 +32,18 @@ export function ReflectionDetail({ reflection }: { reflection: Reflection | null
         onClick={() => {
           setIsEditing(true);
         }}
-        className={styles.header}
+        className="header"
         tabIndex={0}
         data-testid="details-title"
       >
-        <div className={styles.titleWrapper}>
-          <h2 className={styles.title} aria-label={reflection?.title ?? "Empty Reflections Title"}>
-            {reflection?.title}
+        <div className="titleWrapper">
+          <h2
+            className={"title" + (isPlaceholder ? " placeholder" : "")}
+            aria-label={reflection?.title || "Empty Reflections Title"}
+          >
+            {reflection?.title || "Untitled Reflection"}
           </h2>
-          <div className={styles.actions}>
+          <div className="actions">
             {reflection && (
               <Button variant="danger" onClick={handleDelete}>
                 <TrashIcon size={20} />
@@ -48,7 +51,9 @@ export function ReflectionDetail({ reflection }: { reflection: Reflection | null
             )}
           </div>
         </div>
-        <p>{reflection ? formattedUpdateDate : ""}</p>
+        <div className="metadata">
+          <p className="date">{formattedUpdateDate}</p>
+        </div>
       </div>
       <p
         onClick={() => {
@@ -57,12 +62,12 @@ export function ReflectionDetail({ reflection }: { reflection: Reflection | null
         onKeyDown={(e) => {
           if (e.key === "Enter") setIsEditing(true);
         }}
-        className={styles.content}
+        className="content"
         tabIndex={0}
         data-testid="details-body"
       >
         {reflection?.content ?? ""}
       </p>
-    </>
+    </div>
   );
 }

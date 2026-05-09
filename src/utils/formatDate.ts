@@ -21,12 +21,12 @@ export function formatDate(dateInput: Date | string | number) {
   const diff = (getFullDaySpan(now) - getFullDaySpan(target)) / msPerDay;
 
   if (diff >= 0 && diff <= 6) {
-    return days.at(target.getDay());
+    return `${days.at(target.getDay())} - ${target.getHours()}:${String(target.getMinutes()).padStart(2, "0")}`;
   }
 
   const day = String(target.getDate()).padStart(2, "0");
   const month = String(target.getMonth() + 1).padStart(2, "0");
   const year = target.getFullYear();
 
-  return `${day}/${month}/${year}`;
+  return `${day}/${month}/${year} - ${target.getHours()}:${String(target.getMinutes()).padStart(2, "0")}`;
 }

@@ -1,6 +1,5 @@
 import { useContext, useState, useEffect } from "react";
 import type { Reflection } from "../../types/Reflection";
-import styles from "./ReflectionForm.module.css";
 
 import { useFormattedDate } from "../../hooks/useFormattedDate";
 import { useFormAutoSave } from "../../hooks/useFormAutoSave";
@@ -22,7 +21,7 @@ function TitleInput({ value, onChange }: { value: string; onChange: (value: stri
       type="text"
       placeholder="Add a Title"
       value={value}
-      className={styles.title}
+      className="title"
       onChange={(e) => onChange(e.target.value)}
     />
   );
@@ -39,7 +38,7 @@ function ContentEditor({ value, onChange }: { value: string; onChange: (value: s
       aria-label="Content"
       placeholder="Add some reflections..."
       value={value}
-      className={styles.content}
+      className="content"
       onChange={(e) => onChange(e.target.value)}
     />
   );
@@ -58,9 +57,13 @@ function FormHeader({
   formattedDate: string;
 }) {
   return (
-    <div className={styles.formHeader}>
-      <TitleInput value={title} onChange={onTitleChange} />
-      <p>{formattedDate}</p>
+    <div className="header">
+      <div className="titleWrapper">
+        <TitleInput value={title} onChange={onTitleChange} />
+      </div>
+      <div className="metadata">
+        <p className="date">{formattedDate}</p>
+      </div>
     </div>
   );
 }
@@ -94,7 +97,7 @@ export function ReflectionForm({ reflection }: props) {
 
   return (
     <form
-      className={styles.formBody}
+      className="body"
       onKeyDown={(e) => {
         if (e.key === "Escape") setIsEditing(false);
       }}

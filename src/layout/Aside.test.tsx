@@ -1,39 +1,110 @@
 import { Aside } from "./Aside";
-import { render, screen } from "@testing-library/react";
-import type { Reflection } from "../types/Reflection";
-import { ReflectionsContext, EditingContext } from "../contexts";
+import { render, screen, fireEvent } from "@testing-library/react";
+import { generateMockReflections } from "@/__mocks__/mockReflections";
+import { createContextWrapper } from "@/test/contextWrappers";
+import { useResponsive } from "@/hooks/useResponsive";
 
-const testReflections: Reflection[] = [
-  {
-    id: "test1",
-    title: "Test Reflection 1",
-    dateCreated: Date.now(),
-    dateUpdated: Date.now(),
-    content: "This is a test reflection, let it not be a deflection.",
-  },
-];
+vi.mock("@/hooks/useResponsive");
 
 describe("Sidebar component", () => {
-  it("Renders a sidebar component with a header, button and a list with passed in reflection props", () => {
-    render(
-      <EditingContext
-        value={{
-          isEditing: false,
-          setIsEditing: vi.fn(),
-        }}
-      >
-        <ReflectionsContext
-          value={{
-            reflections: testReflections,
-            selectedId: "test1",
-            dispatch: vi.fn(),
-          }}
-        >
-          <Aside />
-        </ReflectionsContext>
-      </EditingContext>,
-    );
+  beforeEach(() => {
+    // Default mock: desktop view
+    vi.mocked(useResponsive).mockReturnValue({
+      isMobile: false,
+      isTablet: false,
+      isDesktop: true,
+      orientation: "portrait",
+    });
+  });
 
-    expect(screen.getByText("Test Reflection 1")).toBeInTheDocument();
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
+  describe("rendering", () => {
+    it("Renders a sidebar component with a header, button and a list with passed in reflection props", () => {
+      const reflections = generateMockReflections(3);
+
+      const wrapper = createContextWrapper({
+        reflections,
+        selectedId: null,
+        isSidebarOpen: true,
+        dispatch: () => {},
+      });
+      render(<Aside />, { wrapper });
+
+      const asideElement = screen.getByRole("complementary");
+      expect(asideElement).toBeInTheDocument();
+      expect(asideElement).toHaveAttribute("data-is-overlay", "false");
+      expect(asideElement).toHaveAttribute("aria-hidden", "false");
+      const headerElement = screen.getByRole("heading", { name: "My Reflections" });
+      expect(headerElement).toBeInTheDocument();
+      const buttonElement = screen.getByLabelText("Add reflection");
+      expect(buttonElement).toBeInTheDocument();
+      const listItems = screen.getAllByRole("listitem");
+      expect(listItems).toHaveLength(reflections.length);
+    });
+
+    it("should render the sidebar as an overlay on mobile devices", () => {
+      // Mock mobile view
+      vi.mocked(useResponsive).mockReturnValue({
+        isMobile: true,
+        isTablet: false,
+        isDesktop: false,
+        orientation: "portrait",
+      });
+      const wrapper = createContextWrapper({
+        reflections: [],
+        selectedId: null,
+        isSidebarOpen: true,
+        dispatch: () => {},
+      });
+      render(<Aside />, { wrapper });
+
+      const asideElement = screen.getByRole("complementary");
+      expect(asideElement).toHaveAttribute("data-is-overlay", "true");
+      expect(asideElement).toHaveAttribute("aria-hidden", "false");
+    });
+
+    it("should render the sidebar as an overlay on tablet devices", () => {
+      // Mock tablet view
+      vi.mocked(useResponsive).mockReturnValue({
+        isMobile: false,
+        isTablet: true,
+        isDesktop: false,
+        orientation: "portrait",
+      });
+      const wrapper = createContextWrapper({
+        reflections: [],
+        selectedId: null,
+        isSidebarOpen: true,
+        dispatch: () => {},
+      });
+
+      render(<Aside />, { wrapper });
+
+      const asideElement = screen.getByRole("complementary");
+      expect(asideElement).toHaveAttribute("data-is-overlay", "true");
+      expect(asideElement).toHaveAttribute("aria-hidden", "false");
+    });
+  });
+
+  describe("interactions", () => {
+    it("calls the add reflection button click handler", () => {
+      const setIsEditing = vi.fn();
+      const wrapper = createContextWrapper({
+        reflections: [],
+        selectedId: null,
+        dispatch: () => {},
+        setIsEditing,
+      });
+
+      render(<Aside />, { wrapper });
+
+      const buttonElement = screen.getByLabelText("Add reflection");
+      expect(buttonElement).toBeInTheDocument();
+      fireEvent.click(buttonElement);
+      expect(setIsEditing).toHaveBeenCalledWith(true);
+    });
   });
 });

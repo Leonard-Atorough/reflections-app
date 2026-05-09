@@ -37,15 +37,15 @@ export function reflectionsReducer(
         ),
       };
 
-    case "DELETE_REFLECTION":
+    case "DELETE_REFLECTION": {
+      const filtered = state.reflections.filter((r) => r.id !== action.payload);
       return {
         ...state,
-        reflections: state.reflections.filter((r) => r.id !== action.payload),
+        reflections: filtered,
         selectedId:
-          state.selectedId === action.payload
-            ? (state.reflections.at(-1)?.id ?? null)
-            : state.selectedId,
+          state.selectedId === action.payload ? filtered.at(-1)?.id || null : state.selectedId,
       };
+    }
 
     default:
       return state;

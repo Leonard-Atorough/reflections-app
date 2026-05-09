@@ -1,12 +1,12 @@
 import { useContext } from "react";
 import { ReflectionDetail } from "../components/Reflection/ReflectionDetail";
 import { ReflectionForm } from "../components/Reflection/ReflectionForm";
-import { ReflectionsContext, EditingContext } from "../contexts";
+import { ReflectionsContext, EditingContext, type ReflectionsContextType } from "../contexts";
 import style from "./Layout.module.css";
 
 export function Main() {
   const { isEditing } = useContext(EditingContext);
-  const { reflections, selectedId } = useContext(ReflectionsContext);
+  const { reflections, selectedId } = useContext(ReflectionsContext) as ReflectionsContextType;
 
   const reflection = reflections.find((r) => r.id === selectedId) ?? null;
   return (

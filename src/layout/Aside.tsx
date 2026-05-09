@@ -1,7 +1,12 @@
 import { useContext, useEffect } from "react";
 import { ReflectionsMenu } from "../components/Reflection/ReflectionsMenu/ReflectionsMenu";
 import styles from "./Layout.module.css";
-import { ReflectionsContext, EditingContext, SidebarContext } from "../contexts";
+import {
+  ReflectionsContext,
+  EditingContext,
+  SidebarContext,
+  type ReflectionsContextType,
+} from "../contexts";
 import type { Reflection } from "../types/Reflection";
 import { Button } from "../components/ui";
 import { useReflectionActions, useResponsive } from "@/hooks";
@@ -13,7 +18,7 @@ interface AsideProps {
 export function Aside({ reflections: filteredReflections }: AsideProps) {
   const { setIsEditing } = useContext(EditingContext);
   const { isSidebarOpen, setIsSidebarOpen } = useContext(SidebarContext);
-  const { reflections: allReflections } = useContext(ReflectionsContext);
+  const { reflections: allReflections } = useContext(ReflectionsContext) as ReflectionsContextType;
   const { setSelectedId } = useReflectionActions();
   const { isMobile, isTablet } = useResponsive();
 
@@ -40,11 +45,12 @@ export function Aside({ reflections: filteredReflections }: AsideProps) {
       onClick={() => setIsEditing(false)}
       data-is-overlay={isMobile || isTablet ? "true" : "false"}
       aria-hidden={!isSidebarOpen && (isMobile || isTablet) ? "true" : "false"}
+      role="complementary"
     >
       <div className={styles.sidebarContent}>
         <div className={styles.sidebarHeader}>
           <h2 className={styles.sidebarTitle}>My Reflections</h2>
-          <Button variant="outline" aria-label="Add Reflection" onClick={handleAddButtonCLick}>
+          <Button variant="outline" ariaLabel="Add reflection" onClick={handleAddButtonCLick}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"

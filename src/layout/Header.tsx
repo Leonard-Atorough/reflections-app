@@ -30,6 +30,7 @@ export function Header({ onSearch }: HeaderProps) {
             size="small"
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
             className={`btn ${styles.hamburgerMenu}`}
+            ariaLabel="Open menu"
           >
             <span className={styles.bar}></span>
             <span className={styles.bar}></span>

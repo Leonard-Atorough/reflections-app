@@ -9,6 +9,7 @@ interface ContextWrapperOptions {
   isEditing?: boolean;
   isSidebarOpen?: boolean;
   dispatch?: React.Dispatch<ReflectionsAction>;
+  setIsEditing?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 /**
@@ -32,6 +33,7 @@ export function createContextWrapper(options: ContextWrapperOptions = {}) {
     isEditing = false,
     isSidebarOpen = false,
     dispatch = vi.fn(),
+    setIsEditing = vi.fn(),
   } = options;
 
   return function ContextWrapper({ children }: { children: React.ReactNode }) {
@@ -39,7 +41,7 @@ export function createContextWrapper(options: ContextWrapperOptions = {}) {
       <EditingContext
         value={{
           isEditing,
-          setIsEditing: vi.fn(),
+          setIsEditing,
         }}
       >
         <SidebarContext

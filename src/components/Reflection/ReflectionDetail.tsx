@@ -1,13 +1,13 @@
 import { useCallback, useContext } from "react";
-import { useFormattedDate } from "../../hooks/useFormattedDate";
-import { ReflectionsContext, EditingContext } from "../../contexts";
-import type { Reflection } from "../../types/Reflection";
+import { useFormattedDate } from "@hooks/useFormattedDate";
+import { ReflectionsContext, EditingContext, type ReflectionsContextType } from "@contexts";
+import type { Reflection } from "@/types/Reflection";
 import { Button, TrashIcon } from "../ui";
 import { useReflectionActions } from "@hooks";
 
 export function ReflectionDetail({ reflection }: { reflection: Reflection | null }) {
   const { setIsEditing } = useContext(EditingContext);
-  const { selectedId } = useContext(ReflectionsContext);
+  const { selectedId } = useContext(ReflectionsContext) as ReflectionsContextType;
   const { deleteReflection } = useReflectionActions();
 
   const formattedUpdateDate = useFormattedDate(reflection?.dateUpdated ?? Date.now());
@@ -45,7 +45,7 @@ export function ReflectionDetail({ reflection }: { reflection: Reflection | null
           </h2>
           <div className="actions">
             {reflection && (
-              <Button variant="danger" onClick={handleDelete}>
+              <Button variant="danger" onClick={handleDelete} ariaLabel="Delete Reflection">
                 <TrashIcon size={20} />
               </Button>
             )}

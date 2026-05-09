@@ -1,42 +1,33 @@
-import { useState, type SetStateAction } from "react";
 import { cleanup, render, screen } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import { ReflectionDetail } from "./ReflectionDetail";
-import { testReflection } from "../../__mocks__/mockReflections";
-import { EditingContext, ReflectionsContext } from "@/contexts";
+import { generateMockReflections } from "@/__mocks__/mockReflections";
+import { createContextWrapper } from "@/test/contextWrappers";
+
+const mockDeleteReflection = vi.fn();
+
+vi.mock("@hooks/useReflectionActions", () => ({
+  ...vi.importActual("@hooks/useReflectionActions"),
+  useReflectionActions: () => ({
+    deleteReflection: mockDeleteReflection,
+  }),
+}));
 
 describe("ReflectionDetail", () => {
   let mockSetIsEditing: ReturnType<typeof vi.fn>;
-
-  function ReflectionDetailWrapper() {
-    const [isEditing, setIsEditing] = useState<boolean>(false);
-    const handleSetIsEditing = (toggle: SetStateAction<boolean>) => {
-      setIsEditing(toggle);
-      mockSetIsEditing(toggle);
-    };
-
-    return (
-      <EditingContext
-        value={{
-          isEditing,
-          setIsEditing: handleSetIsEditing,
-        }}
-      >
-        <ReflectionsContext
-          value={{
-            reflections: [testReflection],
-            selectedId: testReflection.id,
-            dispatch: vi.fn(),
-          }}
-        >
-          <ReflectionDetail reflection={testReflection} />
-        </ReflectionsContext>
-      </EditingContext>
-    );
-  }
+  let wrapper: ReturnType<typeof createContextWrapper>;
+  let testReflection: ReturnType<typeof generateMockReflections>[0];
 
   beforeEach(() => {
     mockSetIsEditing = vi.fn();
+    mockDeleteReflection.mockClear();
+    [testReflection] = generateMockReflections(1);
+    wrapper = createContextWrapper({
+      reflections: [testReflection],
+      selectedId: testReflection.id,
+      dispatch: () => {},
+      setIsEditing: mockSetIsEditing,
+    });
   });
 
   afterEach(() => {
@@ -45,14 +36,14 @@ describe("ReflectionDetail", () => {
   });
 
   it("renders the reflection title, date updated and content", () => {
-    render(<ReflectionDetailWrapper />);
+    render(<ReflectionDetail reflection={testReflection} />, { wrapper });
 
     expect(screen.getByText(testReflection.title)).toBeInTheDocument();
     expect(screen.getByText(testReflection.content)).toBeInTheDocument();
   });
 
   it("sets isEditing to true when Reflection title is clicked on", async () => {
-    render(<ReflectionDetailWrapper />);
+    render(<ReflectionDetail reflection={testReflection} />, { wrapper });
     const title = screen.getByTestId("details-title");
 
     await userEvent.click(title);
@@ -61,11 +52,72 @@ describe("ReflectionDetail", () => {
   });
 
   it("sets IsEditing to true when reflection body is clicked on", async () => {
-    render(<ReflectionDetailWrapper />);
+    render(<ReflectionDetail reflection={testReflection} />, { wrapper });
     const body = screen.getByTestId("details-body");
 
     await userEvent.click(body);
 
     expect(mockSetIsEditing).toHaveBeenCalledWith(true);
+  });
+
+  it("sets isEditing to true when enter key is pressed on the title", async () => {
+    render(<ReflectionDetail reflection={testReflection} />, { wrapper });
+    const title = screen.getByTestId("details-title");
+
+    title.focus();
+    await userEvent.keyboard("{Enter}");
+
+    expect(mockSetIsEditing).toHaveBeenCalledWith(true);
+  });
+
+  it("sets isEditing to true when enter key is pressed on the body", async () => {
+    render(<ReflectionDetail reflection={testReflection} />, { wrapper });
+    const body = screen.getByTestId("details-body");
+
+    body.focus();
+    await userEvent.keyboard("{Enter}");
+
+    expect(mockSetIsEditing).toHaveBeenCalledWith(true);
+  });
+
+  it("calls deleteReflection when delete button is clicked", async () => {
+    // Mock window.confirm to return true
+    vi.spyOn(window, "confirm").mockReturnValue(true);
+
+    render(<ReflectionDetail reflection={testReflection} />, { wrapper });
+    const deleteButton = screen.getByLabelText("Delete Reflection");
+
+    await userEvent.click(deleteButton);
+
+    expect(mockDeleteReflection).toHaveBeenCalledWith(testReflection.id);
+  });
+
+  it("does not call deleteReflection when delete is clicked but user cancels the confirmation", async () => {
+    // Mock window.confirm to return false
+    vi.spyOn(window, "confirm").mockReturnValue(false);
+
+    render(<ReflectionDetail reflection={testReflection} />, { wrapper });
+    const deleteButton = screen.getByLabelText("Delete Reflection");
+
+    await userEvent.click(deleteButton);
+
+    expect(mockDeleteReflection).not.toHaveBeenCalled();
+  });
+
+  it("handles delete is selectedId is null", async () => {
+    // Mock window.confirm to return true
+    vi.spyOn(window, "confirm").mockReturnValue(true);
+    const nullSelectedIdWrapper = createContextWrapper({
+      reflections: [testReflection],
+      selectedId: null,
+      dispatch: () => {},
+      setIsEditing: mockSetIsEditing,
+    });
+    render(<ReflectionDetail reflection={testReflection} />, { wrapper: nullSelectedIdWrapper });
+    const deleteButton = screen.getByLabelText("Delete Reflection");
+
+    await userEvent.click(deleteButton);
+
+    expect(mockDeleteReflection).not.toHaveBeenCalled();
   });
 });

@@ -71,3 +71,20 @@ export function isValidReflection(data: unknown): data is Reflection {
     return false;
   }
 }
+
+/**
+ * Custom comparison function for ReflectionItem props
+ * Prevents re-renders when parent list updates if this item hasn't changed
+ * Compares the relevant properties: id, title, content, and dateUpdated
+ */
+export function arePropsEqual(
+  prevProps: { reflection: Reflection },
+  nextProps: { reflection: Reflection },
+): boolean {
+  return (
+    prevProps.reflection.id === nextProps.reflection.id &&
+    prevProps.reflection.title === nextProps.reflection.title &&
+    prevProps.reflection.content === nextProps.reflection.content &&
+    prevProps.reflection.dateUpdated === nextProps.reflection.dateUpdated
+  );
+}

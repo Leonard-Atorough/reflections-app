@@ -1,9 +1,9 @@
 import { useContext, useState, useEffect } from "react";
-import type { Reflection } from "../../types/Reflection";
+import type { Reflection } from "@/types/Reflection";
 
-import { useFormattedDate } from "../../hooks/useFormattedDate";
-import { useFormAutoSave } from "../../hooks/useFormAutoSave";
-import { EditingContext, ReflectionsContext } from "@contexts";
+import { useFormattedDate } from "@hooks/useFormattedDate";
+import { useFormAutoSave } from "@hooks/useFormAutoSave";
+import { EditingContext, ReflectionsContext, type ReflectionsContextType } from "@contexts";
 
 type props = {
   reflection: Reflection | null;
@@ -74,7 +74,7 @@ function FormHeader({
  */
 export function ReflectionForm({ reflection }: props) {
   const { setIsEditing } = useContext(EditingContext);
-  const { reflections } = useContext(ReflectionsContext);
+  const { reflections } = useContext(ReflectionsContext) as ReflectionsContextType;
 
   const [title, setTitle] = useState<string>(reflection?.title || "");
   const [content, setContent] = useState<string>(reflection?.content || "");

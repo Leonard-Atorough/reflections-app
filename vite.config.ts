@@ -5,7 +5,10 @@ import { visualizer } from "rollup-plugin-visualizer";
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), visualizer({ filename: "bundle-analysis.html", open: true }) as PluginOption],
+  plugins: [
+    react(),
+    visualizer({ filename: "bundle-analysis.html", open: !process.env.CI }) as PluginOption,
+  ],
   resolve: {
     alias: {
       "@": "/src",
@@ -29,6 +32,12 @@ export default defineConfig({
         "**/*.test.tsx",
         ...coverageConfigDefaults.exclude,
       ],
+      thresholds: {
+        lines: 65,
+        branches: 60,
+        functions: 65,
+        statements: 65,
+      },
     },
   },
 });

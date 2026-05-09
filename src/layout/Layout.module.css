@@ -199,5 +199,5 @@ footer {
   flex-direction: column;
   overflow: hidden;
   padding: var(--space-4);
-  background: var(--surface);
+  background: var(--color-surface);
 }

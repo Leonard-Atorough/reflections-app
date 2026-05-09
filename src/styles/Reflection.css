@@ -3,6 +3,7 @@
   flex-direction: column;
   height: 100%;
   gap: var(--space-4);
+  background: var(--surface);
 
   > .header {
     display: flex;
@@ -64,13 +65,14 @@
       display: flex;
       gap: var(--space-4);
       align-items: center;
-      color: var(--color-text-faint);
+      color: var(--color-text);
       padding: var(--space-1) var(--space-6) ;
 
       > .date {
         border: var(--border-subtle);
         padding: var(--space-1) var(--space-2);
         border-radius: var(--radius-sm);
+        background: var(--color-bg);
       }
     }
   }

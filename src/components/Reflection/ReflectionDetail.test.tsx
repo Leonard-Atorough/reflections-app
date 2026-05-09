@@ -80,43 +80,61 @@ describe("ReflectionDetail", () => {
     expect(mockSetIsEditing).toHaveBeenCalledWith(true);
   });
 
-  it("calls deleteReflection when delete button is clicked", async () => {
-    // Mock window.confirm to return true
-    vi.spyOn(window, "confirm").mockReturnValue(true);
-
+  it("opens delete dialog when delete button is clicked", async () => {
     render(<ReflectionDetail reflection={testReflection} />, { wrapper });
-    const deleteButton = screen.getByLabelText("Delete Reflection");
+    const deleteButton = screen.getByTestId("delete-reflection-button");
 
     await userEvent.click(deleteButton);
+
+    expect(screen.getByText("Delete Reflection")).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "Are you sure you want to delete this reflection? This action cannot be undone.",
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it("calls deleteReflection when delete dialog is accepted", async () => {
+    render(<ReflectionDetail reflection={testReflection} />, { wrapper });
+    const deleteButton = screen.getByTestId("delete-reflection-button");
+
+    await userEvent.click(deleteButton);
+
+    const acceptButton = screen.getByRole("button", { name: /accept/i });
+    await userEvent.click(acceptButton);
 
     expect(mockDeleteReflection).toHaveBeenCalledWith(testReflection.id);
+    expect(mockSetIsEditing).toHaveBeenCalledWith(false);
   });
 
-  it("does not call deleteReflection when delete is clicked but user cancels the confirmation", async () => {
-    // Mock window.confirm to return false
-    vi.spyOn(window, "confirm").mockReturnValue(false);
-
+  it("does not call deleteReflection when delete dialog is cancelled", async () => {
     render(<ReflectionDetail reflection={testReflection} />, { wrapper });
-    const deleteButton = screen.getByLabelText("Delete Reflection");
+    const deleteButton = screen.getByTestId("delete-reflection-button");
 
     await userEvent.click(deleteButton);
 
+    const cancelButton = screen.getByRole("button", { name: /cancel/i });
+    await userEvent.click(cancelButton);
+
     expect(mockDeleteReflection).not.toHaveBeenCalled();
+    expect(mockSetIsEditing).not.toHaveBeenCalledWith(false);
   });
 
-  it("handles delete is selectedId is null", async () => {
-    // Mock window.confirm to return true
-    vi.spyOn(window, "confirm").mockReturnValue(true);
+  it("handles delete when selectedId is null", async () => {
     const nullSelectedIdWrapper = createContextWrapper({
       reflections: [testReflection],
       selectedId: null,
       dispatch: () => {},
       setIsEditing: mockSetIsEditing,
     });
+
     render(<ReflectionDetail reflection={testReflection} />, { wrapper: nullSelectedIdWrapper });
-    const deleteButton = screen.getByLabelText("Delete Reflection");
+    const deleteButton = screen.getByTestId("delete-reflection-button");
 
     await userEvent.click(deleteButton);
+
+    const acceptButton = screen.getByRole("button", { name: /accept/i });
+    await userEvent.click(acceptButton);
 
     expect(mockDeleteReflection).not.toHaveBeenCalled();
   });

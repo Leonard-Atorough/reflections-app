@@ -23,15 +23,25 @@ export interface ButtonProps {
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   className?: string;
   ariaLabel?: string;
+  "data-testid"?: string;
 }
 
-export function Button({ variant, children, onClick, className, size, ariaLabel }: ButtonProps) {
+export function Button({
+  variant,
+  children,
+  onClick,
+  className,
+  size,
+  ariaLabel,
+  ...props
+}: ButtonProps) {
   return (
     <button
       className={`btn ${variantClassMap[variant || "primary"]} ${sizeClassMap[size || "medium"]} ${className || ""}`}
       onClick={onClick}
       aria-label={ariaLabel || (typeof children === "string" ? children : undefined)}
       type="button"
+      {...props}
     >
       {children}
     </button>

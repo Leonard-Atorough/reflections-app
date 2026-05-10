@@ -71,7 +71,7 @@ function ContentEditor({ value, onChange }: { value: string; onChange: (value: s
         aria-label="Content"
         placeholder="Add some reflections..."
         value={value}
-        className="content"
+        className={`content ${styles.formContent}`} 
         onChange={(e) => onChange(e.target.value)}
       />
     </div>

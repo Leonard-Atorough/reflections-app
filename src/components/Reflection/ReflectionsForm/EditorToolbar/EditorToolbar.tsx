@@ -1,12 +1,14 @@
 import { Button } from "@/components/ui";
 import type { MarkdownFormats } from "@/types/ContentFormat";
 import styles from "./EditorToolbar.module.css";
+import { useResponsive } from "@/hooks";
 
 export interface EditorToolbarProps {
   onFormat: (format: keyof typeof MarkdownFormats, args?: string) => void;
 }
 
 export function EditorToolbar({ onFormat }: EditorToolbarProps) {
+  const { isMobile } = useResponsive();
   return (
     <div className={styles.toolbar}>
       <div className={styles.group}>
@@ -47,7 +49,7 @@ export function EditorToolbar({ onFormat }: EditorToolbarProps) {
           U
         </Button>
       </div>
-      <span className={styles.divider} />
+      {!isMobile && <span className={styles.divider} />}
       <div className={styles.group}>
         <Button
           variant="outline"
@@ -77,7 +79,7 @@ export function EditorToolbar({ onFormat }: EditorToolbarProps) {
           H3
         </Button>
       </div>
-      <span className={styles.divider} />
+      {!isMobile && <span className={styles.divider} />}
       <div className={styles.group}>
         <Button
           variant="outline"
@@ -98,7 +100,7 @@ export function EditorToolbar({ onFormat }: EditorToolbarProps) {
           {"<>"}
         </Button>
       </div>
-      <span className={styles.divider} />
+      {!isMobile && <span className={styles.divider} />}
       <div className={styles.group}>
         <Button
           variant="outline"

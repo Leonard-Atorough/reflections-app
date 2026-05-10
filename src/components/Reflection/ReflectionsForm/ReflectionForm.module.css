@@ -6,3 +6,7 @@
   gap: var(--space-4);
   height: 100%;
 }
+
+.contentEditor > .formContent {
+  font-size: var(--text-lg);
+}

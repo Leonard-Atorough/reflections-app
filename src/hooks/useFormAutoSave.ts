@@ -13,7 +13,7 @@ interface UseFormAutoSaveOptions {
 /**
  * Custom hook for managing form auto-save with debounce
  * Decoupled from ReflectionForm to support different editors
- * 
+ *
  * @example
  * useFormAutoSave({
  *   title,
@@ -29,7 +29,7 @@ export function useFormAutoSave({
   reflection,
 }: UseFormAutoSaveOptions): void {
   const idRef = useRef<string>(reflection?.id ?? crypto.randomUUID());
-  const {addReflection, updateReflection} = useReflectionActions();
+  const { addReflection, updateReflection } = useReflectionActions();
 
   useEffect(() => {
     idRef.current = reflection?.id ?? crypto.randomUUID();
@@ -46,12 +46,18 @@ export function useFormAutoSave({
           content,
           dateCreated: reflection?.dateCreated ?? Date.now(),
           dateUpdated: Date.now(),
+          contentFormat: reflection?.contentFormat ?? "plaintext",
         };
 
         // Only save if changed from previous state
         if (exists) {
           const existing = reflections.find((r) => r.id === idRef.current);
-          if (existing && (existing.title !== title || existing.content !== content)) {
+          if (
+            existing &&
+            (existing.title !== title ||
+              existing.content !== content ||
+              existing.contentFormat !== (reflection?.contentFormat ?? "plaintext"))
+          ) {
             updateReflection(newOrUpdatedReflection);
           }
         } else {
@@ -63,5 +69,13 @@ export function useFormAutoSave({
     return () => {
       clearTimeout(saveHandler);
     };
-  }, [title, content, reflection?.dateCreated, reflections, updateReflection, addReflection]);
+  }, [
+    title,
+    content,
+    reflection?.dateCreated,
+    reflection?.contentFormat,
+    reflections,
+    updateReflection,
+    addReflection,
+  ]);
 }

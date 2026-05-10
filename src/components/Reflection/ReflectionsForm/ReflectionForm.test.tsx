@@ -1,6 +1,6 @@
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { ReflectionForm } from "./ReflectionForm";
-import { testReflection } from "../../__mocks__/mockReflections";
+import { generateMockReflections } from "../../../__mocks__/mockReflections";
 import { createContextWrapper } from "@/test/contextWrappers";
 
 const mockAddReflection = vi.fn();
@@ -40,6 +40,7 @@ describe("ReflectionForm", () => {
   });
 
   it("renders correctly when a reflection is passed in", () => {
+    const testReflection = generateMockReflections(1)[0];
     render(<ReflectionForm reflection={testReflection} />, { wrapper });
 
     expect(screen.getByDisplayValue(testReflection.title)).toBeInTheDocument();
@@ -80,6 +81,7 @@ describe("ReflectionForm", () => {
   });
 
   it("calls updateReflection when an existing reflection title is updated", () => {
+    const testReflection = generateMockReflections(1)[0];
     const reflections = [testReflection];
     const wrapperWithReflection = createContextWrapper({
       reflections,
@@ -105,6 +107,7 @@ describe("ReflectionForm", () => {
   });
 
   it("calls updateReflection when an existing reflection content is updated", () => {
+    const testReflection = generateMockReflections(1)[0];
     const reflections = [testReflection];
     const wrapperWithReflection = createContextWrapper({
       reflections,
@@ -130,6 +133,7 @@ describe("ReflectionForm", () => {
   });
 
   it("sets isEditing to false when escape key is pressed", async () => {
+    const testReflection = generateMockReflections(1)[0];
     const mockSetIsEditing = vi.fn();
     const wrapperWithEditingContext = createContextWrapper({
       reflections: [testReflection],

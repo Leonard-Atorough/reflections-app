@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState, useDeferredValue } from "react";
 import type { Reflection } from "../types/Reflection";
 import { SEARCH_DEFAULTS } from "@/config/constants";
+import { extractPlainText } from "@/types/ContentFormat";
 
 type SearchField = "title" | "content";
 
@@ -35,7 +36,12 @@ export function useSearch(reflections: Reflection[]) {
         const filtered = deferredReflections.filter((reflection) => {
           return searchFields.some((field) => {
             const content = field === "title" ? reflection.title : reflection.content;
-            return content.toLowerCase().includes(lowercaseTerm);
+            let plainText = content;
+            if (field === "content") {
+              // Strip markdown syntax for search
+              plainText = extractPlainText(content, reflection.contentFormat);
+            }
+            return plainText.toLowerCase().includes(lowercaseTerm);
           });
         });
 

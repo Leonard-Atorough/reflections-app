@@ -4,6 +4,7 @@ import { ReflectionsContext, EditingContext, type ReflectionsContextType } from 
 import type { Reflection } from "@/types/Reflection";
 import { Button, Dialog, TrashIcon } from "../ui";
 import { useReflectionActions } from "@hooks";
+import { renderMarkdown } from "@/types/ContentFormat";
 
 export function ReflectionDetail({ reflection }: { reflection: Reflection | null }) {
   const { setIsEditing } = useContext(EditingContext);
@@ -74,7 +75,11 @@ export function ReflectionDetail({ reflection }: { reflection: Reflection | null
           tabIndex={0}
           data-testid="details-body"
         >
-          {reflection?.content ?? ""}
+          {reflection ? (
+            contentViewer({ content: reflection.content })
+          ) : (
+            <span className="placeholder">No content yet. Click to add your thoughts!</span>
+          )}
         </p>
       </div>
       {/* dialog is always rendered but its visibility is controlled by style */}
@@ -91,4 +96,19 @@ export function ReflectionDetail({ reflection }: { reflection: Reflection | null
       />
     </>
   );
+}
+
+function contentViewer({
+  content,
+  format,
+}: {
+  content: string;
+  format?: "markdown" | "plaintext";
+}) {
+  if (format === "plaintext") {
+    return <div>{content}</div>;
+  }
+  const htmlContent = renderMarkdown(content);
+
+  return <div dangerouslySetInnerHTML={{ __html: htmlContent }} />;
 }

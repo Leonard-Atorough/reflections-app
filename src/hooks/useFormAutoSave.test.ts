@@ -60,6 +60,7 @@ describe("useFormAutoSave", () => {
       content: "Content",
       dateCreated: Date.now(),
       dateUpdated: Date.now(),
+      contentFormat: "plaintext",
     };
     const reflections = [existingReflection];
 
@@ -123,6 +124,7 @@ describe("useFormAutoSave", () => {
       content: "Content",
       dateCreated: Date.now(),
       dateUpdated: Date.now(),
+      contentFormat: "plaintext",
     };
     const reflections = [existingReflection];
 

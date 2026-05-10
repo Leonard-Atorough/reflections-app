@@ -1,3 +1,4 @@
+import { generateMockReflections } from "@/__mocks__/mockReflections";
 import {
   reflectionsReducer,
   type ReflectionsAction,
@@ -58,15 +59,7 @@ describe("reflectionsReducer", () => {
 
   it("should update a reflection when UPDATE_REFLECTION action is dispatched", () => {
     const initialState: ReflectionsState = {
-      reflections: [
-        {
-          id: "1",
-          title: "Old Title",
-          content: "Old Content",
-          dateCreated: new Date("2024-01-01T00:00:00Z").getTime(),
-          dateUpdated: new Date("2024-01-01T00:00:00Z").getTime(),
-        },
-      ],
+      reflections: generateMockReflections(1),
       selectedId: null,
     };
     const updatedReflection = {
@@ -75,6 +68,7 @@ describe("reflectionsReducer", () => {
       content: "Updated Content",
       dateCreated: new Date("2024-01-01T00:00:00Z").getTime(),
       dateUpdated: new Date("2024-01-02T00:00:00Z").getTime(),
+      contentFormat: "plaintext",
     };
     const action = { type: "UPDATE_REFLECTION", payload: updatedReflection };
     const newState = reflectionsReducer(initialState, action as unknown as ReflectionsAction);
@@ -83,15 +77,7 @@ describe("reflectionsReducer", () => {
 
   it("should delete a reflection when DELETE_REFLECTION action is dispatched", () => {
     const initialState: ReflectionsState = {
-      reflections: [
-        {
-          id: "1",
-          title: "Reflection to Delete",
-          content: "Content to Delete",
-          dateCreated: new Date("2024-01-01T00:00:00Z").getTime(),
-          dateUpdated: new Date("2024-01-01T00:00:00Z").getTime(),
-        },
-      ],
+      reflections: generateMockReflections(2),
       selectedId: "1",
     };
     const action = { type: "DELETE_REFLECTION", payload: "1" };
@@ -102,22 +88,7 @@ describe("reflectionsReducer", () => {
 
   it("should delete a reflection and not update selectedId if the deleted reflection is not selected", () => {
     const initialState: ReflectionsState = {
-      reflections: [
-        {
-          id: "1",
-          title: "Reflection 1",
-          content: "Content 1",
-          dateCreated: new Date("2024-01-01T00:00:00Z").getTime(),
-          dateUpdated: new Date("2024-01-01T00:00:00Z").getTime(),
-        },
-        {
-          id: "2",
-          title: "Reflection 2",
-          content: "Content 2",
-          dateCreated: new Date("2024-01-02T00:00:00Z").getTime(),
-          dateUpdated: new Date("2024-01-02T00:00:00Z").getTime(),
-        },
-      ],
+      reflections: generateMockReflections(2),
       selectedId: "1",
     };
     const action = { type: "DELETE_REFLECTION", payload: "2" };

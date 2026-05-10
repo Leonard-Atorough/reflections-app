@@ -1,11 +1,11 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import { ReflectionsMenu } from "./ReflectionsMenu/ReflectionsMenu";
-import { testReflection } from "../../__mocks__/mockReflections";
+import { generateMockReflections } from "../../__mocks__/mockReflections";
 import { EditingContext } from "../../contexts/EditingContext";
 import { ReflectionsContext } from "../../contexts/ReflectionsContext";
 
 describe("ReflectionsMenu", () => {
-  function ReflectionsMenuWrapper({ reflections = [testReflection] }) {
+  function ReflectionsMenuWrapper({ reflections = [generateMockReflections(1)[0]] }) {
     return (
       <EditingContext
         value={{
@@ -32,9 +32,9 @@ describe("ReflectionsMenu", () => {
 
   it("renders all reflections", () => {
     const reflections = [
-      testReflection,
-      { ...testReflection, id: "test-id-002", title: "Second Reflection" },
-      { ...testReflection, id: "test-id-003", title: "Third Reflection" },
+      generateMockReflections(1)[0],
+      { ...generateMockReflections(1)[0], id: "test-id-002", title: "Second Reflection" },
+      { ...generateMockReflections(1)[0], id: "test-id-003", title: "Third Reflection" },
     ];
 
     render(<ReflectionsMenuWrapper reflections={reflections} />);

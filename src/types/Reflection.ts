@@ -1,9 +1,12 @@
+import { detectContentFormat, type ContentFormat } from "./ContentFormat";
+
 export type Reflection = {
   id: string;
   title: string;
   dateCreated: number;
   dateUpdated: number;
   content: string;
+  contentFormat: ContentFormat; // "plaintext" or "markdown"
 };
 
 /**
@@ -50,12 +53,20 @@ export function validateReflection(data: unknown): Reflection {
     throw new Error("Reflection.content must not exceed 50,000 characters");
   }
 
+  // Validate contentFormat (auto-detect if missing for backward compatibility)
+  const validFormats = ["plaintext", "markdown"] as const;
+  const format = obj.contentFormat || detectContentFormat(obj.content as string);
+  if (!validFormats.includes(format as ContentFormat)) {
+    throw new Error(`Reflection.contentFormat must be one of: ${validFormats.join(", ")}`);
+  }
+
   return {
     id: obj.id,
     title: obj.title,
     dateCreated: obj.dateCreated,
     dateUpdated: obj.dateUpdated,
     content: obj.content,
+    contentFormat: format as ContentFormat,
   };
 }
 
@@ -75,7 +86,7 @@ export function isValidReflection(data: unknown): data is Reflection {
 /**
  * Custom comparison function for ReflectionItem props
  * Prevents re-renders when parent list updates if this item hasn't changed
- * Compares the relevant properties: id, title, content, and dateUpdated
+ * Compares the relevant properties: id, title, content, dateUpdated, and contentFormat
  */
 export function arePropsEqual(
   prevProps: { reflection: Reflection },
@@ -85,6 +96,7 @@ export function arePropsEqual(
     prevProps.reflection.id === nextProps.reflection.id &&
     prevProps.reflection.title === nextProps.reflection.title &&
     prevProps.reflection.content === nextProps.reflection.content &&
-    prevProps.reflection.dateUpdated === nextProps.reflection.dateUpdated
+    prevProps.reflection.dateUpdated === nextProps.reflection.dateUpdated &&
+    prevProps.reflection.contentFormat === nextProps.reflection.contentFormat
   );
 }

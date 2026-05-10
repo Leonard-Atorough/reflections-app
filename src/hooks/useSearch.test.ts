@@ -1,23 +1,9 @@
 import { renderHook, waitFor } from "@testing-library/react";
 import { useSearch } from "./useSearch";
-import { testReflection } from "../__mocks__/mockReflections";
+import { generateMockReflections } from "../__mocks__/mockReflections";
 
 describe("useSearch", () => {
-  const mockReflections = [
-    testReflection,
-    {
-      ...testReflection,
-      id: "test-id-002",
-      title: "Another Title",
-      content: "Different content here",
-    },
-    {
-      ...testReflection,
-      id: "test-id-003",
-      title: "Third Reflection",
-      content: "Test Reflection Title content",
-    },
-  ];
+  const mockReflections = generateMockReflections(3);
 
   it("returns all reflections by default", () => {
     const { result } = renderHook(() => useSearch(mockReflections));
@@ -145,7 +131,7 @@ describe("useSearch", () => {
     // Change the reflections array
     const newReflections = [
       {
-        ...testReflection,
+        ...generateMockReflections(1)[0],
         id: "test-id-new",
         title: "New Reflection",
       },

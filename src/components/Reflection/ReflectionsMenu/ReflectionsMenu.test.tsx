@@ -1,50 +1,34 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import { ReflectionsMenu } from "./ReflectionsMenu";
-import { testReflection } from "../../../__mocks__/mockReflections";
-import { EditingContext, ReflectionsContext } from "../../../contexts";
+import { generateMockReflections } from "../../../__mocks__/mockReflections";
+import { createContextWrapper } from "@/test/contextWrappers";
 
 describe("ReflectionsMenu", () => {
-  function ReflectionsMenuWrapper({ reflections = [testReflection] }) {
-    return (
-      <EditingContext
-        value={{
-          isEditing: false,
-          setIsEditing: vi.fn(),
-        }}
-      >
-        <ReflectionsContext
-          value={{
-            reflections,
-            selectedId: null,
-            dispatch: vi.fn(),
-          }}
-        >
-          <ReflectionsMenu reflections={reflections} />
-        </ReflectionsContext>
-      </EditingContext>
-    );
-  }
+  let wrapper: ReturnType<typeof createContextWrapper>;
+
+  beforeEach(() => {
+    wrapper = createContextWrapper({
+      reflections: [generateMockReflections(1)[0]],
+      selectedId: null,
+    });
+  });
 
   afterEach(() => {
     cleanup();
   });
 
   it("renders all reflections", () => {
-    const reflections = [
-      testReflection,
-      { ...testReflection, id: "test-id-002", title: "Second Reflection" },
-      { ...testReflection, id: "test-id-003", title: "Third Reflection" },
-    ];
+    const reflections = generateMockReflections(3);
 
-    render(<ReflectionsMenuWrapper reflections={reflections} />);
+    render(<ReflectionsMenu reflections={reflections} />, { wrapper });
 
-    expect(screen.getByText("Test Reflection Title")).toBeInTheDocument();
-    expect(screen.getByText("Second Reflection")).toBeInTheDocument();
-    expect(screen.getByText("Third Reflection")).toBeInTheDocument();
+    expect(screen.getByText("Mock Reflection 1")).toBeInTheDocument();
+    expect(screen.getByText("Mock Reflection 2")).toBeInTheDocument();
+    expect(screen.getByText("Mock Reflection 3")).toBeInTheDocument();
   });
 
   it("renders empty list when no reflections provided", () => {
-    render(<ReflectionsMenuWrapper reflections={[]} />);
+    render(<ReflectionsMenu reflections={[]} />, { wrapper });
 
     const listbox = screen.getByRole("listbox");
     expect(listbox).toBeInTheDocument();
@@ -52,7 +36,8 @@ describe("ReflectionsMenu", () => {
   });
 
   it("has proper accessibility attributes", () => {
-    render(<ReflectionsMenuWrapper />);
+    const reflections = generateMockReflections(3);
+    render(<ReflectionsMenu reflections={reflections} />, { wrapper });
 
     const listbox = screen.getByRole("listbox");
     expect(listbox).toHaveAttribute("aria-label", "Reflections List");

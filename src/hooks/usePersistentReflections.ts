@@ -45,7 +45,7 @@ export function usePersistentReflections(
   };
 
   useEffect(() => {
-    if (autoSave && reflections.length > 0) {
+    if (autoSave) {
       saveReflections(reflections);
     }
   }, [reflections, autoSave]);

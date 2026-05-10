@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { ReflectionDetail } from "../components/Reflection/ReflectionDetail";
-import { ReflectionForm } from "../components/Reflection/ReflectionForm";
+import { ReflectionForm } from "../components/Reflection/ReflectionsForm/ReflectionForm";
 import { ReflectionsContext, EditingContext, type ReflectionsContextType } from "../contexts";
 import style from "./Layout.module.css";
 

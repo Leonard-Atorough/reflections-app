@@ -1,5 +1,5 @@
 import { arePropsEqual, isValidReflection, validateReflection } from "./Reflection";
-import { testReflection, generateMockReflections } from "@/__mocks__/mockReflections";
+import { generateMockReflections } from "@/__mocks__/mockReflections";
 
 describe("Reflections type", () => {
   it("should validate a valid reflection object", () => {
@@ -9,6 +9,7 @@ describe("Reflections type", () => {
       dateCreated: Date.now(),
       dateUpdated: Date.now(),
       content: "This is a reflection.",
+      contentFormat: "plaintext",
     };
 
     expect(() => validateReflection(validReflection)).not.toThrow();
@@ -82,60 +83,61 @@ describe("Reflections type", () => {
 
 describe("arePropsEqual", () => {
   it("returns true when props are exactly the same", () => {
-    const props = { reflection: testReflection };
+    const props = { reflection: generateMockReflections(1)[0] };
     expect(arePropsEqual(props, props)).toBe(true);
   });
 
   it("returns true when all reflection properties are equal", () => {
-    const prevProps = { reflection: testReflection };
+    const prevProps = { reflection: generateMockReflections(1)[0] };
     const nextProps = {
       reflection: {
-        ...testReflection,
-        id: testReflection.id,
-        title: testReflection.title,
-        content: testReflection.content,
-        dateUpdated: testReflection.dateUpdated,
+        ...prevProps.reflection,
+        id: prevProps.reflection.id,
+        title: prevProps.reflection.title,
+        content: prevProps.reflection.content,
+        dateUpdated: prevProps.reflection.dateUpdated,
+        contentFormat: prevProps.reflection.contentFormat,
       },
     };
     expect(arePropsEqual(prevProps, nextProps)).toBe(true);
   });
 
   it("returns false when id is different", () => {
-    const prevProps = { reflection: testReflection };
+    const prevProps = { reflection: generateMockReflections(1)[0] };
     const nextProps = {
-      reflection: { ...testReflection, id: "different-id" },
+      reflection: { ...prevProps.reflection, id: "different-id" },
     };
     expect(arePropsEqual(prevProps, nextProps)).toBe(false);
   });
 
   it("returns false when title is different", () => {
-    const prevProps = { reflection: testReflection };
+    const prevProps = { reflection: generateMockReflections(1)[0] };
     const nextProps = {
-      reflection: { ...testReflection, title: "Different Title" },
+      reflection: { ...prevProps.reflection, title: "Different Title" },
     };
     expect(arePropsEqual(prevProps, nextProps)).toBe(false);
   });
 
   it("returns false when content is different", () => {
-    const prevProps = { reflection: testReflection };
+    const prevProps = { reflection: generateMockReflections(1)[0] };
     const nextProps = {
-      reflection: { ...testReflection, content: "Different content" },
+      reflection: { ...prevProps.reflection, content: "Different content" },
     };
     expect(arePropsEqual(prevProps, nextProps)).toBe(false);
   });
 
   it("returns false when dateUpdated is different", () => {
-    const prevProps = { reflection: testReflection };
+    const prevProps = { reflection: generateMockReflections(1)[0] };
     const nextProps = {
-      reflection: { ...testReflection, dateUpdated: Date.now() },
+      reflection: { ...prevProps.reflection, dateUpdated: Date.now() },
     };
     expect(arePropsEqual(prevProps, nextProps)).toBe(false);
   });
 
   it("ignores dateCreated changes", () => {
-    const prevProps = { reflection: testReflection };
+    const prevProps = { reflection: generateMockReflections(1)[0] };
     const nextProps = {
-      reflection: { ...testReflection, dateCreated: Date.now() },
+      reflection: { ...prevProps.reflection, dateCreated: Date.now() },
     };
     expect(arePropsEqual(prevProps, nextProps)).toBe(true);
   });

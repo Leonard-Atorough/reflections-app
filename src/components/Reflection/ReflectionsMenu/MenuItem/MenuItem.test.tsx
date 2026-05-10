@@ -3,7 +3,7 @@ import { userEvent } from "@testing-library/user-event";
 
 import { ReflectionItem } from "./MenuItem";
 import styles from "./MenuItem.module.css";
-import { testReflection } from "@/__mocks__/mockReflections";
+import { generateMockReflections } from "@/__mocks__/mockReflections";
 import { formatDate } from "@/utils/formatDate";
 import { EditingContext, ReflectionsContext, SidebarContext } from "@contexts";
 import * as useReflectionActionsModule from "@hooks";
@@ -40,7 +40,7 @@ describe("MenuItem", () => {
               dispatch: vi.fn(),
             }}
           >
-            <ReflectionItem reflection={testReflection} />
+            <ReflectionItem reflection={generateMockReflections(1)[0]} />
           </ReflectionsContext>
         </SidebarContext>
       </EditingContext>
@@ -66,6 +66,7 @@ describe("MenuItem", () => {
   });
 
   it("renders the reflecion item correctly", () => {
+    const testReflection = generateMockReflections(1)[0];
     render(<MenuItemWrapper />);
     expect(screen.getByText(testReflection.title)).toBeInTheDocument();
     const formattedDate = formatDate(testReflection.dateUpdated) ?? "";
@@ -73,6 +74,7 @@ describe("MenuItem", () => {
   });
 
   it("calls setSelectedId with reflectionId when clicked once", async () => {
+    const testReflection = generateMockReflections(1)[0];
     render(<MenuItemWrapper />);
     const item = screen.getByTestId("reflection-button");
     await userEvent.click(item);
@@ -82,6 +84,7 @@ describe("MenuItem", () => {
   });
 
   it("calls onSelect with reflectionId when enter is pressed", async () => {
+    const testReflection = generateMockReflections(1)[0];
     render(<MenuItemWrapper />);
     const item = screen.getByTestId("reflection-button");
     item.focus();
@@ -92,6 +95,7 @@ describe("MenuItem", () => {
   });
 
   it("adds the selected style to the list element when selected", () => {
+    const testReflection = generateMockReflections(1)[0];
     render(<MenuItemWrapper selectedId={testReflection.id} />);
     expect(screen.getByTestId("reflection-button")).toHaveClass(styles.selected);
   });

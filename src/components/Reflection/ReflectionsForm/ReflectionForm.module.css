@@ -1,2 +1,8 @@
 /* Placeholder for if we need to add form specific styles in the future. For now, all styles are in Reflection.css */
 /* Reflections.css imported in index.css */
+.contentEditor {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  height: 100%;
+}

@@ -1,9 +1,11 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import type { Reflection } from "@/types/Reflection";
-
 import { useFormattedDate } from "@hooks/useFormattedDate";
 import { useFormAutoSave } from "@hooks/useFormAutoSave";
 import { EditingContext, ReflectionsContext, type ReflectionsContextType } from "@contexts";
+import { MarkdownFormats } from "@/types/ContentFormat";
+import { EditorToolbar } from "./EditorToolbar/EditorToolbar";
+import styles from "./ReflectionForm.module.css";
 
 type props = {
   reflection: Reflection | null;
@@ -31,16 +33,48 @@ function TitleInput({ value, onChange }: { value: string; onChange: (value: stri
  * Content editor sub-component
  * Easy to replace with WYSIWYG editor - just change this component
  */
-function ContentEditor({ value, onChange }: { value: string; onChange: (value: string) => void }) {
+function ContentEditor({ value, onChange }: { value: string; onChange: (value: string, format?: "markdown") => void }) {
+  const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  const applyMarkdownFormat = (format: keyof typeof MarkdownFormats, args?: string) => {
+    if (!textAreaRef.current) return;
+
+    const textarea = textAreaRef.current;
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const selectedText = value.substring(start, end) || "sample text";
+
+    let formatted: string;
+    if (format === "link" && args) {
+      formatted = MarkdownFormats.link(selectedText, args);
+    } else {
+      formatted = MarkdownFormats[format](selectedText);
+    }
+
+    const formattedContent = value.substring(0, start) + formatted + value.substring(end);
+    onChange(formattedContent, "markdown");
+
+    // Restore cursor position after formatting
+    setTimeout(() => {
+      textarea.selectionStart = start + formatted.length;
+      textarea.selectionEnd = start + formatted.length;
+      textarea.focus();
+    }, 0);
+  };
+
   return (
-    <textarea
-      name="content"
-      aria-label="Content"
-      placeholder="Add some reflections..."
-      value={value}
-      className="content"
-      onChange={(e) => onChange(e.target.value)}
-    />
+    <div className={styles.contentEditor}>
+      <EditorToolbar onFormat={applyMarkdownFormat} />
+      <textarea
+        ref={textAreaRef}
+        name="content"
+        aria-label="Content"
+        placeholder="Add some reflections..."
+        value={value}
+        className="content"
+        onChange={(e) => onChange(e.target.value)}
+      />
+    </div>
   );
 }
 

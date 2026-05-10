@@ -7,7 +7,7 @@ import { Aside } from "./layout/Aside";
 import { Main } from "./layout/Main";
 import { ErrorBoundary } from "./components/ui/ErrorBoundary/ErrorBoundary";
 
-import { mockReflections } from "./data/mockReflections";
+import { defaultReflections } from "./data/mockReflections";
 import { reflectionsReducer } from "./reducers/reflectionsReducer";
 import { EditingContext, ReflectionsContext, SidebarContext, ThemeContext } from "./contexts";
 import { usePersistentReflections, useSearch } from "./hooks";
@@ -29,7 +29,7 @@ function App() {
     const data = loadReflections();
     dispatch({
       type: "SET_REFLECTIONS",
-      payload: data.length > 0 ? data : mockReflections,
+      payload: data.length > 0 ? data : defaultReflections,
     });
   }, [loadReflections]);
 

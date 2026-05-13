@@ -29,8 +29,11 @@
   --space-4: 1rem; /* 16px */
   --space-5: 1.25rem; /* 20px */
   --space-6: 1.5rem; /* 24px */
+  --space-7: 1.75rem; /* 28px */
   --space-8: 2rem; /* 32px */
+  --space-9: 2.25rem; /* 36px */
   --space-10: 2.5rem; /* 40px */
+  --space-11: 2.75rem; /* 44px */
   --space-12: 3rem; /* 48px */
 
   /* ── Border ─────────────────────────────────────────────── */
@@ -91,37 +94,35 @@
   --color-border-dark: #000000;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-bg: #1c1c1e;
-    --color-bg-sidebar: #2c2c2e;
-    --color-surface: #3a3a3c;
-    --color-surface-hover: #3d3a1a;
+[data-theme="dark"] {
+  --color-bg: #1c1c1e;
+  --color-bg-sidebar: #2c2c2e;
+  --color-surface: #3a3a3c;
+  --color-surface-hover: #3d3a1a;
 
-    --color-text: #f5f5f0;
-    --color-text-muted: #c2c2c4;
-    --color-text-faint: #6e6e73;
+  --color-text: #f5f5f0;
+  --color-text-muted: #c2c2c4;
+  --color-text-faint: #6e6e73;
 
-    --color-border: #f5f5f0;
-    --color-border-subtle: #48484a;
+  --color-border: #f5f5f0;
+  --color-border-subtle: #48484a;
 
-    --color-accent: #ffd60a;
-    --color-accent-dark: #e6bf00;
-    --color-accent-text: #1c1c1e;
+  --color-accent: #ffd60a;
+  --color-accent-dark: #e6bf00;
+  --color-accent-text: #1c1c1e;
 
-    --color-selected: #3d3a1a;
+  --color-selected: #3d3a1a;
 
-    --color-danger: #ff453a;
-    --color-danger-dark: #ff6b63;
-    --color-danger-text: #ffffff;
-    --color-success: #32d74b;
+  --color-danger: #ff453a;
+  --color-danger-dark: #ff6b63;
+  --color-danger-text: #ffffff;
+  --color-success: #32d74b;
 
-    --color-secondary: var(--color-surface);
-    --color-secondary-text: var(--color-text);
+  --color-secondary: var(--color-surface);
+  --color-secondary-text: var(--color-text);
 
-    --color-disabled: var(--color-border-subtle);
-    --color-disabled-text: var(--color-text-faint);
+  --color-disabled: var(--color-border-subtle);
+  --color-disabled-text: var(--color-text-faint);
 
-    --color-border-dark: #ffffff;
-  }
+  --color-border-dark: #ffffff;
 }

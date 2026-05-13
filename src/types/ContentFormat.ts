@@ -49,6 +49,19 @@ export function surroundWithNewlines(text: string): string {
   return `\n${text}\n`;
 }
 
+export function updateHeaderLevel(text: string, newLevel: number): string {
+  const headerPattern = /^(#{1,6})\s+/;
+  const match = text.match(headerPattern);
+  if (match) {
+    const newHeader = "#".repeat(newLevel);
+    return text.replace(headerPattern, `${newHeader} `);
+  } else {
+    // If not a header, make it one
+    const newHeader = "#".repeat(newLevel);
+    return `${newHeader} ${text}`;
+  }
+}
+
 /**
  * Markdown generators for toolbar buttons
  * Usage: Apply these to selected text in editor
@@ -60,9 +73,12 @@ export const MarkdownFormats = {
   underline: (text: string) => toggleMarkdown(text, "__"),
   code: (text: string) => insertMarkdown(text, "`"),
   codeBlock: (text: string) => surroundWithNewlines(insertMarkdown(text, "```\n", "\n```")),
-  h1: (text: string) => `# ${text}`,
-  h2: (text: string) => `## ${text}`,
-  h3: (text: string) => `### ${text}`,
+  h1: (text: string) => updateHeaderLevel(text, 1),
+  h2: (text: string) => updateHeaderLevel(text, 2),
+  h3: (text: string) => updateHeaderLevel(text, 3),
+  h4: (text: string) => updateHeaderLevel(text, 4),
+  h5: (text: string) => updateHeaderLevel(text, 5),
+  h6: (text: string) => updateHeaderLevel(text, 6),
   quote: (text: string) =>
     text
       .split("\n")

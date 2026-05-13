@@ -21,6 +21,7 @@ export interface ButtonProps {
   size?: ButtonSize;
   children: React.ReactNode;
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  square?: boolean;
   className?: string;
   ariaLabel?: string;
   "data-testid"?: string;
@@ -37,7 +38,7 @@ export function Button({
 }: ButtonProps) {
   return (
     <button
-      className={`btn ${variantClassMap[variant || "primary"]} ${sizeClassMap[size || "medium"]} ${className || ""}`}
+      className={`btn ${variantClassMap[variant || "primary"]} ${sizeClassMap[size || "medium"]} ${className || ""} ${props.square ? styles["btn-square"] : ""}`.trim()}
       onClick={onClick}
       aria-label={ariaLabel || (typeof children === "string" ? children : undefined)}
       type="button"

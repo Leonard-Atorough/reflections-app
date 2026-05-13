@@ -200,4 +200,8 @@ footer {
   overflow: hidden;
   padding: var(--space-6);
   background: var(--color-surface);
+
+  @media only screen and (max-width: 900px) {
+    padding: var(--space-2);
+  }
 }

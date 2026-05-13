@@ -27,7 +27,6 @@
       justify-content: space-between;
       gap: var(--space-2);
       width: 100%;
-      border-bottom: var(--border-subtle);
 
       > .title {
         font-family: var(--font-sans);
@@ -63,6 +62,8 @@
       align-items: center;
       color: var(--color-text);
       padding: var(--space-1) var(--space-6);
+      border-top: var(--border-subtle);
+      width: 100%;
 
       > .date {
         border: var(--border-subtle);

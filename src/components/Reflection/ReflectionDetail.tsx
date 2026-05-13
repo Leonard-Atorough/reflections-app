@@ -3,13 +3,14 @@ import { useFormattedDate } from "@hooks/useFormattedDate";
 import { ReflectionsContext, EditingContext, type ReflectionsContextType } from "@contexts";
 import type { Reflection } from "@/types/Reflection";
 import { Button, Dialog, TrashIcon } from "../ui";
-import { useReflectionActions } from "@hooks";
+import { useReflectionActions, useResponsive } from "@hooks";
 import { renderMarkdown } from "@/types/ContentFormat";
 
 export function ReflectionDetail({ reflection }: { reflection: Reflection | null }) {
   const { setIsEditing } = useContext(EditingContext);
   const { selectedId } = useContext(ReflectionsContext) as ReflectionsContextType;
   const { deleteReflection } = useReflectionActions();
+  const { isMobile } = useResponsive();
 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
@@ -60,9 +61,11 @@ export function ReflectionDetail({ reflection }: { reflection: Reflection | null
               )}
             </div>
           </div>
-          <div className="metadata">
-            <p className="date">{formattedUpdateDate}</p>
-          </div>
+          {!isMobile && (
+            <div className="metadata">
+              <p className="date">{formattedUpdateDate}</p>
+            </div>
+          )}
         </div>
         <p
           onClick={() => {

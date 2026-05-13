@@ -6,6 +6,7 @@ import { EditingContext, ReflectionsContext, type ReflectionsContextType } from 
 import { MarkdownFormats } from "@/types/ContentFormat";
 import { EditorToolbar } from "./EditorToolbar/EditorToolbar";
 import styles from "./ReflectionForm.module.css";
+import { useResponsive } from "@/hooks";
 
 type props = {
   reflection: Reflection | null;
@@ -33,7 +34,13 @@ function TitleInput({ value, onChange }: { value: string; onChange: (value: stri
  * Content editor sub-component
  * Easy to replace with WYSIWYG editor - just change this component
  */
-function ContentEditor({ value, onChange }: { value: string; onChange: (value: string, format?: "markdown") => void }) {
+function ContentEditor({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (value: string, format?: "markdown") => void;
+}) {
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
   const applyMarkdownFormat = (format: keyof typeof MarkdownFormats, args?: string) => {
@@ -71,7 +78,7 @@ function ContentEditor({ value, onChange }: { value: string; onChange: (value: s
         aria-label="Content"
         placeholder="Add some reflections..."
         value={value}
-        className={`content ${styles.formContent}`} 
+        className={`content ${styles.formContent}`}
         onChange={(e) => onChange(e.target.value)}
       />
     </div>
@@ -90,14 +97,17 @@ function FormHeader({
   onTitleChange: (value: string) => void;
   formattedDate: string;
 }) {
+  const { isMobile } = useResponsive();
   return (
     <div className="header">
       <div className="titleWrapper">
         <TitleInput value={title} onChange={onTitleChange} />
       </div>
-      <div className="metadata">
-        <p className="date">{formattedDate}</p>
-      </div>
+      {!isMobile && (
+        <div className="metadata">
+          <p className="date">{formattedDate}</p>
+        </div>
+      )}
     </div>
   );
 }

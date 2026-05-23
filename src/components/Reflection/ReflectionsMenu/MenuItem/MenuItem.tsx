@@ -10,6 +10,7 @@ import {
   type ReflectionsContextType,
 } from "@contexts";
 import { useReflectionActions } from "@/hooks";
+import { Tag } from "@/components/ui/Tag/Tag";
 
 type Props = {
   reflection: Reflection;
@@ -44,7 +45,10 @@ function ReflectionItemComponent({ reflection }: Props) {
       aria-selected={isSelected}
     >
       <h3 className={styles.reflectionTitle}>{reflection.title}</h3>
-      <div className={styles.reflectionMeta}>{formattedUpdateDate}</div>
+      <div className={styles.reflectionMeta}>
+        <Tag name={reflection.tag?.name || "Untagged"} color={reflection.tag?.color || "gray"} />
+        <div className={styles.reflectionDate}>{formattedUpdateDate}</div>
+      </div>
     </li>
   );
 }

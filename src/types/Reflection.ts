@@ -1,4 +1,5 @@
 import { detectContentFormat, type ContentFormat } from "./ContentFormat";
+import type { Tag } from "./Tag";
 
 export type Reflection = {
   id: string;
@@ -7,6 +8,7 @@ export type Reflection = {
   dateUpdated: number;
   content: string;
   contentFormat: ContentFormat; // "plaintext" or "markdown"
+  tag?: Tag; // Optional tag for categorization
 };
 
 /**
@@ -67,6 +69,7 @@ export function validateReflection(data: unknown): Reflection {
     dateUpdated: obj.dateUpdated,
     content: obj.content,
     contentFormat: format as ContentFormat,
+    tag: obj.tag as Tag | undefined,
   };
 }
 
@@ -86,7 +89,7 @@ export function isValidReflection(data: unknown): data is Reflection {
 /**
  * Custom comparison function for ReflectionItem props
  * Prevents re-renders when parent list updates if this item hasn't changed
- * Compares the relevant properties: id, title, content, dateUpdated, and contentFormat
+ * Compares the relevant properties: id, title, content, dateUpdated, contentFormat, and tag
  */
 export function arePropsEqual(
   prevProps: { reflection: Reflection },
@@ -97,6 +100,7 @@ export function arePropsEqual(
     prevProps.reflection.title === nextProps.reflection.title &&
     prevProps.reflection.content === nextProps.reflection.content &&
     prevProps.reflection.dateUpdated === nextProps.reflection.dateUpdated &&
-    prevProps.reflection.contentFormat === nextProps.reflection.contentFormat
+    prevProps.reflection.contentFormat === nextProps.reflection.contentFormat &&
+    prevProps.reflection.tag === nextProps.reflection.tag
   );
 }

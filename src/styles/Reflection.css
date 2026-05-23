@@ -58,10 +58,10 @@
 
     > .metadata {
       display: flex;
-      gap: var(--space-4);
+      justify-content: space-between;
       align-items: center;
       color: var(--color-text);
-      padding: var(--space-1) var(--space-6);
+      padding: var(--space-2) var(--space-6);
       border-top: var(--border-subtle);
       width: 100%;
 

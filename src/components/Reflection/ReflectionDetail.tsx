@@ -5,11 +5,13 @@ import type { Reflection } from "@/types/Reflection";
 import { Button, Dialog, TrashIcon } from "../ui";
 import { useReflectionActions, useResponsive } from "@hooks";
 import { renderMarkdown } from "@/types/ContentFormat";
+import { type Tag, type TagColor, tagColorMap } from "@/types/Tag";
+import styles from "./ReflectionDetail.module.css";
 
 export function ReflectionDetail({ reflection }: { reflection: Reflection | null }) {
   const { setIsEditing } = useContext(EditingContext);
   const { selectedId } = useContext(ReflectionsContext) as ReflectionsContextType;
-  const { deleteReflection } = useReflectionActions();
+  const { deleteReflection, updateReflection } = useReflectionActions();
   const { isMobile } = useResponsive();
 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
@@ -64,6 +66,15 @@ export function ReflectionDetail({ reflection }: { reflection: Reflection | null
           {!isMobile && (
             <div className="metadata">
               <p className="date">{formattedUpdateDate}</p>
+              {selectedId && (
+                <AddTag
+                  onTagAdded={(tag: Tag) => {
+                    if (reflection) {
+                      updateReflection({ ...reflection, tag: tag });
+                    }
+                  }}
+                />
+              )}
             </div>
           )}
         </div>
@@ -114,4 +125,46 @@ function contentViewer({
   const htmlContent = renderMarkdown(content);
 
   return <div dangerouslySetInnerHTML={{ __html: htmlContent }} />;
+}
+
+type AddTagProps = {
+  onTagAdded: (tag: Tag) => void;
+};
+
+function AddTag({ onTagAdded }: AddTagProps) {
+  const [{ name, color }, setTag] = useState({ name: "", color: "blue" } as Tag);
+  return (
+    <div
+      className={styles.addTag}
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
+    >
+      <input
+        type="text"
+        placeholder="Add tag..."
+        className={styles.tagNameInput}
+        value={name}
+        onChange={(e) => setTag({ name: e.target.value, color })}
+      />
+      <select
+        className={styles.tagColorSelect}
+        value={color}
+        onChange={(e) => setTag({ name, color: e.target.value as TagColor })}
+      >
+        {Object.entries(tagColorMap).map(([color, hex]) => (
+          <option key={color} value={color} style={{ backgroundColor: hex, color: "#fff" }}>
+            {color.charAt(0).toUpperCase() + color.slice(1)}
+          </option>
+        ))}
+      </select>
+      <Button
+        variant="primary"
+        ariaLabel="Add Tag"
+        onClick={() => onTagAdded({ name, color } as Tag)}
+      >
+        Add
+      </Button>
+    </div>
+  );
 }

@@ -31,17 +31,13 @@ describe("ReflectionsMenu", () => {
   });
 
   it("renders all reflections", () => {
-    const reflections = [
-      generateMockReflections(1)[0],
-      { ...generateMockReflections(1)[0], id: "test-id-002", title: "Second Reflection" },
-      { ...generateMockReflections(1)[0], id: "test-id-003", title: "Third Reflection" },
-    ];
+    const reflections = generateMockReflections(3);
 
     render(<ReflectionsMenuWrapper reflections={reflections} />);
 
-    expect(screen.getByText("Test Reflection Title")).toBeInTheDocument();
-    expect(screen.getByText("Second Reflection")).toBeInTheDocument();
-    expect(screen.getByText("Third Reflection")).toBeInTheDocument();
+    expect(screen.getByText("Mock Reflection 1")).toBeInTheDocument();
+    expect(screen.getByText("Mock Reflection 2")).toBeInTheDocument();
+    expect(screen.getByText("Mock Reflection 3")).toBeInTheDocument();
   });
 
   it("renders empty list when no reflections provided", () => {

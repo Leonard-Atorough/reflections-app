@@ -39,11 +39,14 @@ export function reflectionsReducer(
 
     case "DELETE_REFLECTION": {
       const filtered = state.reflections.filter((r) => r.id !== action.payload);
+      const index = state.reflections.findIndex((r) => r.id === action.payload);
       return {
         ...state,
         reflections: filtered,
         selectedId:
-          state.selectedId === action.payload ? filtered.at(-1)?.id || null : state.selectedId,
+          state.selectedId === action.payload
+            ? state.reflections[index - 1]?.id || null
+            : state.selectedId,
       };
     }
 

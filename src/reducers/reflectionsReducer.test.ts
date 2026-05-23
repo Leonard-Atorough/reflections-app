@@ -82,7 +82,9 @@ describe("reflectionsReducer", () => {
     };
     const action = { type: "DELETE_REFLECTION", payload: "1" };
     const newState = reflectionsReducer(initialState, action as unknown as ReflectionsAction);
-    expect(newState.reflections).toHaveLength(0);
+
+    expect(newState.reflections).toHaveLength(1);
+    expect(newState.reflections[0].id).toBe("2");
     expect(newState.selectedId).toBeNull();
   });
 

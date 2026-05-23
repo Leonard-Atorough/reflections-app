@@ -7,7 +7,7 @@ export function generateMockReflections(
   const reflections: Reflection[] = [];
   for (let i = 1; i <= count; i++) {
     reflections.push({
-      id: `mock-id-${i}`,
+      id: `${i}`,
       title: `Mock Reflection ${i}`,
       content: `This is the content of mock reflection number ${i}.`,
       contentFormat,
